@@ -4,7 +4,7 @@ requires-python = ">=3.12"
 
 [manifest]
 members = [
-    "dashboard-client",
+    "dashboard-mcp",
     "meetup-workshop-mcp",
 ]
 
@@ -208,9 +208,9 @@ wheels = [
 ]
 
 [[package]]
-name = "dashboard-client"
+name = "dashboard-mcp"
 version = "0.1.0"
-source = { virtual = "dashboard_client" }
+source = { virtual = "dashboard_mcp" }
 dependencies = [
     { name = "fastapi" },
     { name = "fastmcp" },

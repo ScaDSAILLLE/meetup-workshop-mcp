@@ -11,4 +11,5 @@ dependencies = [
 [tool.uv.workspace]
 members = [
     "dashboard_client",
+    "dashboard_mcp",
 ]

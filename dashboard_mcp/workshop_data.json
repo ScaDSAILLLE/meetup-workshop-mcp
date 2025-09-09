@@ -1,0 +1,12 @@
+{
+  "todos": [],
+  "moods": {},
+  "tool_usage": {},
+  "active_pcs": [
+    "workshop-pc-01"
+  ],
+  "tug_left_pulls": 0,
+  "tug_right_pulls": 1,
+  "tug_position": 52,
+  "last_saved": "2025-09-10T00:29:43.857430"
+}
