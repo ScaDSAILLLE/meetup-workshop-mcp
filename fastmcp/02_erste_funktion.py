@@ -52,24 +52,24 @@ def begrüße(name: str) -> str:
     print(f"💬 Begrüßung: {begrüßung}")
     return begrüßung
 
-# # Tools testen (normalerweise macht das der KI-Assistent)
-# if __name__ == "__main__":
-#     mcp.run()
+# Tools testen (normalerweise macht das der KI-Assistent)
+if __name__ == "__main__":
+    mcp.run(transport="sse")
 
-client = Client(mcp)
+# client = Client(mcp)
 
-async def main():
-    async with client:
-        # Basic server interaction
-        await client.ping()
+# async def main():
+#     async with client:
+#         # Basic server interaction
+#         await client.ping()
         
-        # List available operations
-        tools = await client.list_tools()
-        resources = await client.list_resources()
-        prompts = await client.list_prompts()
+#         # List available operations
+#         tools = await client.list_tools()
+#         resources = await client.list_resources()
+#         prompts = await client.list_prompts()
         
-        # Execute operations
-        result = await client.call_tool("begrüße", {"name": "Thorsten"})
-        # print(result)
+#         # Execute operations
+#         result = await client.call_tool("begrüße", {"name": "Thorsten"})
+#         # print(result)
 
-asyncio.run(main())
+# asyncio.run(main())
