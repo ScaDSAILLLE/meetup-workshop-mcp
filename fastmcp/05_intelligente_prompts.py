@@ -204,18 +204,17 @@ def email_hilfe(empfänger: str, thema: str, ton: str = "professionell") -> str:
     return f"E-Mail Prompt erstellt:\n\n{prompt}"
 
 if __name__ == "__main__":
-    
     mcp.run()
-
+    
     print("\n🎯 Was haben wir gelernt?")
-    print("- @mcp.resource stellt Daten über URIs zur Verfügung")
-    print("- Resources sind perfekt für persönliche Informationen") 
-    print("- Tools können auf Resource-Daten zugreifen")
-    print("- URIs folgen dem Schema 'data://name'")
+    print("- @mcp.prompt erstellt wiederverwendbare Prompt-Templates")
+    print("- Prompts können Parameter für dynamische Inhalte haben")
+    print("- Strukturierte Prompts verbessern KI-Antworten")
+    print("- Tools können Prompts generieren und verwenden")
     
     print("\n🔍 Probiere aus:")
-    print("- Füge deine eigenen persönlichen Daten hinzu")
-    print("- Erstelle eine Resource für deine Lieblingsmusik")
-    print("- Baue ein Tool, das Hobbies auflistet")
+    print("- Erstelle einen Prompt für Wochenplanung")
+    print("- Baue einen Prompt für Projekt-Updates")
+    print("- Kombiniere mehrere Prompts für komplexe Workflows")
     
-    print("\n➡️  Weiter mit: 04_dynamische_resources.py")
+    print("\n➡️  Weiter mit: 06_persönlicher_assistent.py")

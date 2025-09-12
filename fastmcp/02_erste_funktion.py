@@ -54,22 +54,16 @@ def begrüße(name: str) -> str:
 
 # Tools testen (normalerweise macht das der KI-Assistent)
 if __name__ == "__main__":
-    mcp.run(transport="sse")
+    mcp.run()
 
-# client = Client(mcp)
-
-# async def main():
-#     async with client:
-#         # Basic server interaction
-#         await client.ping()
-        
-#         # List available operations
-#         tools = await client.list_tools()
-#         resources = await client.list_resources()
-#         prompts = await client.list_prompts()
-        
-#         # Execute operations
-#         result = await client.call_tool("begrüße", {"name": "Thorsten"})
-#         # print(result)
-
-# asyncio.run(main())
+    print("\n🎯 Was haben wir gelernt?")
+    print("- @mcp.tool macht aus Funktionen MCP Tools")
+    print("- Type Hints (: float, : str) sind wichtig")
+    print("- Docstrings erklären dem KI-Assistenten, was das Tool macht")
+    print("- Tools können getestet werden wie normale Funktionen")
+    
+    print("\n🔍 Probiere aus:")
+    print("- Erstelle ein Tool zum Multiplizieren")
+    print("- Erstelle ein Tool, das die aktuelle Zeit zurückgibt")
+    
+    print("\n➡️  Weiter mit: 03_persönliche_daten.py")
