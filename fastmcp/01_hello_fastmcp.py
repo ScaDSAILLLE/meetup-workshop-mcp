@@ -35,4 +35,3 @@ if __name__ == "__main__":
     print("\n🚀 Um den Server zu starten, führe aus:")
     print("python 01_hello_fastmcp.py")
     print("\n➡️  Weiter mit: 02_erste_funktion.py")
-
