@@ -8,13 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "bd25ef246abc8edc",
+            "id": "4ade133311fc679b",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Obsidian MCP in Langflow einbinden.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Obsidian MCP in Langflow einbinden"
+            }
+          },
+          {
+            "id": "7f76fde47f8d39c5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Blender MCP in Langflow einbinden.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Blender MCP in Langflow einbinden"
             }
           }
         ]
@@ -162,6 +180,20 @@
       "bases:Create new base": false
     }
   },
-  "active": "bd25ef246abc8edc",
-  "lastOpenFiles": []
+  "active": "4ade133311fc679b",
+  "lastOpenFiles": [
+    "Blender MCP in Langflow einbinden.md",
+    "Obsidian MCP in Langflow einbinden.md",
+    "Screenshots/obsidian.png",
+    "Pasted image 20250916142108.png",
+    "Screenshots/blender.png",
+    "Screenshots/toolmode.png",
+    "Screenshots/connecttool.png",
+    "Screenshots/selectserver.png",
+    "Screenshots/AddMCPServer.png",
+    "Screenshots/JSONtab.png",
+    "Screenshots/JSONcopy.png",
+    "Screenshots/restapi.png",
+    "Screenshots"
+  ]
 }
