@@ -2,6 +2,24 @@
 
 Diese Sammlung enthält verschiedene FastMCP-Beispiele und -Tutorials zum Erstellen eigener MCP-Server.
 
+## Setup
+
+1. **Repository klonen:**
+   ```bash
+   git clone https://github.com/ScaDSAILLLL/meetup-workshop-mcp.git
+   cd meetup-workshop-mcp
+   ```
+
+2. **Umgebung einrichten:**
+   ```bash
+   uv sync
+   ```
+
+3. **In den FastMCP-Ordner wechseln:**
+   ```bash
+   cd fastmcp
+   ```
+
 ## Verfügbare Skripte
 
 - `00_greeting_mcp.py` - Einfacher Begrüßungsserver
@@ -15,7 +33,11 @@ Diese Sammlung enthält verschiedene FastMCP-Beispiele und -Tutorials zum Erstel
 ## MCP-Server in Langflow einbinden
 
 ### 1. Server starten
-Führe eines der Python-Skripte aus. Im Terminal wird die Server-URL angezeigt (z.B. `http://localhost:8764/sse`).
+Führe eines der Python-Skripte aus:
+```bash
+uv run 00_greeting_mcp.py
+```
+Im Terminal wird die Server-URL angezeigt (z.B. `http://localhost:8764/sse`).
 
 ### 2. In Langflow konfigurieren
 1. **MCP-Komponente hinzufügen** in Langflow
@@ -26,6 +48,29 @@ Führe eines der Python-Skripte aus. Im Terminal wird die Server-URL angezeigt (
 6. **Kurz warten** bis Verbindung hergestellt ist
 7. **Schalter oben rechts auf "tool" setzen**
 8. **Per Drag & Drop mit Agent verbinden**
+
+## Beispiel: Einfacher Greeting Server
+
+```python
+from fastmcp import FastMCP
+
+mcp = FastMCP("Greeting Server")
+
+@mcp.tool
+def greet(name: str) -> str:
+    "Return a short greeting."
+    return f"Hello, {name}!"
+
+if __name__ == "__main__":
+    mcp.run(transport="sse", host="127.0.0.1", port=8765)
+```
+
+## Troubleshooting
+
+- **Keine Verbindung zum Server oder keine Tools sichtbar:**
+  - Prüfen, ob der Server im richtigen Modus läuft (`sse`)
+  - Server-URL korrekt kopiert (mit `/sse` am Ende)
+  - Bei MCP-Komponente "Refresh" klicken
 
 ## Weitere Informationen
 
