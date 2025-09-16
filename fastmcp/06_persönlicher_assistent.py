@@ -145,7 +145,7 @@ def termine_heute() -> list:
     return termine_heute
 
 @mcp.tool
-def nächster_termin() -> dict:
+def naechster_termin() -> dict:
     """Findet den nächsten anstehenden Termin."""
     jetzt = datetime.now()
     heute = jetzt.strftime("%Y-%m-%d")
@@ -238,7 +238,7 @@ def aufgabe_erledigt(aufgaben_id: int) -> str:
     return f"❌ Aufgabe mit ID {aufgaben_id} nicht gefunden"
 
 @mcp.tool
-def tagesübersicht(datum: str = None) -> dict:
+def tagesuebersicht(datum: str = None) -> dict:
     """Erstellt eine Übersicht für einen Tag.
     
     Args:
@@ -357,7 +357,7 @@ def assistent_hilfe() -> str:
 
 📅 TERMINE:
 - termine_heute() - Heutige Termine
-- nächster_termin() - Nächster anstehender Termin
+- naechster_termin() - Nächster anstehender Termin
 - tagesübersicht(datum) - Komplette Tagesansicht
 
 ✅ AUFGABEN:
@@ -388,7 +388,7 @@ Einfach die Funktionen aufrufen oder Resources abfragen!
 if __name__ == "__main__":
     print("🚀 Persönlicher Assistent wird gestartet...")
     print("=" * 60)
-     mcp.run(transport="sse", host="localhost", port=8765)
+    mcp.run(transport="sse", host="localhost", port=8769)
     print("✨ SERVER BEREIT!")
     print("Starte mit: mcp.run() oder verwende assistent_hilfe() für alle Funktionen")
     print()

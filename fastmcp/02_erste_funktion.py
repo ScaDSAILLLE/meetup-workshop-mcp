@@ -39,7 +39,7 @@ def addiere(a: float, b: float) -> float:
     return ergebnis
 
 @mcp.tool
-def begrüße(name: str) -> str:
+def begruesse(name: str) -> str:
     """Begrüßt eine Person freundlich.
     
     Args:

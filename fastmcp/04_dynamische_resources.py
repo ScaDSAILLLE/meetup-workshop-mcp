@@ -142,7 +142,7 @@ def neue_notiz(kategorie: str, titel: str, inhalt: str) -> str:
     return f"✅ Notiz '{titel}' in Kategorie '{kategorie}' erstellt (ID: {neue_id})"
 
 if __name__ == "__main__":
-    mcp.run(transport="sse", host="localhost", port=8765)
+    mcp.run(transport="sse", host="localhost", port=8767)
     
     print("\n🎯 Was haben wir gelernt?")
     print("- Resource Templates verwenden {parameter} in URIs")

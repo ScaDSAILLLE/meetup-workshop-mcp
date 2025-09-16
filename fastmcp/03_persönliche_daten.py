@@ -26,10 +26,10 @@ mcp = FastMCP(
 
 # Simulierte Daten
 TERMINE = [
-    {"datum": "2025-09-12", "zeit": "10:00", "titel": "Team Meeting", "ort": "Büro", "dauer": 60},
-    {"datum": "2025-09-12", "zeit": "14:30", "titel": "Zahnarzt", "ort": "Praxis Dr. Weber", "dauer": 30},
-    {"datum": "2025-09-13", "zeit": "09:00", "titel": "Workshop", "ort": "Online", "dauer": 120},
-    {"datum": "2025-09-13", "zeit": "15:00", "titel": "Kaffee mit Anna", "ort": "Café Central", "dauer": 45}
+    {"datum": "2025-09-16", "zeit": "10:00", "titel": "Team Meeting", "ort": "Büro", "dauer": 60},
+    {"datum": "2025-09-16", "zeit": "14:30", "titel": "Zahnarzt", "ort": "Praxis Dr. Weber", "dauer": 30},
+    {"datum": "2025-09-17", "zeit": "09:00", "titel": "Workshop", "ort": "Online", "dauer": 120},
+    {"datum": "2025-09-17", "zeit": "15:00", "titel": "Kaffee mit Anna", "ort": "Café Central", "dauer": 45}
 ]
 
 AUFGABEN = [
@@ -205,7 +205,7 @@ def email_hilfe(empfänger: str, thema: str, ton: str = "professionell") -> str:
 
 if __name__ == "__main__":
     
-    mcp.run(transport="sse", host="localhost", port=8765)
+    mcp.run(transport="sse", host="localhost", port=8766)
 
     print("\n🎯 Was haben wir gelernt?")
     print("- @mcp.resource stellt Daten über URIs zur Verfügung")
