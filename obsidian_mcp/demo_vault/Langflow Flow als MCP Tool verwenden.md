@@ -1,3 +1,5 @@
+# Langflow Flow als MCP Tool verwenden
+
 Auch ein Langflow Flow kann wiederum als MCP Tool von MCP Clients verwendet werden.
 Als Client kann dabei sogar auch ein anderer Langflow Flow dienen.
 Um das auszuprobieren haben wir den Flow "Obsidian_Summary_Tool" vorbereitet.

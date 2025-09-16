@@ -10,4 +10,4 @@ def greet(name: str) -> str:
 
 if __name__ == "__main__":
     # HTTP-Transport (Netzwerk)
-    mcp.run(transport="sse", host="localhost", port=8765)
+    mcp.run(transport="sse", host="localhost", port=8764)

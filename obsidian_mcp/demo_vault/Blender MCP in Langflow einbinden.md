@@ -1,3 +1,4 @@
+# Blender MCP in Langflow einbinden
 
 ![[blender.png]]
 1. Blender starten (Icon auf dem Desktop) 
