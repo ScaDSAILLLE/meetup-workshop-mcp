@@ -388,7 +388,7 @@ Einfach die Funktionen aufrufen oder Resources abfragen!
 if __name__ == "__main__":
     print("🚀 Persönlicher Assistent wird gestartet...")
     print("=" * 60)
-    
+     mcp.run(transport="sse", host="localhost", port=8765)
     print("✨ SERVER BEREIT!")
     print("Starte mit: mcp.run() oder verwende assistent_hilfe() für alle Funktionen")
     print()
@@ -401,4 +401,4 @@ if __name__ == "__main__":
     print("- Verbinde mit echten Datenquellen (Dateien, APIs)")
     print("- Starte den Server: mcp.run()")
     
-    mcp.run()
+   

@@ -31,7 +31,7 @@ print("- Ändere den Server-Namen zu deinem eigenen Namen")
 print("- Führe das Skript erneut aus")
 
 if __name__ == "__main__":
-    mcp.run()
+    mcp.run(transport="sse", host="localhost", port=8765)
     print("\n🚀 Um den Server zu starten, führe aus:")
     print("python 01_hello_fastmcp.py")
     print("\n➡️  Weiter mit: 02_erste_funktion.py")

@@ -204,7 +204,7 @@ def email_hilfe(empfänger: str, thema: str, ton: str = "professionell") -> str:
     return f"E-Mail Prompt erstellt:\n\n{prompt}"
 
 if __name__ == "__main__":
-    mcp.run()
+    mcp.run(transport="sse", host="localhost", port=8765)
     
     print("\n🎯 Was haben wir gelernt?")
     print("- @mcp.prompt erstellt wiederverwendbare Prompt-Templates")
