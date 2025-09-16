@@ -205,7 +205,7 @@ def email_hilfe(empfänger: str, thema: str, ton: str = "professionell") -> str:
 
 if __name__ == "__main__":
     
-    mcp.run()
+    mcp.run(transport="sse", host="localhost", port=8765)
 
     print("\n🎯 Was haben wir gelernt?")
     print("- @mcp.resource stellt Daten über URIs zur Verfügung")
