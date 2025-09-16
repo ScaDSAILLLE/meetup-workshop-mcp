@@ -1,245 +1,109 @@
-﻿# 🚀 MCP Workshop - Model Context Protocol Integration Guide
+﻿# MCP Workshop - Model Context Protocol Integration
 
-> Ein umfassender Workshop zur Integration von MCP (Model Context Protocol) in verschiedene Tools und Anwendungen
-> 
-> **Entwickelt von ScadsAI Leipzig/Dresden**
+> Workshop zur Integration von MCP (Model Context Protocol) in verschiedene Tools  
+> Entwickelt von ScadsAI Leipzig/Dresden
 
-## 📋 Übersicht
+## Übersicht
 
-Dieses Repository enthält praktische Beispiele und Tutorials für die Arbeit mit dem Model Context Protocol (MCP). Sie lernen, wie Sie MCP-Server erstellen und in verschiedene Tools wie Obsidian, Blender, Langflow und andere Anwendungen integrieren.
+Praktische Beispiele und Tutorials für die Arbeit mit dem Model Context Protocol (MCP). Integration von MCP-Servern in Obsidian, Blender, Langflow und eigene Server-Entwicklung mit FastMCP.
 
-**Keine Vorkenntnisse erforderlich** - Alle MCP-Anbindungen sind Low-Code/No-Code!
+Keine Vorkenntnisse erforderlich - alle MCP-Anbindungen sind Low-Code.
 
-## 🎯 Was Sie lernen werden
+## Setup (keine Gewähr bei Software-Installation)
 
-- **MCP-Grundlagen**: Verstehen des Model Context Protocol
-- **Tool-Integration**: MCP in bestehende Workflows einbinden (Low-Code)
-- **Server-Entwicklung**: Eigene MCP-Server mit FastMCP erstellen (für Interessierte)
-- **Praktische Anwendungen**: Reale Use Cases und Beispiele
-
-## 🛠️ Setup (keine Gewähr, ihr installiert Software auf euren Endgeräten)
-
-### Ihr braucht:
-
-**Für alle Workshop-Teilnehmer:**
+**Benötigte Software:**
 - **Langflow (Desktop)** - [Download](https://www.langflow.org/) 
-  - Flows hierfür liegen als .json in `/langflow`
-- **Blender** - [Download](https://www.blender.org/)
-  - Hier bitte dieser Anleitung zum Hinzufügen des MCP-Server folgen: [Anleitung](https://github.com/ahujasid/blender-mcp)
-- **Obsidian** - [Download](https://obsidian.md/)
-  - Hier bitte die Community-Plugins in Settings aktivieren & "Local REST API" hinzufügen: [Anleitung](https://github.com/coddingtonbear/obsidian-local-rest-api)
+- **Blender** - [Download](https://www.blender.org/) + [MCP-Server Anleitung](https://github.com/ahujasid/blender-mcp)
+- **Obsidian** - [Download](https://obsidian.md/) + [Local REST API Plugin](https://github.com/coddingtonbear/obsidian-local-rest-api)
 
-**Zusätzlich für FastMCP (optional - für Server-Entwicklung):**
-- **UV (Python Package Manager)** - [Installation](https://docs.astral.sh/uv/)
-- **IDE eurer Wahl** (wir haben VSCode verwendet)
-- **Setup:**
-  1. Klont das Repo, öffnet einen Terminal im Projekt-Ordner
-  2. Gebt ein: `uv sync`
-  3. Geht die Beispiel-Python-Skripte Schritt für Schritt durch
+**Zusätzlich für FastMCP:**
+- **UV Package Manager** - [Installation](https://docs.astral.sh/uv/)
+- Repository klonen und `uv sync` ausführen
 
-## 🏗️ Repository-Struktur
+## Repository-Struktur
 
 ```
 📂 meetup-workshop-mcp/
-├── 📂 obsidian_mcp/     # 🎯 START HIER - Obsidian Integration
+├── 📂 obsidian_mcp/     # START HIER - Obsidian Integration
 ├── 📂 blender/          # Blender MCP Integration  
-├── 📂 langflow/         # Langflow Integration & Flows
-├── 📂 fastmcp/          # Python MCP-Server Beispiele (optional)
-├── 📂 dashboard_mcp/    # 👨‍🏫 Für Workshop-Leiter
-└── 📄 README.md         # Diese Datei
+├── 📂 langflow/         # Langflow Flows & Dokumentation
+├── 📂 fastmcp/          # Python MCP-Server Beispiele
+└── 📂 dashboard_mcp/    # Für Workshop-Leiter
 ```
 
-## 📚 Workshop-Module
+## Workshop-Module
 
-### 🎯 Empfohlener Ablauf
+**Empfohlener Ablauf:** Obsidian → Blender/Deutsche Bahn → FastMCP (optional)
 
-**1. Obsidian MCP** → **2. Blender & Deutsche Bahn** → **3. Eigene Server (FastMCP)**
+### 1. Obsidian MCP 
+**Einstieg und MCP-Grundlagen**
 
----
+Setup von Obsidian mit MCP-Integration. Local REST API Konfiguration und erste MCP-Nutzung.
 
-### 1. 📝 Obsidian MCP - Der perfekte Einstieg
-**🎯 HIER STARTEN - Verstehen Sie MCP-Grundlagen**
+- **Dauer:** 10-15 Minuten
+- **Anleitung:** [Obsidian MCP Setup](./obsidian_mcp/demo_vault/Obsidian%20MCP%20in%20Langflow%20einbinden.md)
 
-- **Pfad**: [`obsidian_mcp/`](./obsidian_mcp/)
-- **Schwierigkeit**: ⭐ Beginner
-- **Dauer**: 30-45 Minuten
-- **Voraussetzungen**: Keine
+### 2. Blender MCP
+**3D-Integration über MCP**
 
-**Was Sie lernen:**
-- MCP-Grundkonzepte verstehen
-- Obsidian Vault Setup
-- Local REST API Konfiguration
-- Erste MCP-Integration
+Blender Addon Installation und 3D-Objekt Manipulation via MCP-Protokoll.
 
-➡️ [Obsidian Integration starten](./obsidian_mcp/demo_vault/Obsidian%20MCP%20in%20Langflow%20einbinden.md)
+- **Dauer:** 10-15 Minuten  
+- **Anleitung:** [Blender Integration](./blender/README.md)
 
----
+### 3. Deutsche Bahn & weitere APIs
+**Externe Services über MCP**
 
-### 2a. 🎨 Blender MCP - 3D trifft AI
-**Kreative MCP-Anwendungen**
+Integration der Deutsche Bahn API und Exploration weiterer MCP-Server.
 
-- **Pfad**: [`blender/`](./blender/)
-- **Schwierigkeit**: ⭐⭐ Beginner-Intermediate
-- **Dauer**: 45-60 Minuten
-- **Voraussetzungen**: Obsidian MCP abgeschlossen
+- **Dauer:** 5-10 Minuten
+- **Anleitung:** [DB Integration](./obsidian_mcp/demo_vault/Deutsche%20Bahn%20und%20Mehr!.md)
 
-**Was Sie lernen:**
-- Blender Addon Installation
-- 3D-Objekt Manipulation via MCP
-- Integration in AI-Workflows
+### 4. FastMCP (Optional)
+**Eigene MCP-Server entwickeln**
 
-➡️ [Blender Integration starten](./blender/README.md)
+Python-basierte MCP-Server erstellen - von einfachen Funktionen bis zum persönlichen Assistenten.
 
----
+- **Dauer:** 30-60 Minuten
+- **Anleitung:** [FastMCP Tutorial](./fastmcp/ReadME.md)
 
-### 2b. 🚂 Deutsche Bahn & Mehr
-**Echte APIs über MCP nutzen**
+### 5. Langflow Integration
+**Visuelle Workflow-Integration**
 
-- **Pfad**: [`obsidian_mcp/demo_vault/`](./obsidian_mcp/demo_vault/)
-- **Schwierigkeit**: ⭐ Beginner  
-- **Dauer**: 20-30 Minuten
-- **Voraussetzungen**: Obsidian MCP abgeschlossen
+Vorgefertigte Flows für alle Workshop-Module. Wird durchgängig in den anderen Modulen verwendet.
 
-**Was Sie lernen:**
-- Externe APIs über MCP einbinden
-- Deutsche Bahn Reiseinformationen
-- MCP-Server-Verzeichnis erkunden
+- **Flows:** [Langflow Dokumentation](./langflow/ReadME.md)
 
-➡️ [DB Integration & mehr](./obsidian_mcp/demo_vault/Deutsche%20Bahn%20und%20Mehr!.md)
+### Dashboard MCP
+**Für Workshop-Leiter**
 
----
+FastAPI-basiertes Web-Interface für MCP-Demos und Code-Inspiration.
 
-### 3. 🐍 FastMCP - Eigene Server entwickeln
-**Für alle, die tiefer einsteigen wollen**
+- **Code:** [Dashboard Setup](./dashboard_mcp/ReadMe.md)
 
-- **Pfad**: [`fastmcp/`](./fastmcp/)
-- **Schwierigkeit**: ⭐⭐⭐ Intermediate-Advanced
-- **Dauer**: 1-2 Stunden
-- **Voraussetzungen**: Python-Grundkenntnisse hilfreich
+## Troubleshooting
 
-**Was Sie lernen:**
-- Eigene MCP-Server mit Python erstellen
-- Von einfachen Funktionen bis zum persönlichen Assistenten
-- Server-Architektur und Best Practices
-
-➡️ [FastMCP Tutorial starten](./fastmcp/ReadME.md)
-
----
-
-### 4. 🔄 Langflow - Visuelle AI-Integration
-**Durchgängig in allen Modulen verwendet**
-
-- **Pfad**: [`langflow/`](./langflow/)
-- **Schwierigkeit**: ⭐ Beginner
-- **Verwendung**: In allen anderen Modulen integriert
-
-**Was Sie nutzen:**
-- Vorgefertigte Flows für alle Workshop-Module
-- MCP-Tools in visuellen Workflows
-- Eigene Flows als MCP-Tools erstellen
-
-➡️ [Langflow Flows & Dokumentation](./langflow/ReadME.md)
-
----
-
-### 👨‍🏫 Dashboard MCP - Für Workshop-Leiter
-**Web-Interface für MCP-Demos**
-
-- **Pfad**: [`dashboard_mcp/`](./dashboard_mcp/)
-- **Schwierigkeit**: ⭐⭐⭐ Intermediate
-- **Zielgruppe**: Workshop-Organisatoren
-- **Nutzen**: Demonstration und Code-Inspiration
-
-**Für Interessierte:**
-- FastAPI Server Setup
-- MCP-Web Integration  
-- Netzwerk-Konfiguration
-
-➡️ [Dashboard Code erkunden](./dashboard_mcp/ReadMe.md)
-
-## 🎓 Empfohlener Lernpfad
-
-### Für Workshop-Teilnehmer:
-```
-1. Obsidian MCP (Grundlagen) 
-    ↓
-2a. Blender MCP (3D-Integration)
-2b. Deutsche Bahn API (Externe Services)
-    ↓  
-3. FastMCP (Eigene Server) - Optional
-```
-
-### Für Schnell-Erkunder:
-```
-1. Obsidian MCP (15 min Setup)
-    ↓
-2. Deutsche Bahn (5 min Test)  
-    ↓
-3. Blender MCP (wenn 3D interessiert)
-```
-
-### Für Entwickler:
-```
-1. Obsidian MCP (Konzepte verstehen)
-    ↓
-2. FastMCP (Vollständige Server-Entwicklung)
-    ↓
-3. Dashboard MCP (Web-Integration studieren)
-```
-
-## 🔧 Troubleshooting
-
-### Häufige Probleme:
-
-**UV nicht gefunden (nur für FastMCP):**
+**UV Installation:**
 ```bash
-# Windows
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# Mac  
-brew install uv
-
-# Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+# Mac: brew install uv  
+# Linux: curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-**Port-Konflikte:**
-- Prüfen Sie, ob die verwendeten Ports (8082, 9876, 27124, etc.) verfügbar sind
-- Verwenden Sie `netstat -an` zur Überprüfung
+**Port-Konflikte:** Ports 8082, 9876, 27124 müssen verfügbar sein (`netstat -an` prüft Verfügbarkeit)
 
-**Langflow-Verbindungsprobleme:**
-- Überprüfen Sie, ob alle MCP-Server richtig gestartet sind
-- Verwenden Sie die korrekten URLs aus den Tutorials
+**Obsidian REST API:** Community Plugins aktivieren, API-Key korrekt einfügen
 
-**Obsidian Local REST API:**
-- Community Plugins müssen aktiviert sein
-- API-Key korrekt kopiert und eingefügt
-- Port 27124 muss verfügbar sein
+## Ressourcen
 
-## 🌐 Weiterführende Ressourcen
+- **Weitere MCP-Server:** [mcp.so](https://mcp.so/)
+- **MCP-Dokumentation:** [modelcontextprotocol.io](https://modelcontextprotocol.io/)
+- **Support:** [GitHub Issues](https://github.com/ScaDSAILLLL/meetup-workshop-mcp/issues)
 
-- **Mehr MCP-Server**: [MCP Directory](https://mcp.so/)
-- **MCP-Dokumentation**: [Anthropic MCP Docs](https://modelcontextprotocol.io/)
-- **Community**: [GitHub Discussions](https://github.com/ScaDSAILLLL/meetup-workshop-mcp/discussions)
+## Lizenz
 
-## 🤝 Support & Community
-
-- **Issues**: [GitHub Issues](https://github.com/ScaDSAILLLL/meetup-workshop-mcp/issues)
-- **Workshop-Fragen**: Direkt an die ScadsAI-Trainer wenden
-- **Verbesserungsvorschläge**: Pull Requests willkommen!
-
-## 🏛️ Über ScadsAI
-
-Dieser Workshop wurde vom **ScadsAI Leipzig/Dresden** entwickelt - einem Forschungsinstitut für skalierbare Datenanalyse und künstliche Intelligenz.
-
-## 📄 Lizenz
-
-Dieses Projekt steht unter der MIT-Lizenz. Weitere Informationen finden Sie in der LICENSE-Datei.
+MIT-Lizenz - siehe LICENSE-Datei.
 
 ---
 
-## 🎉 Los geht's!
-
-**Empfehlung:** Starten Sie mit [Obsidian MCP](./obsidian_mcp/demo_vault/Obsidian%20MCP%20in%20Langflow%20einbinden.md) - das ist der perfekte Einstieg, um MCP zu verstehen!
-
-**Happy Learning! 🚀**
+**Start:** [Obsidian MCP Setup](./obsidian_mcp/demo_vault/Obsidian%20MCP%20in%20Langflow%20einbinden.md)
