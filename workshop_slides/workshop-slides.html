@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>MCP Workshop</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Slide 1: Welcome -->
+			<section data-background="#2C3E50">
+				<h1 class="r-fit-text">🛠️ MCP Workshop</h1>
+				<p style="text-align: center;"><em>Hands-on Workshop mit Obsidian & Langflow</em></p>
+				<br>
+				<p style="text-align: center;">
+					<strong>Moderatoren:</strong> hier eintragen<br>
+					<strong>Dauer:</strong> 50 Minuten<br>
+				</p>
+				<aside class="notes">
+					Willkommen! Kurze Vorstellungsrunde der Moderatoren.
+					Workshop ist hands-on - alle machen mit.
+				</aside>
+			</section>
+
+			<!-- Slide 2: Was ist MCP? -->
+			<section data-background="#2C3E50" data-auto-animate>
+				<h2 class="r-fit-text">Was ist MCP? 🤔</h2>
+				<h3>Model Context Protocol</h3>
+
+				<div class="r-stack">
+					<div class="fragment fade-out" data-fragment-index="0">
+						<h4 style="color: #3498DB;">Das Problem:</h4>
+						<ul style="font-size: 0.8em;">
+							<li>LLMs kennen deine lokalen Daten nicht</li>
+							<li>Kein Zugriff auf deine Tools und Apps</li>
+							<li>Isolierte KI-Assistenten</li>
+						</ul>
+					</div>
+
+					<div class="fragment current-visible" data-fragment-index="0">
+						<h4 style="color: #3498DB;">Die Lösung - MCP:</h4>
+						<ul style="font-size: 0.8em;">
+							<li>Standardisierte Verbindung zwischen LLMs und deinen Tools</li>
+							<li>Sichere, kontrollierte Integration</li>
+							<li>Ein Protokoll, viele Möglichkeiten</li>
+						</ul>
+					</div>
+				</div>
+				<aside class="notes">
+					MCP ist relativ neu - erst seit Ende 2024.
+					Erklärt das Problem kurz mit Beispielen.
+				</aside>
+			</section>
+
+			<!-- Slide 3: Workshop Agenda -->
+			<section data-background="#2C3E50" data-auto-animate>
+				<h2>Workshop Agenda 📋</h2>
+				<h3 style="font-size: 0.8em;">Unser Plan für heute (50 min)</h3>
+
+				<ol style="font-size: 0.7em;">
+					<li class="fragment highlight-current-blue">
+						<strong>Einführung</strong> → <em>Jetzt!</em> ✋
+					</li>
+					<li class="fragment">
+						<strong>Dashboard + MiniGame</strong> → <em>Gemeinsam</em> 🎮
+					</li>
+					<li class="fragment">
+						<strong>Obsidian Integration</strong> → <em>Hands-on</em> 💻
+					</li>
+					<li class="fragment">
+						<strong>Track-Auswahl</strong> → <em>Orientierung</em> 🤔
+					</li>
+					<li class="fragment">
+						<strong>Vertiefung</strong> → <em>Anwender und Entwickler</em> 🚀
+					</li>
+					<li class="fragment">
+						<strong>Diskussion</strong> → <em>Erfahrungsaustausch</em> 💬
+					</li>
+				</ol>
+				<aside class="notes">
+					Agenda durchgehen - wir halten uns strikt an die Zeiten.
+					Interaktiver Workshop, nicht nur Zuhören!
+				</aside>
+			</section>
+
+			<!-- Slide 4: Unser Ziel heute -->
+			<section data-background="#2C3E50" data-auto-animate>
+				<h2 class="r-fit-text">Unser Ziel heute 🎯</h2>
+				<h3 style="font-size: 0.8em;">Obsidian-Notizen mit LLM abfragen</h3>
+
+
+				<div style="text-align: center;" style="display: flex; justify-content: space-around;">
+					<p class="fragment" style="font-size: 2em;">💭</p>
+					<div class="fragment">
+						<blockquote style="font-size: 0.7em;">
+							<strong>"Fasse die letzten drei Meetings zusammen"</strong><br>
+							<strong>"Welche TODOs sind noch offen?"</strong><br>
+							<strong>"Was haben wir über MCP gelernt?"</strong>
+						</blockquote>
+					</div>
+					<div class="fragment">
+						<p style="font-size: 2em;">🤖</p>
+						<p style="font-size: 0.7em;"><em>Und euer LLM antwortet basierend auf euren echten Notizen!</em>
+						</p>
+					</div>
+				</div>
+
+				<aside class="notes">
+					Das ist unser konkretes Ziel - natürliche Sprache mit strukturierten Notizen verbinden.
+				</aside>
+			</section>
+
+			<!-- Slide 5: Tech-Stack Überblick -->
+			<section data-background="#2C3E50" data-auto-animate>
+				<h2>Tech-Stack Überblick 🔧</h2>
+				<h3>Unsere Tools heute</h3>
+
+				<div style="display: flex; justify-content: space-around; align-items: center; height: 400px;">
+	<div class="fragment" style="text-align: center;">
+		<div style="height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+			<img src="https://raw.githubusercontent.com/langflow-ai/langflow/82208363bba54a9d73f0b84f8d8b0313dd5170fc/docs/static/img/langflow-logo-black.svg" 
+				 alt="Langflow Logo" 
+				 style="height: 60px; width: auto;">
+		</div>
+		<h4 style="color: #3498DB;">Langflow</h4>
+		<p style="font-size: 0.7em;"><em>Visual AI-Pipeline Builder</em></p>
+	</div>
+
+	<div class="fragment" style="text-align: center;">
+		<div style="height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/1/10/2023_Obsidian_logo.svg" 
+				 alt="Obsidian Logo" 
+				 style="height: 60px; width: auto;">
+		</div>
+		<h4 style="color: #3498DB;">Obsidian</h4>
+		<p style="font-size: 0.7em;"><em>Euer Notizen-Vault</em></p>
+	</div>
+
+	<div class="fragment" style="text-align: center;">
+		<div style="height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+			<img src="https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/mcp.png" 
+				 alt="Obsidian Logo" 
+				 style="height: 60px; width: auto;">
+		</div>
+		<h4 style="color: #3498DB;">MCP Server</h4>
+		<p style="font-size: 0.7em;"><em>Die Brücke zwischen beiden</em></p>
+	</div>
+</div>
+
+				<p style="text-align: center;" class="fragment">
+					<strong>➕ Bonus:</strong> DeutscheBahn, Blender, FastMCP
+				</p>
+			</section>
+
+			<!-- Slide 6.1: Dashboard Introduction -->
+			<section data-background="#1B4F72" data-auto-animate>
+				<h2>Dashboard erkunden 🔍</h2>
+				<h3>MCP live erleben</h3>
+
+				<div class="r-stack">
+					<div class="fragment fade-out" data-fragment-index="0">
+						<h4>Was ihr seht:</h4>
+						<ul style="font-size: 0.8em;">
+							<li><span style="color: #5DADE2;">Real-time Updates</span> über MCP</li>
+							<li><span style="color: #5DADE2;">LLM steuert Dashboard</span></li>
+							<li><span style="color: #5DADE2;">Chat-Commands werden zu Aktionen</span></li>
+						</ul>
+					</div>
+
+					<div class="fragment current-visible" data-fragment-index="0"
+						style="text-align: center; margin-top: 20px;">
+						<p style="font-size: 1em;">🚀</p>
+						<h4>Nächste Schritte:</h4>
+						<ul style="font-size: 0.7em;">
+							<li><strong>Langflow öffnen</strong></li>
+							<li>MCP Spielwiese auswählen</li>
+							<li>Chat starten (oben rechts)</li>
+							<li>Wir probieren gemeinsam ein paar Sachen aus</li>
+						</ul>
+
+					</div>
+
+					<aside class="notes">
+						Kurz erklären was technisch passiert ist.
+						Überleitung zu verfügbaren Commands.
+						Alle sollen experimentieren.
+					</aside>
+			</section>
+
+			<!-- Slide 6.2: Command Cheat Sheet -->
+			<section data-background="#1B4F72" data-auto-animate>
+				<h2>MCP Command Cheat Sheet 📋</h2>
+				<h3>Alle verfügbaren Funktionen</h3>
+
+				<div style="display: flex; justify-content: space-around;">
+					<div style="width: 45%;">
+						<h4 style="color: #5DADE2;">🎮 Interactive Tools:</h4>
+						<ul style="font-size: 0.6em;">
+							<li><strong>workshop_set_mood(😊😐😴🤯)</strong> - Stimmung teilen</li>
+							<li><strong>workshop_add_todo(task)</strong> - Todo hinzufügen</li>
+							<li><strong>tug_left()</strong> / <strong>tug_right()</strong> - Seilziehen</li>
+						</ul>
+					</div>
+
+					<div style="width: 45%;">
+						<h4 style="color: #5DADE2;">📊 Status & Info:</h4>
+						<ul style="font-size: 0.6em;">
+							<li><strong>get_workshop_status()</strong> - Aktive Clients</li>
+							<li><strong>server_system_info()</strong> - Server-Performance</li>
+							<li><strong>get_todos()</strong> - Aufgaben anzeigen</li>
+							<li><strong>quick_search(query)</strong> - Google-Suche</li>
+						</ul>
+					</div>
+				</div>
+
+				<div style="text-align: center; margin-top: 30px;">
+					<h4 style="color: #5DADE2;">📋 Resources:</h4>
+					<p style="font-size: 0.6em;">
+						<code>uri://assistant/contacts</code> - Workshop-Kontakte<br>
+						<code>uri://assistant/workshop-schedule</code> - Zeitplan
+					</p>
+				</div>
+
+				<aside class="notes">
+					Das ist die Übersicht aller verfügbaren Commands.
+					Teilnehmer können diese als Referenz nutzen.
+					Ermutigen verschiedene zu testen.
+				</aside>
+			</section>
+
+			<!-- Slide 7: MiniGame Tauziehen -->
+			<section data-background="#1B4F72" data-auto-animate>
+				<h2 class="r-fit-text">MiniGame - Tauziehen 🎮</h2>
+				<h3>Lasst uns zusammen spielen!</h3>
+
+					<div class="fragment">
+						<p><strong>Rechte Seite:</strong> "tug right / ziehe nach rechts"</p>
+						<p><strong>Linke Seite:</strong> "tug left / ziehe nach links"</p>
+						</ul>
+					</div>
+				<aside class="notes">
+					Teams aufteilen - linke Hälfte vs. rechte Hälfte.
+					Das zeigt real-time MCP Kommunikation mit LLM Commands.
+					Spaß haben, aber auch technische Aspekte erklären.
+				</aside>
+			</section>
+
+			<!-- Slide 6.2: Technische Architektur -->
+			<section data-background="#1B4F72" data-auto-animate>
+				<h2>Technische Architektur 🏗️</h2>
+				<h3>Wie funktioniert das Dashboard?</h3>
+
+				<div class="r-stack">
+					<div class="fragment fade-out" data-fragment-index="0">
+						<h4 style="color: #5DADE2;">Die Komponenten:</h4>
+						<ul style="font-size: 0.8em;">
+							<li><strong>Dashboard:</strong> Eigener FastAPI Server (Visualisierung)</li>
+							<li><strong>MCP Server:</strong> Separater Server im Netzwerk</li>
+							<li><strong>Client (Langflow):</strong> Kommuniziert mit MCP Server</li>
+						</ul>
+
+						<div style="text-align: center; margin-top: 20px;">
+							<p style="font-size: 0.8em;">📱 Client ↔️ 🌐 MCP Server ↔️ 📊 Dashboard</p>
+							<p style="font-size: 0.6em; color: #5DADE2;">(WebSockets für Real-time Updates)</p>
+						</div>
+					</div>
+
+					<div class="fragment current-visible" data-fragment-index="0">
+						<h4 style="color: #5DADE2;">MCP Client Konfiguration:</h4>
+						<pre
+							style="font-size: 0.6em; background: #1a1a1a; padding: 15px; border-radius: 5px; text-align: left;">
+<code>{
+  "mcpServers": {
+    "dashboard-assistant": {
+      "url": "http://192.168.0.149:8082/sse"
+    }
+  }
+}</code>
+            </pre>
+						<p style="font-size: 0.7em; margin-top: 15px;">
+							<em>So verbindet sich Langflow mit unserem MCP Server</em>
+						</p>
+					</div>
+				</div>
+
+				<aside class="notes">
+					Technische Details kurz erklären.
+					Zeigen wie die Architektur aufgebaut ist.
+					JSON-Konfiguration als konkretes Beispiel.
+				</aside>
+			</section>
+
+			<!-- Slide 8: Dashboard erkunden -->
+			<section data-background="#1B4F72" data-auto-animate>
+				<p style="font-size: 2em;">⏭️</p>
+				<h4>Nächster Schritt:</h4>
+				<p>Bleibt in <strong>Langflow</strong> für Obsidian-Integration</p>
+				<aside class="notes">
+					Kurz erklären was technisch passiert ist.
+					Überleitung zu Obsidian - alle bleiben in Langflow.
+				</aside>
+			</section>
+
+			<!-- Slide 8.5: Was ist Obsidian? -->
+			<section data-background="#7D3C98" data-auto-animate>
+				<h2 class="r-fit-text">Was ist Obsidian?</h2>
+				<div style="display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+					<img src="https://upload.wikimedia.org/wikipedia/commons/1/10/2023_Obsidian_logo.svg"
+						alt="Obsidian Logo" style="width: 80px; height: 80px; margin-right: 20px;">
+					<h3 style="color: #BB8FCE; margin: 0;">Notizen-Programm</h3>
+				</div>
+
+				<div class="r-stack">
+					<div class="fragment fade-out" data-fragment-index="0">
+						<h4 style="color: #BB8FCE;">Die Grundlagen:</h4>
+						<ul style="font-size: 0.8em;">
+							<li><strong>Markdown-basierte Notizen</strong> - Einfach, aber mächtig</li>
+							<li><strong>Verlinkte Wissensgraphen</strong> - Alles ist miteinander verbunden</li>
+							<li><strong>Lokale Daten</strong> - Eure Notizen bleiben bei euch</li>
+							<li><strong>Erweiterbar</strong> - Plugins für alles</li>
+						</ul>
+					</div>
+
+					<div class="fragment current-visible" data-fragment-index="0" style="text-align: center;">
+						<p style="font-size: 2em;">🧠</p>
+						<p style="font-size: 0.9em;"><strong>Problem:</strong> Wie kann ein LLM auf diese lokalen Daten
+							zugreifen?</p>
+						<p style="font-size: 0.7em; color: #BB8FCE;"><em>Hier kommt MCP ins Spiel!</em></p>
+					</div>
+				</div>
+
+				<aside class="notes">
+					Kurze Obsidian-Einführung für die, die es nicht kennen.
+					Überleitung zum Problem: Wie verbindet man LLM mit lokalen Daten?
+				</aside>
+			</section>
+
+
+			<!-- Slide 11: Hands-on Zeit -->
+			<section data-background="#7D3C98" data-auto-animate>
+				<h2 class="r-fit-text">Hands-on Zeit 👐</h2>
+				<h3>Jetzt seid ihr dran!</h3>
+				<p>Die Anleitung findet ihr im Vault</p>
+
+				<aside class="notes">
+					Jetzt arbeiten alle selbstständig.
+					Durch die Reihen gehen und helfen.
+					Nach 10 Minuten weiter zur Orientierungsphase.
+				</aside>
+			</section>
+
+			<!-- Slide 12: Track-Aufteilung -->
+			<section data-background="#1E8449" data-auto-animate>
+				<h2 class="r-fit-text">Track-Aufteilung 🛤️</h2>
+				<h3>Zeit für Spezialisierung (2 min)</h3>
+
+				<div class="r-stack">
+					<div style="display: flex; justify-content: space-around; margin-top: 50px;">
+						<div class="fragment" style="text-align: center; width: 40%;">
+							<span style="font-size: 2em;">🔍</span>
+							<h4 style="color: #58D68D; font-size: 0.8em;">Anwender-Track</h4>
+							<p style="font-size: 0.6em;"><em>"Ich möchte mehr Tools ausprobieren"</em></p>
+							<p style="font-size: 0.6em;">→ DeutscheBahn & Blender MCPs</p>
+						</div>
+
+						<div class="fragment" style="text-align: center; width: 40%;">
+							<span style="font-size: 2em;">⚡</span>
+							<h4 style="color: #58D68D; font-size: 0.8em;">Entwickler-Track</h4>
+							<p style="font-size: 0.6em;"><em>"Ich möchte selbst entwickeln"</em></p>
+							<p style="font-size: 0.6em;">→ Eigenen FastMCP Server mit Python</p>
+						</div>
+					</div>
+				</div>
+				<aside class="notes">
+					Handzeichen - wer will was machen?
+					Räumlich aufteilen falls möglich.
+					Kurze Orientierung, dann geht's los.
+				</aside>
+			</section>
+
+			<!-- Slide 13: Anwender-Track -->
+			<section data-background="#B7950B" data-auto-animate>
+				<h2>Anwender-Track 🔍</h2>
+				<h3>MCP Playground (23 min)</h3>
+
+				<div class="r-stack">
+					<div class="fragment fade-out" data-fragment-index="0">
+						<h4><span style="font-size: 1.5em;">🚆</span> DeutscheBahn MCP</h4>
+						<ul style="font-size: 0.7em;">
+							<li>Live-Fahrpläne abfragen</li>
+							<li>Verspätungen checken</li>
+							<li>Bahnhöfe finden</li>
+						</ul>
+					</div>
+
+					<div class="fragment current-visible" data-fragment-index="0">
+						<h4><span style="font-size: 1.5em;">🎨</span> Blender MCP</h4>
+						<ul style="font-size: 0.7em;">
+							<li>3D-Szenen per Chat erstellen</li>
+							<li>Objekte manipulieren</li>
+							<li>Kreative AI-Integration</li>
+						</ul>
+					</div>
+
+					<div class="fragment" style="text-align: center;">
+						<p style="font-size: 2em;">🌐</p>
+						<p><strong>Weitere MCPs erkunden</strong></p>
+					</div>
+				</div>
+				<aside class="notes">
+					Anwender bekommen vorkonfigurierte Flows.
+					Ausprobieren und experimentieren.
+					Kreativität ist gefragt!
+				</aside>
+			</section>
+
+			<!-- Slide 14: Entwickler-Track -->
+			<section data-background="#B7950B" data-auto-animate>
+				<h2>Entwickler-Track ⚡</h2>
+				<h3>FastMCP mit Python (23 min)</h3>
+
+				<div class="fragment">
+					<h4>Schritt-für-Schritt Aufbau:</h4>
+					<ol style="font-size: 0.7em;">
+						<li><strong>Prompts</strong> - Grundlagen definieren</li>
+						<li><strong>Resources</strong> - Daten bereitstellen</li>
+						<li><strong>Tools</strong> - Funktionen erstellen</li>
+						<li><strong>Assistant</strong> - Alles verbinden</li>
+					</ol>
+				</div>
+
+				<p style="text-align: center;" class="fragment">
+					<span style="font-size: 2em;">🎯</span><br>
+					<strong>Ziel:</strong> Euer eigener MCP Server läuft!
+				</p>
+				<aside class="notes">
+					Entwickler arbeiten mit Python-Skripten.
+					4 aufeinander aufbauende Schritte.
+					Am Ende läuft ein eigener MCP Server.
+				</aside>
+			</section>
+
+			<!-- Slide 15: Los geht's! -->
+			<section data-background="#B7950B" data-auto-animate>
+				<h2>Los geht's! 🚀</h2>
+				<h3>Vertiefungsphase startet</h3>
+
+				<div style="text-align: center;">
+					<p class="fragment">
+						<span style="font-size: 2em;">⏱️</span><br>
+						<strong>20 Minuten</strong>
+					</p>
+
+					<div class="fragment">
+						<p><strong>Anwender:</strong> Playground in Langflow</p>
+						<p><strong>Entwickler:</strong> FastMCP Setup</p>
+					</div>
+
+					<p class="fragment">
+						<strong>Bei Fragen:</strong> Moderatoren sind da! 🙋‍♂️
+					</p>
+				</div>
+				<aside class="notes">
+					Timer starten! 23 Minuten.
+					Durch beide Gruppen gehen und unterstützen.
+					Nach 10 Minuten kurzen Check machen.
+				</aside>
+			</section>
+
+			<!-- Slide 16: Zwischencheck -->
+			<section data-background="#B7950B" data-visibility="hidden">
+				<h2>Zwischencheck ⏰</h2>
+				<h3>Wie läuft's? (Optional nach 10 min)</h3>
+
+				<div class="fragment">
+					<h4>Schnelle Runde:</h4>
+					<ul>
+						<li><strong>Anwender:</strong> Welches MCP begeistert euch?</li>
+						<li><strong>Entwickler:</strong> Wo steht ihr gerade?</li>
+					</ul>
+				</div>
+
+				<p style="text-align: center;" class="fragment">
+					<span style="font-size: 2em;">💪</span><br>
+					<strong>Noch 13 Minuten - ihr schafft das!</strong>
+				</p>
+				<aside class="notes">
+					Nur falls nötig - schneller Status-Check.
+					Motivation geben, weiter machen.
+				</aside>
+			</section>
+
+
+			<!-- Slide 18: Erfahrungsaustausch -->
+			<section data-background="#A04000" data-auto-animate>
+				<h2>Erfahrungsaustausch 💬</h2>
+
+				<div class="fragment">
+					<h4>Teilt eure Erfahrungen:</h4>
+					<ul style="font-size: 0.8em;">
+						<li>Was hat überrascht? 😲</li>
+						<li>Welche Anwendung seht ihr in eurem Alltag? 🏠</li>
+						<li>Wo sind Grenzen/Herausforderungen? 🚧</li>
+					</ul>
+				</div>
+
+				<p style="text-align: center;" class="fragment">
+					<span style="font-size: 2em;">🎯</span><br>
+					<strong>Anwender & Entwickler:</strong> Gibt es Ergebnisse die ihr teilen möchtet?
+				</p>
+				<aside class="notes">
+					Offene Diskussionsrunde.
+					Verschiedene Leute zu Wort kommen lassen.
+					Sowohl positive als auch kritische Punkte sammeln.
+				</aside>
+			</section>
+
+			<!-- Slide 20: Q&A + Feedback -->
+			<section data-background="#A04000" data-auto-animate>
+				<h2>Q&A + Feedback 🤔</h2>
+
+				<div class="r-stack" style="margin-top: 50px;">
+					<div class="fragment fade-out" data-fragment-index="0">
+						<h4><span style="font-size: 1em;">❓</span> Offene Fragen?</h4>
+						<ul style="font-size: 0.7em;">
+							<li>Technische Details</li>
+							<li>Anwendungsfälle</li>
+							<li>Nächste Schritte</li>
+						</ul>
+					</div>
+
+					<div class="fragment current-visible" data-fragment-index="0">
+						<h4><span style="font-size: 1em;">💬</span> Feedback erwünscht:</h4>
+						<ul style="font-size: 0.7em;">
+							<li>Workshop-Format</li>
+							<li>Inhalte</li>
+							<li>Verbesserungsvorschläge</li>
+						</ul>
+					</div>
+
+					<p style="text-align: center;" class="fragment">
+						<span style="font-size: 2em;">🙏</span><br>
+						<strong>Vielen Dank für euer Engagement!</strong>
+					</p>
+				</div>
+				<aside class="notes">
+					Abschlussrunde mit Q&A.
+					Feedback sammeln für nächste Workshops.
+					Dankeschön an alle Teilnehmer.
+				</aside>
+			</section>
+
+			<!-- Backup Slides -->
+			<section data-visibility="hidden">
+				<h2>MCP vs. APIs 🔄</h2>
+				<h3>Warum MCP statt normale APIs?</h3>
+
+				<div class="fragment">
+					<h4>Der Unterschied:</h4>
+					<p><strong>APIs:</strong> Jede App, eigenes Interface</p>
+					<p><strong>MCP:</strong> Ein Standard, alle Apps</p>
+				</div>
+
+				<div class="fragment">
+					<h4 style="color: #58D68D;">Vorteile:</h4>
+					<ul style="font-size: 0.8em;">
+						<li>LLM versteht automatisch</li>
+						<li>Sichere Sandboxing</li>
+						<li>Einfache Integration</li>
+						<li>Community-getrieben</li>
+					</ul>
+				</div>
+			</section>
+
+			<section data-visibility="hidden">
+				<h2>Troubleshooting 🛠️</h2>
+				<h3>Häufige Probleme & Lösungen</h3>
+
+				<div class="fragment">
+					<h4>Obsidian API Key?</h4>
+					<p>→ Notiert aus REST API Plugin</p>
+				</div>
+
+				<div class="fragment">
+					<h4>Langflow Connection?</h4>
+					<p>→ Server-Status prüfen</p>
+				</div>
+
+				<div class="fragment">
+					<h4>MCP Server läuft nicht?</h4>
+					<p>→ Terminal-Output checken</p>
+				</div>
+
+				<div class="fragment">
+					<h4>Dashboard nicht erreichbar?</h4>
+					<p>→ Netzwerk-Verbindung</p>
+				</div>
+			</section>
+
+			<section data-visibility="hidden">
+				<h2>Nächste Schritte 🚶‍♂️</h2>
+				<h3>Nach dem Workshop</h3>
+
+				<ol class="fragment" style="font-size: 0.8em;">
+					<li><strong>Eigenen Vault aufsetzen</strong></li>
+					<li><strong>Weitere MCP Server ausprobieren</strong></li>
+					<li><strong>FastMCP für eigene Tools</strong></li>
+					<li><strong>Community beitreten</strong></li>
+					<li><strong>Feedback an MCP-Entwickler</strong></li>
+				</ol>
+
+				<p style="text-align: center;" class="fragment">
+					<span style="font-size: 2em;">🌟</span><br>
+					<strong>Der Anfang einer spannenden Reise!</strong>
+				</p>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			center: true,
+			transition: 'slide',
+			transitionSpeed: 'default',
+			backgroundTransition: 'fade',
+			autoAnimateEasing: 'ease-out',
+			autoAnimateDuration: 0.8,
+			autoAnimateUnmatched: false,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
+</html>

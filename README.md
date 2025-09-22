@@ -28,6 +28,7 @@ Keine Vorkenntnisse erforderlich - alle MCP-Anbindungen sind Low-Code.
 ├── 📂 blender/          # Blender MCP Integration  
 ├── 📂 langflow/         # Langflow Flows & Dokumentation
 ├── 📂 fastmcp/          # Python MCP-Server Beispiele
+├── 📂 workshop_slides/  # Für Workshop-Leiter
 └── 📂 dashboard_mcp/    # Für Workshop-Leiter
 ```
 
