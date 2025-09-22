@@ -1,5 +1,9 @@
 # Blender MCP
 
+Original Repository for the Blender MCP Server: [https://github.com/ahujasid/blender-mcp](https://github.com/ahujasid/blender-mcp)
+
+The following setup instructions are from its README file. For up-to-date information go to the original repository.
+
 ## Installation
 
 ### Prerequisites
