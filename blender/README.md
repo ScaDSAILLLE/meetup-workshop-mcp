@@ -113,6 +113,101 @@ For Windows users, go to Settings > MCP > Add Server, add a new server with the 
 
 **⚠️ Only run one instance of the MCP server (either on Cursor or Claude Desktop), not both**
 
+---
+
+### LMStudio Integration: Connect Blender MCP to LM Studio (Windows)
+
+#### 1. Requirements
+
+Make sure you have:
+
+* **Blender** installed and open
+* **UV (uvx)** installed and on your `PATH` (`uvx --version` works in `cmd`)
+* **LM Studio** installed
+
+#### 2. Install and enable the Blender MCP add-on
+
+1. In Blender go to **Edit → Preferences → Add-ons → Install…**
+   Select the Blender MCP add-on from the workshop repository.
+2. Enable the add-on and make sure the panel shows
+   **“Running on port 9876.”**
+   (That’s the default communication port.)
+
+#### 3. Install the MCP server once (so LM Studio doesn’t need `uvx`)
+
+Open **Command Prompt (cmd.exe)** and run:
+
+```bat
+uv tool install blender-mcp
+```
+
+Then verify where it was installed:
+
+```bat
+where blender-mcp
+```
+
+You should get something like:
+`C:\Users\<YOURNAME>\AppData\Roaming\uv\tools\blender-mcp.exe` but could be something else of course!
+
+#### 4. (Optional) Test manually
+
+Run this just to confirm the server connects:
+
+```bat
+blender-mcp --blender-host 127.0.0.1 --blender-port 9876
+```
+
+If you see logs like
+`Connected to Blender at localhost:9876`,
+everything works.
+Press **Ctrl + C** to stop it.
+
+#### 5. Configure `mcp.json` in LM Studio
+
+Open LM Studio → **Settings → Open mcp.json**,
+or open the file manually and insert:
+
+```json
+{
+  "mcpServers": {
+    "blender": {
+      "command": "C:\\Users\\<YOURNAME>\\AppData\\Roaming\\uv\\tools\\blender-mcp.exe",
+      "args": ["--blender-host", "localhost", "--blender-port", "9876"],
+      "env": {
+        "PYTHONUTF8": "1",
+        "PYTHONIOENCODING": "utf-8"
+      }
+    }
+  }
+}
+```
+
+> ⚠️ Replace `<YOURNAME>` with your actual Windows user folder or with the path you got when using `where blender-mcp`
+
+This tells LM Studio to start the installed `blender-mcp.exe` directly (no `uvx`), which avoids startup output on `stdout` that would otherwise break the JSON handshake.
+
+### 6. Quick functionality test
+
+Ask your model something like:
+
+> “Create a cube in Blender and scale it to 2.”
+
+If the connection works, you’ll see Blender respond and perform the action. If not, restart LM Studio or see 8. for troubleshooting. If nothing helps, ask a friend or a (local) LLM :)
+
+### 8. Common issues & fixes
+
+| Problem                               | Cause                                    | Fix                                                                                   |
+| ------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| `MCP error -32000: Connection closed` | `uvx` printed text before JSON handshake | Use the installed `blender-mcp.exe` as above                                          |
+| LM Studio says `command not found`    | LM Studio doesn’t inherit your PATH      | Use the full absolute path to `blender-mcp.exe`                                       |
+| Port 9876 blocked                     | Firewall or another process using it     | Allow Blender in Windows Firewall or pick another port in both Blender and `mcp.json` |
+
+✅ **That’s it!**
+From now on, LM Studio will launch Blender MCP directly and communicate smoothly with your running Blender instance.
+
+---
+
 ### Visual Studio Code Integration
 
 _Prerequisites_: Make sure you have [Visual Studio Code](https://code.visualstudio.com/) installed before proceeding.
