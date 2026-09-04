@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Progressive Disclosure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <h1>MCP Progressive Disclosure</h1>
+    <p class="subtitle">Ein beobachteter Lauf: vollständiger Katalog und progressive Auswahl</p>
+</header>
+<main>
+    <section class="chart-section" aria-labelledby="chart-title">
+        <h2 id="chart-title">Kumulativ gesendete Schema-Tokens</h2>
+        <div id="chart-container"></div>
+        <div id="comparison-info" class="reduction-info">Noch kein Lauf. Die Anzeige ist kein Benchmark.</div>
+    </section>
+
+    <section class="comparison" aria-label="Vergleich der beiden Modi">
+        <article class="panel normal-panel">
+            <div class="panel-header">VOLLSTÄNDIGER KATALOG</div>
+            <div class="panel-body">
+                <dl class="metrics">
+                    <div class="metric-row"><dt>Tools im Katalog</dt><dd id="normal-available">–</dd></div>
+                    <div class="metric-row"><dt>Initial sichtbar</dt><dd id="normal-initial">–</dd></div>
+                    <div class="metric-row"><dt>Kandidaten ausgewählt</dt><dd id="normal-candidates">–</dd></div>
+                    <div class="metric-row"><dt>Schema-Tokens kumulativ</dt><dd id="normal-schema">–</dd></div>
+                    <div class="metric-row"><dt>Endpoint Input / Output</dt><dd id="normal-endpoint">–</dd></div>
+                    <div class="metric-row"><dt>LLM-Aufrufe</dt><dd id="normal-calls">–</dd></div>
+                </dl>
+                <div class="flow-visualization" id="normal-flow"><div class="placeholder">Wartet auf eine Anfrage …</div></div>
+                <div class="answer-box" id="normal-answer" hidden></div>
+            </div>
+        </article>
+
+        <article class="panel progressive-panel">
+            <div class="panel-header">PROGRESSIVE AUSWAHL</div>
+            <div class="panel-body">
+                <dl class="metrics">
+                    <div class="metric-row"><dt>Tools im Katalog</dt><dd id="progressiv-available">–</dd></div>
+                    <div class="metric-row"><dt>Initial sichtbar</dt><dd id="progressiv-initial">–</dd></div>
+                    <div class="metric-row"><dt>Kandidaten ausgewählt</dt><dd id="progressiv-candidates">–</dd></div>
+                    <div class="metric-row"><dt>Schema-Tokens kumulativ</dt><dd id="progressiv-schema">–</dd></div>
+                    <div class="metric-row"><dt>Endpoint Input / Output</dt><dd id="progressiv-endpoint">–</dd></div>
+                    <div class="metric-row"><dt>LLM-Aufrufe</dt><dd id="progressiv-calls">–</dd></div>
+                </dl>
+                <div class="flow-visualization" id="progressiv-flow"><div class="placeholder">Wartet auf eine Anfrage …</div></div>
+                <div class="answer-box" id="progressiv-answer" hidden></div>
+            </div>
+        </article>
+    </section>
+
+    <section class="prompt-section" aria-labelledby="prompt-label">
+        <label class="prompt-label" id="prompt-label" for="prompt-input">Deine Anfrage</label>
+        <div class="prompt-input-row">
+            <input id="prompt-input" class="prompt-input" maxlength="2000"
+                   value="Wie ist das Wetter in Leipzig?">
+            <button id="run-btn" class="run-btn">Vergleichen</button>
+        </div>
+    </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

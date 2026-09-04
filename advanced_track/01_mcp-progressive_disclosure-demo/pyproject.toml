@@ -1,0 +1,39 @@
+[project]
+name = "mcp-progressive-disclosure"
+version = "0.1.0"
+description = "Praxisdemo für Progressive Disclosure mit MCP"
+readme = "README.md"
+requires-python = ">=3.14"
+authors = [
+    { name = "ScaDS.AI", email = "info@scads.ai" },
+]
+dependencies = [
+    "fastmcp>=3.4.7",
+    "httpx>=0.28.0",
+    "pydantic-settings>=2.15.0",
+    "starlette>=0.48.0",
+    "tiktoken>=0.9.0",
+    "uvicorn>=0.30.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-asyncio>=1.1.0",
+    "ruff>=0.12.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"mcp_server/tools/dummy.py" = ["E501"]

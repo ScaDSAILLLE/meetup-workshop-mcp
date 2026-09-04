@@ -1,110 +1,41 @@
-﻿# MCP Workshop - Model Context Protocol Integration
+# MCP-Workshop: ein Jahr später
 
-> Workshop zur Integration von MCP (Model Context Protocol) in verschiedene Tools  
-> Entwickelt von ScadsAI Leipzig/Dresden
+Praktische Materialien für das ScaDS.AI Meetup zum [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction). Der Workshop verbindet einen niedrigschwelligen Einstieg mit Langflow mit vertiefenden Python-Tracks zu Tool Discovery, Programmatic Tool Calling und eigenen MCP-Servern.
 
-## Übersicht
+Die Dramaturgie, Agenda und Lernziele stehen in [Programm.md](Programm.md). Dieses README ist der Einstieg in die Workshop-Materialien.
 
-Praktische Beispiele und Tutorials für die Arbeit mit dem Model Context Protocol (MCP). Integration von MCP-Servern in Obsidian, Blender, Langflow und eigene Server-Entwicklung mit FastMCP.
+## Workshop-Tracks
 
-Keine Vorkenntnisse erforderlich - alle MCP-Anbindungen sind Low-Code.
+### Beginner: MCP mit Langflow
 
-## Setup (keine Gewähr bei Software-Installation)
+Keine Programmiererfahrung erforderlich. Arbeite die Übungen in dieser verbindlichen Reihenfolge durch:
 
-**Benötigte Software:**
-- **Langflow (Desktop)** - [Download](https://www.langflow.org/) 
-- **Blender** - [Download](https://www.blender.org/) + [MCP-Server Anleitung](https://github.com/ahujasid/blender-mcp)
-- **Obsidian** - [Download](https://obsidian.md/) + [Local REST API Plugin](https://github.com/coddingtonbear/obsidian-local-rest-api)
+1. [Obsidian: Notizen sicher lesen und zusammenfassen](beginners-track/01_obsidian_mcp/README.md)
+2. [Blender: modulare Würfelinstallation aufbauen](beginners-track/02_blender_mcp/README.md)
+3. [Strudel: einen Beat starten, verändern und stoppen](beginners-track/03_strudel_mcp/README.md)
 
-**Zusätzlich für FastMCP:**
-- **UV Package Manager** - [Installation](https://docs.astral.sh/uv/)
-- Repository klonen und `uv sync` ausführen
+Der gemeinsame Einstieg, die Langflow-Grundbedienung und die vorbereiteten Flow-Exporte stehen in [beginners-track/README.md](beginners-track/README.md).
 
-## Repository-Struktur
+### Advanced: große Tool-Landschaften verstehen
 
-```
-📂 meetup-workshop-mcp/
-├── 📂 obsidian_mcp/     # START HIER - Obsidian Integration
-├── 📂 blender/          # Blender MCP Integration  
-├── 📂 langflow/         # Langflow Flows & Dokumentation
-├── 📂 fastmcp/          # Python MCP-Server Beispiele
-├── 📂 workshop_slides/  # Für Workshop-Leiter
-└── 📂 dashboard_mcp/    # Für Workshop-Leiter
-```
+- [Progressive Disclosure](advanced_track/01_mcp-progressive_disclosure-demo/README.md): Vergleiche vollständige Tool-Exposition mit dynamischer Tool-Auswahl und beobachte Schema-Tokens.
+- [FastMCP](advanced_track/02_fastmcp/README.md): Entwickle einen Server schrittweise von Transport und Tools bis zu Resources, Templates und Prompts.
+- [Programmatic Tool Calling](advanced_track/03_programmatic_tool_calling/README.md): Untersuche, wie ein Modell viele Tools programmatisch orchestrieren kann und wo die Sicherheitsgrenzen liegen.
 
-## Workshop-Module
+## Vorbereitung
 
-**Empfohlener Ablauf:** Obsidian → Blender/Deutsche Bahn → FastMCP (optional)
+- Für vorbereitete Workshop-Rechner genügt der jeweilige Track-Einstieg.
+- Für eigene Geräte beschreibt jeder Track seine Abhängigkeiten und Befehle. Python-Projekte werden immer im jeweiligen Track-Verzeichnis ausgeführt.
+- Die gemeinsame Vorlage für credential-abhängige Advanced-Demos ist [.env.example](.env.example). Lege persönliche Zugangsdaten nur in der Root-`.env` ab, niemals in Flow-Exporten, Notizen oder Unterprojekten.
+- Starte keine Live-Demo mit persönlichem Zugang ohne zu prüfen, welche Daten an den konfigurierten Endpoint gesendet werden.
 
-### 1. Obsidian MCP 
-**Einstieg und MCP-Grundlagen**
+## Sicherheitsgrundsätze
 
-Setup von Obsidian mit MCP-Integration. Local REST API Konfiguration und erste MCP-Nutzung.
+- MCP-Server und ihre Toolausgaben sind nicht automatisch vertrauenswürdig.
+- Beginne mit Lesezugriffen und gib schreibende oder Code-ausführende Tools nur in einer kontrollierten Übungsumgebung frei.
+- Verwende Testdaten, einen separaten Obsidian-Vault und unkritische Blender-Dateien.
+- Beende lokale Server, Browser und Audio-Wiedergabe nach den Übungen.
 
-- **Dauer:** 10-15 Minuten
-- **Anleitung:** [Obsidian MCP Setup](./obsidian_mcp/demo_vault/Obsidian%20MCP%20in%20Langflow%20einbinden.md)
+## Verifikation
 
-### 2. Blender MCP
-**3D-Integration über MCP**
-
-Blender Addon Installation und 3D-Objekt Manipulation via MCP-Protokoll.
-
-- **Dauer:** 10-15 Minuten  
-- **Anleitung:** [Blender Integration](./blender/README.md)
-
-### 3. Deutsche Bahn & weitere APIs
-**Externe Services über MCP**
-
-Integration der Deutsche Bahn API und Exploration weiterer MCP-Server.
-
-- **Dauer:** 5-10 Minuten
-- **Anleitung:** [DB Integration](./obsidian_mcp/demo_vault/Deutsche%20Bahn%20und%20Mehr!.md)
-
-### 4. FastMCP (Optional)
-**Eigene MCP-Server entwickeln**
-
-Python-basierte MCP-Server erstellen - von einfachen Funktionen bis zum persönlichen Assistenten.
-
-- **Dauer:** 30-60 Minuten
-- **Anleitung:** [FastMCP Tutorial](./fastmcp/ReadME.md)
-
-### 5. Langflow Integration
-**Visuelle Workflow-Integration**
-
-Vorgefertigte Flows für alle Workshop-Module. Wird durchgängig in den anderen Modulen verwendet.
-
-- **Flows:** [Langflow Dokumentation](./langflow/ReadME.md)
-
-### Dashboard MCP
-**Für Workshop-Leiter**
-
-FastAPI-basiertes Web-Interface für MCP-Demos und Code-Inspiration.
-
-- **Code:** [Dashboard Setup](./dashboard_mcp/ReadMe.md)
-
-## Troubleshooting
-
-**UV Installation:**
-```bash
-# Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-# Mac: brew install uv  
-# Linux: curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-**Port-Konflikte:** Ports 8082, 9876, 27124 müssen verfügbar sein (`netstat -an` prüft Verfügbarkeit)
-
-**Obsidian REST API:** Community Plugins aktivieren, API-Key korrekt einfügen
-
-## Ressourcen
-
-- **Weitere MCP-Server:** [mcp.so](https://mcp.so/)
-- **MCP-Dokumentation:** [modelcontextprotocol.io](https://modelcontextprotocol.io/)
-- **Support:** [GitHub Issues](https://github.com/ScaDSAILLLL/meetup-workshop-mcp/issues)
-
-## Lizenz
-
-MIT-Lizenz - siehe LICENSE-Datei.
-
----
-
-**Start:** [Obsidian MCP Setup](./obsidian_mcp/demo_vault/Obsidian%20MCP%20in%20Langflow%20einbinden.md)
+Die Python-Tracks enthalten jeweils einen Offline-Prüfpfad mit `uv run pytest` und `uv run ruff check .`. Der Beginner-Track benötigt eine manuelle Abnahme in Langflow 1.11.3, weil seine Flow-Exporte aus einer älteren Langflow-Version stammen.
