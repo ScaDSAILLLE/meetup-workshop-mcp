@@ -6,3 +6,6 @@ __pycache__/
 .obsidian
 anwender\obsidian_mcp\demo_vault\.obsidian
 .vs
+Setup/
+Slides/
+Shared/
