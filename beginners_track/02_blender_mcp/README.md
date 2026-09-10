@@ -43,7 +43,7 @@ uvx blender-mcp install-addon
 
 Unter Windows kann bei einem nicht gefundenen `uvx` stattdessen `cmd` mit den Argumenten `/c`, `uvx`, `blender-mcp` nötig sein. Verwende keinen persönlichen absoluten Pfad in einer geteilten Konfiguration.
 
-Ziehe danach `blender-local` aus der **MCP sidebar** in `MCP Spielwiese`, aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**.
+Wechsle danach zurück zum Projekt/Flow `MCP Spielwiese` (die Registrierung eben lief über die Settings-Seite, nicht im Flow-Editor), ziehe `blender-local` aus der **MCP sidebar** auf die Arbeitsfläche, aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Öffne anschließend rechts oben den **Playground**, um mit dem Agenten zu chatten.
 
 ## 4. Würfelinstallation bauen
 

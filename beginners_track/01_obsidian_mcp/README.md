@@ -19,7 +19,7 @@ In dieser Übung liest ein Langflow-Agent Notizen aus einem separaten Demo-Vault
 ## 1. Demo-Vault öffnen
 
 1. Öffne Obsidian und wähle **Open folder as vault**.
-2. Wähle den Ordner `beginners-track/01_obsidian_mcp/demo_vault`.
+2. Wähle den Ordner `beginners_track/01_obsidian_mcp/demo_vault`.
 3. Öffne `00_Workshop-Start.md` und prüfe, dass `MeetingNotes` drei Monatsnotizen enthält.
 
 ## 2. Plug-in installieren und prüfen
@@ -37,6 +37,8 @@ Obsidian muss während der Übung geöffnet bleiben.
 
 ## 3. TLS-Vertrauen einrichten
 
+**Kurzfassung:** Bevorzuge HTTPS mit importiertem Zertifikat; das lokale HTTP ist nur eine Notlösung für den eigenen Rechner, darf nie extern erreichbar sein und muss danach wieder deaktiviert werden.
+
 Der bevorzugte Weg ist HTTPS mit geprüfter Verbindung:
 
 1. Lade die lokale Zertifizierungsstelle des Plug-ins über `https://127.0.0.1:27124/obsidian-local-rest-api.crt` herunter.
@@ -50,7 +52,7 @@ Die Zertifizierungsstelle ist auf lokale Namen beschränkt. Trotzdem soll sie nu
 
 ## 4. Credential in Langflow anlegen
 
-1. Kopiere deinen API-Schlüssel aus **Settings > Local REST API** nur in die Zwischenablage.
+1. Kopiere deinen API-Schlüssel aus **Settings > Local REST API** nur in die Zwischenablage. Kopiere ausschließlich den reinen Schlüssel: Die Plug-in-Seite zeigt ihn teils zusätzlich bereits fertig formatiert mit vorangestelltem `Bearer ` (z. B. in einer Beispiel-cURL-Zeile) — dieses Präfix ergänzt du selbst erst in Schritt 4.
 2. Öffne in Langflow **Settings > Global Variables**.
 3. Erstelle eine Variable vom Typ **Credential** mit dem Namen `OBSIDIAN_AUTHORIZATION`.
 4. Trage als Wert `Bearer ` gefolgt von deinem lokalen API-Schlüssel ein und speichere die Variable.
@@ -69,11 +71,11 @@ Der Variablenwert darf weder in Markdown noch direkt in einen Flow-Export geschr
 
 ## 6. Nur Lese-Tools verbinden
 
-1. Öffne `MCP Spielwiese.json` über **Projects > Upload a flow** oder verwende einen Flow aus Chat Input, Agent und Chat Output.
+1. Wechsle zurück zum bereits importierten Projekt/Flow **MCP Spielwiese** (nicht erneut über **Projects > Upload a flow** hochladen, außer er fehlt noch). Die Serverregistrierung in Schritt 5 lief über die Settings-Seite, nicht im Flow-Editor.
 2. Ziehe `obsidian-local` aus der **MCP sidebar** auf die Arbeitsfläche.
 3. Aktiviere ausschließlich diese Tools, soweit sie in 5.1.0 angezeigt werden: `vault_list`, `vault_read`, `vault_get_document_map`, `search_simple`, `search_query`, `tag_list` und `active_file_get_path`.
 4. Deaktiviere insbesondere `vault_write`, `vault_write_binary`, `vault_append`, `vault_patch`, `vault_delete`, `vault_move`, `vault_copy`, `command_execute` und `open_file`.
-5. Aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**.
+5. Aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Öffne anschließend rechts oben den **Playground**, um mit dem Agenten zu chatten.
 
 ## 7. Aufgabe
 
@@ -110,7 +112,7 @@ Welche offenen Aufgaben betreffen Verteilung oder Nachhaltigkeit? Gruppiere sie 
 ## Troubleshooting
 
 - **Zertifikatsfehler:** Prüfe den Trust Store der tatsächlich laufenden Langflow-Umgebung. Browser-Vertrauen allein reicht bei einem separaten Python-Prozess möglicherweise nicht.
-- **401/403:** Das Credential muss den vollständigen Wert mit `Bearer ` enthalten; im Headerfeld steht nur `OBSIDIAN_AUTHORIZATION`.
+- **401/403:** Das Credential muss den vollständigen Wert mit `Bearer ` enthalten; im Headerfeld steht nur `OBSIDIAN_AUTHORIZATION`. Häufige Ursache ist ein versehentlich doppeltes `Bearer`-Präfix, wenn der aus der Plug-in-Seite kopierte Wert bereits `Bearer` enthielt.
 - **Verbindung abgelehnt:** Obsidian und das Plug-in müssen laufen. Prüfe URL, abschließenden Slash und Port.
 - **Keine Tools:** Entferne den Servereintrag, registriere ihn neu und prüfe Plug-in-Version 5.1.0.
 - **Leere Suche:** Öffne den richtigen `demo_vault` und prüfe `MeetingNotes`.

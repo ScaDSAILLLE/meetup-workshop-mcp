@@ -34,7 +34,7 @@ Auf verwalteten Workshop-Rechnern kann dieser Schritt bereits vorbereitet sein. 
 - Command: `npx`
 - Arguments: `-y` und `@williamzujkowski/live-coding-music-mcp`
 
-Ziehe `strudel-local` aus der **MCP sidebar** in `MCP Spielwiese`, aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Gib für diese Übung nur die benötigten Tools frei: `init`, `compose`, `get_pattern`, `edit_pattern`, `playback` und optional `set_tempo`.
+Wechsle danach zurück zum Projekt/Flow `MCP Spielwiese` (die Registrierung eben lief über die Settings-Seite, nicht im Flow-Editor), ziehe `strudel-local` aus der **MCP sidebar** auf die Arbeitsfläche, aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Gib für diese Übung nur die benötigten Tools frei: `init`, `compose`, `get_pattern`, `edit_pattern`, `playback` und optional `set_tempo`. Öffne anschließend rechts oben den **Playground**, um mit dem Agenten zu chatten.
 
 ## 3. Lautstärke sicher einstellen
 

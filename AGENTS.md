@@ -17,7 +17,7 @@
 
 ## Aktive Bereiche
 
-- `beginners-track/`: Langflow 1.11.3 ist die getestete Referenz. Obsidian wird direkt über den Streamable-HTTP-MCP-Endpunkt des Plug-ins „Local REST API with MCP“ angebunden, nicht über eine zusätzliche `mcp-obsidian`-Bridge. Die Reihenfolge ist Obsidian, Blender, Strudel.
+- `beginners_track/`: Langflow 1.11.3 ist die getestete Referenz. Obsidian wird direkt über den Streamable-HTTP-MCP-Endpunkt des Plug-ins „Local REST API with MCP“ angebunden, nicht über eine zusätzliche `mcp-obsidian`-Bridge. Die Reihenfolge ist Obsidian, Blender, Strudel.
 - `advanced_track/01_mcp-progressive_disclosure-demo/`: Python 3.14, FastMCP in-memory, Starlette-Backend und statisches HTML/CSS/JS ohne Frontend-Build. Der echte Einstieg ist `uv run python -m backend.main` auf Port 8080; Frontend, API und MCP-Server laufen dabei zusammen in einem Prozess.
 - `advanced_track/03_programmatic_tool_calling/`: Python 3.12, eigenständiges uv-Projekt mit automatisierter Test-/Lint-Suite. Die lokale `exec()`-Variante ist bewusst keine Produktions-Sandbox; diese Grenze in Code und Dokumentation nicht abschwächen.
 - `advanced_track/02_fastmcp/`: aufeinander aufbauende Einzelserver zum Erlernen von Server, Tools, Resources, Resource Templates und Prompts.
