@@ -32,13 +32,19 @@ async def chat_completion(
         if tool_choice:
             payload["tool_choice"] = tool_choice
 
-    async with httpx.AsyncClient(timeout=60) as client:
+    timeout = httpx.Timeout(connect=10, read=20, write=10, pool=10)
+    async with httpx.AsyncClient(timeout=timeout) as client:
         response = await client.post(
             f"{settings.scads_base_url.rstrip('/')}/chat/completions",
             headers=headers,
             json=payload,
         )
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            raise httpx.HTTPError(
+                f"Endpoint antwortete mit {exc.response.status_code}: {exc.response.text[:300]}"
+            ) from exc
         return response.json()
 
 

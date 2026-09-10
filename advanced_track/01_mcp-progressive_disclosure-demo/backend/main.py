@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+import httpx
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import FileResponse, JSONResponse
@@ -33,8 +34,14 @@ async def run_demo(request: Request):
             {"error": "Die Anfrage darf höchstens 2000 Zeichen lang sein."}, status_code=400
         )
 
-    naive_result = await run_naive_mode(user_message)
-    progressive_result = await run_progressive_mode(user_message)
+    try:
+        naive_result = await run_naive_mode(user_message)
+        progressive_result = await run_progressive_mode(user_message)
+    except httpx.HTTPError as exc:
+        return JSONResponse(
+            {"error": f"LLM-Endpoint nicht erreichbar oder Timeout: {exc}"},
+            status_code=504,
+        )
 
     return JSONResponse({"normal": naive_result, "progressiv": progressive_result})
 

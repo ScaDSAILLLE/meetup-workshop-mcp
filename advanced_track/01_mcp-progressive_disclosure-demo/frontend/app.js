@@ -111,20 +111,27 @@ async function runDemo() {
     replaceWithText(byId("normal-flow"), "placeholder", "Vollständiger Modus läuft …");
     replaceWithText(byId("progressiv-flow"), "placeholder", "Progressiver Modus wartet …");
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
     try {
         const response = await fetch("/api/demo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message }),
+            signal: controller.signal,
         });
+        clearTimeout(timeoutId);
         const payload = await response.json();
         if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
         renderResult("normal", payload.normal);
         renderResult("progressiv", payload.progressiv);
         renderChart(payload.normal, payload.progressiv);
     } catch (error) {
-        replaceWithText(byId("normal-flow"), "placeholder error", `Fehler: ${error.message}`);
-        replaceWithText(byId("progressiv-flow"), "placeholder error", `Fehler: ${error.message}`);
+        clearTimeout(timeoutId);
+        const message = error.name === "AbortError" ? "Zeitüberschreitung nach 30 s." : error.message;
+        replaceWithText(byId("normal-flow"), "placeholder error", `Fehler: ${message}`);
+        replaceWithText(byId("progressiv-flow"), "placeholder error", `Fehler: ${message}`);
     } finally {
         button.disabled = false;
         button.textContent = "Vergleichen";
