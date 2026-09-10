@@ -1,0 +1,79 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "scads": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "ScaDS.AI HPC Dresden",
+      "options": {
+        "baseURL": "https://llm.scads.ai/v1",
+        "apiKey": "{env:SCADSAI_API_KEY}"
+      },
+      "models": {
+        "alias-code": {
+          "name": "alias-code (Qwen/Qwen3.8-27B)",
+          "limit": {
+            "context": 262144,
+            "output": 128000
+          }
+        },
+        "alias-huge": {
+          "name": "alias-huge (z.ai/GLM5.3)",
+          "limit": {
+            "context": 524288,
+            "output": 128000
+          }
+        },
+        "alias-huge-no-thinking": {
+          "name": "alias-huge-no-thinking",
+          "limit": {
+            "context": 524288,
+            "output": 128000
+          }
+        },
+        "alias-vision": {
+          "name": "alias-vision (google/gemma-4-26B-A4B-it)",
+          "limit": {
+            "context": 262144,
+            "output": 128000
+          }
+        },
+        "deepseek-ai/DeepSeek-V4-Flash": {
+          "name": "deepseek-ai/DeepSeek-V4-Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 128000
+          }
+        },
+        "google/gemma-4-26B-A4B-it": {
+          "name": "google/gemma-4-26B-A4B-it",
+          "limit": {
+            "context": 262144,
+            "output": 128000
+          }
+        },
+        "MiniMaxAI/MiniMax-M3": {
+          "name": "MiniMaxAI/MiniMax",
+          "limit": {
+            "context": 524288,
+            "output": 128000
+          }
+        },
+        "Qwen/Qwen3.8-27B": {
+          "name": "Qwen/Qwen3.8-27B",
+          "limit": {
+            "context": 262144,
+            "output": 128000
+          }
+        },
+        "zai-org/GLM-5.3-Flash": {
+          "name": "zai-org/GLM-5.3-Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 128000
+          }
+        }
+      }
+    }
+  }
+}
+
