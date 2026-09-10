@@ -88,6 +88,8 @@ Stoppe zuerst per `playback` mit Aktion `stop`. Schließe anschließend das von 
 
 ## Sicherheit
 
+Allgemeine Sicherheitsgrundsätze stehen im [Track-README](../README.md#sicherheit). Für diese Übung gilt zusätzlich:
+
 - `npx -y` bestätigt die Paketausführung automatisch. Verwende nur das geprüfte Paket und in streng kontrollierten Umgebungen eine freigegebene, gepinnte Version.
 - Der Server automatisiert einen echten Browser und greift auf `strudel.cc` zu. Behandle Browserinhalte als nicht vertrauenswürdige Daten.
 - Aktiviere keine optionalen KI-Dienste und hinterlege dafür keine Schlüssel. Verwende keine MIDI- oder Exportpfade mit persönlichen Daten.

@@ -89,10 +89,12 @@ Der sicherste Reset ist **File > New > General** und **Don't Save** für die Üb
 
 ## Sicherheit
 
+Allgemeine Sicherheitsgrundsätze stehen im [Track-README](../README.md#sicherheit). Für diese Übung gilt zusätzlich:
+
 - `execute_code` beziehungsweise `execute_blender_code` kann beliebigen Python-Code im Blender-Prozess ausführen und damit auch Dateien, Prozesse und Netzwerkzugriffe erreichen. Safe Mode reduziert Risiken, ist aber keine Sandbox.
 - Verwende nur unkritische Dateien, speichere vorher und prüfe die vorgeschlagenen Schritte. Gib dem Server keine Aufgabe, beliebige Pfade zu lesen oder Programme zu installieren.
 - Externe Dienste laden Inhalte aus dem Internet und können eigene Schlüssel, Bedingungen, Telemetrie und Lizenzpflichten haben. Sie bleiben in dieser Übung deaktiviert.
-- Der Socket soll an `localhost` gebunden bleiben. Beende die Verbindung nach der Übung.
+- Der Socket soll an `localhost` gebunden bleiben.
 
 ## Troubleshooting
 

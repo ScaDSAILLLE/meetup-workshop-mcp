@@ -93,6 +93,37 @@ uv run python -m backend.main
 
 Öffne anschließend <http://127.0.0.1:8080>.
 
+### API
+
+`POST /api/demo` erwartet:
+
+```json
+{"message": "Wie ist das Wetter in Leipzig?"}
+```
+
+Die Antwort besitzt die Modi `normal` und `progressiv`. Jeder Modus enthält dynamische Toolzahlen,
+Metriken und typisierte Schritte:
+
+```json
+{
+  "normal": {
+    "available_tool_count": 101,
+    "initial_visible_tool_count": 101,
+    "selected_candidate_count": 0,
+    "metrics": {
+      "schema_tokens_sent": 12345,
+      "endpoint_input_tokens": 13000,
+      "endpoint_output_tokens": 80,
+      "llm_calls": 2
+    },
+    "steps": [{"type": "catalog_loaded", "tool_count": 101}]
+  }
+}
+```
+
+Die Zahlen sind nur ein Formbeispiel. Die Anwendung ermittelt Toolzahl und Messwerte zur Laufzeit.
+Fehlende Endpoint-Usage-Werte werden als `null` ausgegeben.
+
 ## Geführter Pflichtpfad
 
 ### Schritt 1: Vollständigen Katalog beobachten

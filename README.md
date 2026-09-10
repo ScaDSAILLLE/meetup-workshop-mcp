@@ -10,11 +10,11 @@ Die Dramaturgie, Agenda und Lernziele stehen in [Programm.md](Programm.md). Dies
 
 Keine Programmiererfahrung erforderlich. Arbeite die Übungen in dieser verbindlichen Reihenfolge durch:
 
-1. [Obsidian: Notizen sicher lesen und zusammenfassen](beginners-track/01_obsidian_mcp/README.md)
-2. [Blender: modulare Würfelinstallation aufbauen](beginners-track/02_blender_mcp/README.md)
-3. [Strudel: einen Beat starten, verändern und stoppen](beginners-track/03_strudel_mcp/README.md)
+1. [Obsidian: Notizen sicher lesen und zusammenfassen](beginners_track/01_obsidian_mcp/README.md)
+2. [Blender: modulare Würfelinstallation aufbauen](beginners_track/02_blender_mcp/README.md)
+3. [Strudel: einen Beat starten, verändern und stoppen](beginners_track/03_strudel_mcp/README.md)
 
-Der gemeinsame Einstieg, die Langflow-Grundbedienung und die vorbereiteten Flow-Exporte stehen in [beginners-track/README.md](beginners-track/README.md).
+Der gemeinsame Einstieg, die Langflow-Grundbedienung und die vorbereiteten Flow-Exporte stehen in [beginners_track/README.md](beginners_track/README.md).
 
 ### Advanced: große Tool-Landschaften verstehen
 

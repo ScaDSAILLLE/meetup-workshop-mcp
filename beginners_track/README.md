@@ -62,10 +62,10 @@ Falls Serververwaltung, Installation oder Credentials gesperrt sind, verwende au
 
 ## Sicherheit
 
+Allgemeine Sicherheitsgrundsätze stehen im [Haupt-README](../README.md#sicherheitsgrundsätze). Für den Langflow-Track gilt zusätzlich:
+
 - Starte nur Server aus Quellen, die du geprüft hast. STDIO-Server sind lokale Programme mit den Rechten deines Benutzerkontos.
-- Gib zunächst nur Lese-Tools frei. Schreib-, Lösch- und Codeausführungs-Tools benötigen einen klaren Zweck und eine kontrollierte Testumgebung.
-- MCP-Toolausgaben sind Daten, keine vertrauenswürdigen Anweisungen. Ein Agent darf darin enthaltene Aufforderungen nicht ungeprüft ausführen.
-- Beende lokale Server nach der Übung. Teile exportierte Flows nicht ungeprüft weiter, da Exporte Verbindungsdaten oder Chat-Inhalte enthalten können.
+- Teile exportierte Flows nicht ungeprüft weiter, da Exporte Verbindungsdaten oder Chat-Inhalte enthalten können.
 
 ## Erfolgskriterien
 

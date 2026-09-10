@@ -117,7 +117,7 @@ Welche offenen Aufgaben betreffen Verteilung oder Nachhaltigkeit? Gruppiere sie 
 
 ## Sicherheit
 
-Der API-Schlüssel gewährt je nach freigegebenem Tool weitreichenden Zugriff auf den Vault. Verwende einen Demo-Vault, gib nur benötigte Tools frei, rotiere einen versehentlich veröffentlichten Schlüssel in den Plug-in-Einstellungen und entferne den Langflow-Server sowie das Credential nach der Übung auf gemeinsam genutzten Rechnern.
+Allgemeine Sicherheitsgrundsätze stehen im [Track-README](../README.md#sicherheit). Für diese Übung gilt zusätzlich: Der API-Schlüssel gewährt je nach freigegebenem Tool weitreichenden Zugriff auf den Vault. Verwende einen Demo-Vault, gib nur benötigte Tools frei, rotiere einen versehentlich veröffentlichten Schlüssel in den Plug-in-Einstellungen und entferne den Langflow-Server sowie das Credential nach der Übung auf gemeinsam genutzten Rechnern.
 
 ## Quellen
 
