@@ -1,83 +1,13 @@
 # Obsidian über MCP mit Langflow verbinden
 
-In dieser Übung liest ein Langflow-Agent Notizen aus einem separaten Demo-Vault. Verwendet wird direkt der eingebaute **Streamable-HTTP-MCP-Endpunkt** des Obsidian-Plug-ins **Local REST API with MCP 5.1.0**. Eine zusätzliche `mcp-obsidian`-Bridge ist weder nötig noch vorgesehen.
+In dieser Übung liest ein Langflow-Agent Notizen aus einem separaten Demo-Vault. Verwendet wird direkt der eingebaute **Streamable-HTTP(s)-MCP-Endpunkt** des Obsidian-Plug-ins **Local REST API with MCP 5.1.0**. 
 
-## Lernziele
+## A. Aufgabe
 
-- einen authentifizierten Streamable-HTTP-MCP-Server registrieren,
-- einen Bearer-Token als Langflow-Credential referenzieren,
-- nur Lese-Tools freigeben,
-- Suchaufruf, Dateizugriff und Agentenantwort in Agent Steps unterscheiden.
+Folge gerne den Anweisungen im `demo_vault` für die jeweiligen Tracks oder lass es dir über den KI-Agenten und die Obsidian-MCP-Anbindung erklären, was zu tun ist.
+Sieh den Agenten bswp. als einen hilfreichen Tutor, der dich durch den Beginner-Track des Workshops lotst.
 
-## Voraussetzungen
-
-- Langflow 1.11.3 läuft.
-- Obsidian Desktop ist installiert.
-- `demo_vault` wurde in Obsidian als Vault geöffnet.
-- Community-Plug-ins dürfen in deiner Umgebung installiert werden.
-
-## 1. Demo-Vault öffnen
-
-1. Öffne Obsidian und wähle **Open folder as vault**.
-2. Wähle den Ordner `beginners_track/01_obsidian_mcp/demo_vault`.
-3. Öffne `00_Workshop-Start.md` und prüfe, dass `MeetingNotes` drei Monatsnotizen enthält.
-
-## 2. Plug-in installieren und prüfen
-
-1. Öffne **Settings > Community plugins**, aktiviere Community-Plug-ins und suche nach **Local REST API with MCP**.
-2. Installiere und aktiviere Version **5.1.0**. Prüfe die Quelle und Berechtigungen vor der Installation.
-3. Öffne **Settings > Local REST API**. Dort erzeugt deine lokale Installation einen eigenen API-Schlüssel. Teile oder dokumentiere ihn nicht.
-4. Der MCP-Endpunkt lautet:
-
-```text
-https://127.0.0.1:27124/mcp/
-```
-
-Obsidian muss während der Übung geöffnet bleiben.
-
-## 3. TLS-Vertrauen einrichten
-
-**Kurzfassung:** Bevorzuge HTTPS mit importiertem Zertifikat; das lokale HTTP ist nur eine Notlösung für den eigenen Rechner, darf nie extern erreichbar sein und muss danach wieder deaktiviert werden.
-
-Der bevorzugte Weg ist HTTPS mit geprüfter Verbindung:
-
-1. Lade die lokale Zertifizierungsstelle des Plug-ins über `https://127.0.0.1:27124/obsidian-local-rest-api.crt` herunter.
-2. Prüfe, dass die Datei wirklich von deiner lokalen Plug-in-Instanz stammt.
-3. Importiere sie in den Zertifikatsspeicher des Betriebssystems beziehungsweise in den Trust Store der Umgebung, in der Langflow läuft.
-4. Starte Langflow nach dem Import neu und lasse TLS-Prüfung aktiviert.
-
-Die Zertifizierungsstelle ist auf lokale Namen beschränkt. Trotzdem soll sie nur auf deinem eigenen Rechner installiert werden.
-
-**Transparenter lokaler Fallback:** Falls die Workshop-Umgebung die lokale Zertifizierungsstelle nicht übernehmen kann, aktiviere vorübergehend in Obsidian **Enable HTTP server** und verwende ausschließlich lokal `http://127.0.0.1:27123/mcp/`. HTTP schützt den Token nicht auf dem Transportweg. Nutze diesen Weg nur auf einem kontrollierten Rechner, binde den Server nie an eine externe Schnittstelle und deaktiviere HTTP danach wieder. Das pauschale Abschalten der TLS-Prüfung ist nicht der bevorzugte Weg.
-
-## 4. Credential in Langflow anlegen
-
-1. Kopiere deinen API-Schlüssel aus **Settings > Local REST API** nur in die Zwischenablage. Kopiere ausschließlich den reinen Schlüssel: Die Plug-in-Seite zeigt ihn teils zusätzlich bereits fertig formatiert mit vorangestelltem `Bearer ` (z. B. in einer Beispiel-cURL-Zeile) — dieses Präfix ergänzt du selbst erst in Schritt 4.
-2. Öffne in Langflow **Settings > Global Variables**.
-3. Erstelle eine Variable vom Typ **Credential** mit dem Namen `OBSIDIAN_AUTHORIZATION`.
-4. Trage als Wert `Bearer ` gefolgt von deinem lokalen API-Schlüssel ein und speichere die Variable.
-5. Entferne den Schlüssel wieder aus der Zwischenablage, sofern dein Betriebssystem das unterstützt.
-
-Der Variablenwert darf weder in Markdown noch direkt in einen Flow-Export geschrieben werden.
-
-## 5. MCP-Server registrieren
-
-1. Öffne **Settings > MCP Servers > Add MCP Server**.
-2. Wähle **HTTP/SSE**.
-3. Setze den Namen auf `obsidian-local`.
-4. Setze die Streamable-HTTP/SSE-URL auf `https://127.0.0.1:27124/mcp/` oder ausschließlich für den beschriebenen Fallback auf die lokale HTTP-URL.
-5. Füge einen Header mit Schlüssel `Authorization` hinzu. Als Wert trägst du exakt den Variablennamen `OBSIDIAN_AUTHORIZATION` ein, nicht den geheimen Wert.
-6. Speichere. Langflow sollte die verfügbaren Tools anzeigen.
-
-## 6. Nur Lese-Tools verbinden
-
-1. Wechsle zurück zum bereits importierten Projekt/Flow **MCP Spielwiese** (nicht erneut über **Projects > Upload a flow** hochladen, außer er fehlt noch). Die Serverregistrierung in Schritt 5 lief über die Settings-Seite, nicht im Flow-Editor.
-2. Ziehe `obsidian-local` aus der **MCP sidebar** auf die Arbeitsfläche.
-3. Aktiviere ausschließlich diese Tools, soweit sie in 5.1.0 angezeigt werden: `vault_list`, `vault_read`, `vault_get_document_map`, `search_simple`, `search_query`, `tag_list` und `active_file_get_path`.
-4. Deaktiviere insbesondere `vault_write`, `vault_write_binary`, `vault_append`, `vault_patch`, `vault_delete`, `vault_move`, `vault_copy`, `command_execute` und `open_file`.
-5. Aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Öffne anschließend rechts oben den **Playground**, um mit dem Agenten zu chatten.
-
-## 7. Aufgabe
+Ansonsten kannst du auch direkt folgendes ausprobieren:
 
 Stelle im Playground nacheinander diese Fragen:
 
@@ -102,12 +32,90 @@ Welche offenen Aufgaben betreffen Verteilung oder Nachhaltigkeit? Gruppiere sie 
 - Enthält die Toolantwort Rohdaten, während erst der Agent daraus Sprache erzeugt?
 - Was verhindert technisch, dass der Agent Notizen verändert?
 
-## Erfolgskriterien
+# Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
 
-- Die HTTPS-Verbindung ist vertrauenswürdig oder der lokale HTTP-Fallback ist bewusst dokumentiert und zeitlich begrenzt.
-- Das Authorization-Credential wird nur per Variablenname referenziert.
-- Agent Steps zeigen ausschließlich Lesezugriffe.
-- Die Antwort nennt die passenden Monate, Zahlen und Quelldateien.
+## Voraussetzungen
+
+- Langflow läuft.
+- Obsidian Desktop ist installiert.
+- `demo_vault` wurde in Obsidian als Vault geöffnet.
+- Community-Plug-ins dürfen in deiner Umgebung installiert werden. 
+
+## 1. Demo-Vault öffnen
+
+1. Öffne Obsidian und wähle **Open folder as vault**.
+2. Wähle den Ordner `beginners_track/01_obsidian_mcp/demo_vault`.
+3. Öffne `00_Workshop-Start.md` und prüfe, dass `MeetingNotes` drei Monatsnotizen enthält.
+
+## 2. Plug-in installieren und prüfen
+
+1. Öffne **Settings > Community plugins**, aktiviere Community-Plug-ins und suche nach **Local REST API with MCP**.
+2. Installiere und aktiviere Version **5.1.0**. Prüfe die Quelle und Berechtigungen vor der Installation.
+3. Ablauf konkret: **Settings (Zahnrad-Icon unten im Vault-Bereich) > Externe Erweiterungen > Community Plugins / ganz unten bereits installiertes "Local REST API with MCP" installieren / wählen > Optionen (HTTP enablen, ACHTUNG: nur bei rein lokalem Gebrauch!) > "How to access via MCP" klicken > Config hieraus mit den korrekten Werten übernehmen.** 
+4. Der MCP-Endpunkt lautet:
+
+```text
+https://127.0.0.1:27124/mcp/
+
+oder für HTTP:
+http://127.0.0.1:27123/mcp/
+```
+
+Obsidian muss während der Übung geöffnet bleiben.
+
+ACHTUNG: du musst das Plugin für jeden Vault installieren und aktivieren! Prüfe das, wenn du deinen Vault wechselst.
+
+## 3. TLS-Vertrauen einrichten
+
+**Kurzfassung:** Bevorzuge HTTPS mit importiertem Zertifikat; das lokale HTTP ist nur eine Notlösung für den eigenen Rechner, darf nie extern erreichbar sein und muss danach wieder deaktiviert werden.
+
+Der bevorzugte Weg ist HTTPS mit geprüfter Verbindung:
+
+1. Lade die lokale Zertifizierungsstelle des Plug-ins über `https://127.0.0.1:27124/obsidian-local-rest-api.crt` herunter.
+2. Prüfe, dass die Datei wirklich von deiner lokalen Plug-in-Instanz stammt.
+3. Importiere sie in den Zertifikatsspeicher des Betriebssystems beziehungsweise in den Trust Store der Umgebung, in der Langflow läuft.
+4. Starte Langflow nach dem Import neu und lasse TLS-Prüfung aktiviert.
+
+Die Zertifizierungsstelle ist auf lokale Namen beschränkt. Trotzdem soll sie nur auf deinem eigenen Rechner installiert werden.
+
+**Lokaler Fallback:** Falls die Workshop-Umgebung die lokale Zertifizierungsstelle nicht übernehmen kann, aktiviere vorübergehend in Obsidian **Enable HTTP server** und verwende ausschließlich lokal `http://127.0.0.1:27123/mcp/`. HTTP schützt den Token nicht auf dem Transportweg. Nutze diesen Weg nur auf einem kontrollierten Rechner, binde den Server nie an eine externe Schnittstelle und deaktiviere HTTP danach wieder. Das pauschale Abschalten der TLS-Prüfung ist nicht der bevorzugte Weg.
+
+## 4. MCP Server in Langflow anlegen
+
+1. Kopiere deinen API-Schlüssel aus **Settings > Local REST API > Optionen > "How to access via MCP"** in die Zwischenablage. 
+2. Öffne in Langflow **Settings > MCP Servers**.
+3. Füge einen neuen MCP Server hinzu.
+4. Die Config hierfür erhältst du als `JSON` aus den `Optionen` des Obsidian Plugins und es sollte in etwa so aussehen:
+
+```json
+{
+  "mcpServers": {
+    "obsidian": {
+      "type": "http",
+      "url": "https://127.0.0.1:27124/mcp/",
+      "headers": {
+        "Authorization": "Bearer HIER_STEHT_DEIN_TOKEN"
+      }
+    }
+  }
+}
+
+oder HTTP:
+
+{
+  "mcpServers": {
+    "obsidian": {
+      "type": "http",
+      "url": "http://127.0.0.1:27123/mcp/",
+      "headers": {
+        "Authorization": "Bearer HIER_STEHT_DEIN_TOKEN"
+      }
+    }
+  }
+}
+```
+
+Herzlichen Glückwunsch, du hast dein erstes externes Tool über MCP angebunden. Nun kannst du mittels natürlicher Sprache und KI-Agent mit dem Tool interagieren!
 
 ## Troubleshooting
 
@@ -125,4 +133,3 @@ Allgemeine Sicherheitsgrundsätze stehen im [Track-README](../README.md#sicherhe
 
 - [Local REST API with MCP](https://github.com/coddingtonbear/obsidian-local-rest-api)
 - [Langflow 1.11: MCP-Client](https://docs.langflow.org/1.11.0/mcp-client)
-- [Langflow: globale Variablen](https://docs.langflow.org/configuration-global-variables)

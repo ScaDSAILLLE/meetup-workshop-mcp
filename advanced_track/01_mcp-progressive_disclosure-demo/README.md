@@ -1,18 +1,9 @@
 # Progressive Disclosure mit MCP
 
-> Advanced Track, Dauer etwa 45 bis 60 Minuten
-
 Ein MCP-Client kann einen großen Toolkatalog anbinden, ohne jedes Schema sofort an ein Sprachmodell
 zu senden. Diese Demo vergleicht einen vollständigen Modus mit einer progressiven Auswahl. Beide
 Modi greifen per FastMCP auf denselben Katalog zu. Die Weboberfläche zeigt den konkreten Ablauf und
 beobachtete Metriken eines einzelnen Laufs, nicht die Genauigkeit des Modells und keinen Benchmark.
-
-## Zielgruppe
-
-Der Track richtet sich an Teilnehmende, die MCP-Tools und reguläres LLM Function Calling bereits
-kennen. Du solltest Python lesen können und verstehen, warum ein Tool-Schema Teil eines
-LLM-Requests ist. Für Setup und Live-Lauf werden Python 3.14, `uv`, ein Browser und ein persönlicher
-ScaDS/TUD:AI API-Key benötigt.
 
 ## Lernziele
 
@@ -45,86 +36,7 @@ Frontend, API und MCP-Server laufen dabei in einem Prozess. Es ist kein separate
 Die Toolzahl wird bei jedem Lauf mit `list_tools()` vom Server gelesen und nicht im Frontend
 festgeschrieben.
 
-## Setup
-
-### 1. Root-Konfiguration prüfen
-
-Es gibt genau eine `.env.example` und eine persönliche `.env`, beide in der Repository-Wurzel. Lege
-keine Env-Datei in diesem Track an. Die gemeinsame Vorlage verwendet:
-
-```dotenv
-SCADS_API_KEY=dein-persönlicher-key
-SCADS_BASE_URL=https://llm.scads.ai/v1
-SCADS_MODEL=Qwen/Qwen3.8-27B
-```
-
-`backend/config.py` bestimmt die Repository-Wurzel relativ zur eigenen Datei. Es gibt keine
-Legacy-Variablen und keinen Fallback auf eine lokale Env-Datei. Teile oder committe den Key nicht.
-
-### 2. Abhängigkeiten installieren
-
-Wechsle in diesen Track:
-
-```bash
-cd advanced_track/01_mcp-progressive_disclosure-demo
-uv sync --link-mode copy
-```
-
-`--link-mode copy` vermeidet bekannte Hardlink-Probleme unter WSL in `/mnt/c`. Auf nativen Linux-,
-macOS- oder Windows-Dateisystemen genügt normalerweise auch `uv sync`.
-
-### 3. Offline prüfen
-
-Diese Befehle brauchen keinen API-Key und starten keine Demo:
-
-```bash
-uv run pytest
-uv run ruff check .
-```
-
-### 4. Live-Anwendung starten
-
-Ein Live-Lauf ist credential-abhängig und sendet den eingegebenen Prompt sowie Tool-Schemas und
-Tool-Ergebnisse an den konfigurierten Endpoint.
-
-```bash
-uv run python -m backend.main
-```
-
-Öffne anschließend <http://127.0.0.1:8080>.
-
-### API
-
-`POST /api/demo` erwartet:
-
-```json
-{"message": "Wie ist das Wetter in Leipzig?"}
-```
-
-Die Antwort besitzt die Modi `normal` und `progressiv`. Jeder Modus enthält dynamische Toolzahlen,
-Metriken und typisierte Schritte:
-
-```json
-{
-  "normal": {
-    "available_tool_count": 101,
-    "initial_visible_tool_count": 101,
-    "selected_candidate_count": 0,
-    "metrics": {
-      "schema_tokens_sent": 12345,
-      "endpoint_input_tokens": 13000,
-      "endpoint_output_tokens": 80,
-      "llm_calls": 2
-    },
-    "steps": [{"type": "catalog_loaded", "tool_count": 101}]
-  }
-}
-```
-
-Die Zahlen sind nur ein Formbeispiel. Die Anwendung ermittelt Toolzahl und Messwerte zur Laufzeit.
-Fehlende Endpoint-Usage-Werte werden als `null` ausgegeben.
-
-## Geführter Pflichtpfad
+# A. Aufgabe
 
 ### Schritt 1: Vollständigen Katalog beobachten
 
@@ -266,6 +178,85 @@ simulierten Fachtools für Produktion.
    Berechtigungsfilter und Messgrößen, bevor du Code schreibst.
 5. Teile Tools in read-only und mutierend ein. Entwirf eine Policy, die mutierende Kandidaten erst
    nach expliziter Nutzerbestätigung freigibt.
+
+# B. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
+
+### 1. Root-Konfiguration prüfen
+
+Es gibt genau eine `.env.example` und eine persönliche `.env`, beide in der Repository-Wurzel. Lege
+keine Env-Datei in diesem Track an. Die gemeinsame Vorlage verwendet:
+
+```dotenv
+SCADS_API_KEY=dein-persönlicher-key
+SCADS_BASE_URL=https://llm.scads.ai/v1
+SCADS_MODEL=Qwen/Qwen3.8-27B
+```
+
+`backend/config.py` bestimmt die Repository-Wurzel relativ zur eigenen Datei. Es gibt keine
+Legacy-Variablen und keinen Fallback auf eine lokale Env-Datei. Teile oder committe den Key nicht.
+
+### 2. Abhängigkeiten installieren
+
+Wechsle in diesen Track:
+
+```bash
+cd advanced_track/01_mcp-progressive_disclosure-demo
+uv sync --link-mode copy
+```
+
+`--link-mode copy` vermeidet bekannte Hardlink-Probleme unter WSL in `/mnt/c`. Auf nativen Linux-,
+macOS- oder Windows-Dateisystemen genügt normalerweise auch `uv sync`.
+
+### 3. Offline prüfen
+
+Diese Befehle brauchen keinen API-Key und starten keine Demo:
+
+```bash
+uv run pytest
+uv run ruff check .
+```
+
+### 4. Live-Anwendung starten
+
+Ein Live-Lauf ist credential-abhängig und sendet den eingegebenen Prompt sowie Tool-Schemas und
+Tool-Ergebnisse an den konfigurierten Endpoint.
+
+```bash
+uv run python -m backend.main
+```
+
+Öffne anschließend <http://127.0.0.1:8080>.
+
+### API
+
+`POST /api/demo` erwartet:
+
+```json
+{"message": "Wie ist das Wetter in Leipzig?"}
+```
+
+Die Antwort besitzt die Modi `normal` und `progressiv`. Jeder Modus enthält dynamische Toolzahlen,
+Metriken und typisierte Schritte:
+
+```json
+{
+  "normal": {
+    "available_tool_count": 101,
+    "initial_visible_tool_count": 101,
+    "selected_candidate_count": 0,
+    "metrics": {
+      "schema_tokens_sent": 12345,
+      "endpoint_input_tokens": 13000,
+      "endpoint_output_tokens": 80,
+      "llm_calls": 2
+    },
+    "steps": [{"type": "catalog_loaded", "tool_count": 101}]
+  }
+}
+```
+
+Die Zahlen sind nur ein Formbeispiel. Die Anwendung ermittelt Toolzahl und Messwerte zur Laufzeit.
+Fehlende Endpoint-Usage-Werte werden als `null` ausgegeben.
 
 ## Sicherheitsgrenzen
 

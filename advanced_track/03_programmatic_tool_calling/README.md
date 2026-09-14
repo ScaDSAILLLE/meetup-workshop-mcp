@@ -1,8 +1,4 @@
-# Programmatic Tool Calling mit einem OpenAI-kompatiblen Endpoint
-
-> Advanced Track für den MCP-Workshop, Dauer etwa 30 bis 45 Minuten
-
-## Abstract
+# Programmatic Tool Calling (PTC) mit einem OpenAI-kompatiblen Endpoint
 
 Beim klassischen Tool Calling entscheidet ein Sprachmodell schrittweise, welches Tool aufgerufen
 wird. Die Anwendung führt den Aufruf aus und sendet das Ergebnis zurück an das Modell. Bei vielen
@@ -35,96 +31,11 @@ Nach diesem Track kannst du:
 - PTC und MCP korrekt einordnen und miteinander kombinieren,
 - Sicherheitsgrenzen von Code Execution benennen.
 
-## Projektstruktur
+# A. Aufgabe
 
-```text
-<repository-root>/
-├── .env.example                              # Gemeinsame Konfigurationsvorlage
-├── .env                                      # Persönlicher Key, nicht committen
-└── advanced_track/03_programmatic_tool_calling/
-    ├── README.md                              # Anleitung und Wissenstrack
-    ├── ptc_demo.py                            # Baseline, PTC und Metriken
-    ├── workshop_config.py                     # Lädt die Root-.env
-    ├── mock_expense_api.py                    # Deterministische read-only Tools
-    ├── tests/test_ptc_demo.py                 # Fach- und Sicherheitsprüfungen
-    ├── pyproject.toml                         # UV-Projekt
-    └── uv.lock                                # Reproduzierbare Versionen
-```
+Dauer: 30 bis 45 Minuten
 
-## Voraussetzungen
-
-- Python 3.12 oder neuer
-- [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
-- ein persönlicher ScaDS/TUD:AI API-Key
-- grundlegende Python-Kenntnisse
-- grundlegendes Verständnis von LLM Tool Calling
-
-API-Keys können berechtigte TU-Dresden-Beschäftigte über das
-[Self-Service-Portal](https://selfservice.tu-dresden.de/services/scads-llm-api/) beziehen. Weitere
-berechtigte Personen finden die Kontaktinformationen in der
-[TUD:AI API-Dokumentation](https://llm.scads.ai/docs/usage/api/). Ein persönlicher Key darf nicht
-geteilt oder committet werden.
-
-Der Modellstatus ist unter <https://llm.scads.ai/status/> sichtbar. Zum Zeitpunkt der Erstellung
-unterstützte `Qwen/Qwen3.8-27B` Reasoning, Vision und Tools bei einer maximalen Kontextlänge von
-262.144 Tokens.
-
-## Setup
-
-### 1. Gemeinsame Root-Konfiguration anlegen
-
-Wechsle in die Repository-Wurzel. Dort liegen `.env.example`, `advanced_track/` und die weiteren
-Tracks. Lege genau dort die gemeinsame `.env` an.
-
-Linux, macOS oder Git Bash:
-
-```bash
-cp .env.example .env
-```
-
-PowerShell:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Trage den persönlichen Key mit den gemeinsamen `SCADS_*`-Variablen in die Root-`.env` ein:
-
-```dotenv
-SCADS_API_KEY=dein-persönlicher-key
-SCADS_BASE_URL=https://llm.scads.ai/v1
-SCADS_MODEL=Qwen/Qwen3.8-27B
-```
-
-Lege keine weitere `.env` im Track an. Das Skript bestimmt die Root-Datei relativ zu seinem eigenen
-Pfad und ist deshalb nicht vom aktuellen Terminal-Arbeitsverzeichnis abhängig.
-
-### 2. UV-Projekt vorbereiten
-
-```bash
-cd advanced_track/03_programmatic_tool_calling
-uv sync --link-mode copy
-```
-
-`--link-mode copy` funktioniert auch unter WSL in Windows-Verzeichnissen, in denen Hardlinks häufig
-abgelehnt werden.
-
-### 3. Lokale Selbsttests ausführen
-
-Diese Tests brauchen keinen API-Key:
-
-```bash
-uv run pytest
-uv run ruff check .
-```
-
-Die Tests prüfen das fachliche Ergebnis, das Tool-Routing und die Sicherheitsgrenzen. Unter anderem
-weisen sie Imports, Dateioperationen, Attributzugriffe und `while`-Schleifen im generierten Programm
-ab.
-
-## Pflichtpfad: 30 bis 45 Minuten
-
-Die Schritte 1 bis 4 bilden den vollständigen Pflichtpfad. Führe die Demo einmal im Modus `both`
+Die Schritte 1 bis 4 bilden den Hauptteil des PTC Workshop-Tracks. Führe die Demo einmal im Modus `both`
 aus; die Transferaufgaben und der Wissenstrack danach sind optionale Vertiefung.
 
 ### Schritt 1: Das Szenario verstehen
@@ -610,6 +521,93 @@ Die präzise Kurzfassung lautet daher:
 MCP = Woher kommen Tools, und wie werden sie standardisiert angebunden?
 PTC = Wie orchestriert und verarbeitet erzeugter Code mehrere Tools effizient?
 ```
+
+## Projektstruktur
+
+```text
+<repository-root>/
+├── .env.example                              # Gemeinsame Konfigurationsvorlage
+├── .env                                      # Persönlicher Key, nicht committen
+└── advanced_track/03_programmatic_tool_calling/
+    ├── README.md                              # Anleitung und Wissenstrack
+    ├── ptc_demo.py                            # Baseline, PTC und Metriken
+    ├── workshop_config.py                     # Lädt die Root-.env
+    ├── mock_expense_api.py                    # Deterministische read-only Tools
+    ├── tests/test_ptc_demo.py                 # Fach- und Sicherheitsprüfungen
+    ├── pyproject.toml                         # UV-Projekt
+    └── uv.lock                                # Reproduzierbare Versionen
+```
+
+## Voraussetzungen
+
+- Python 3.12 oder neuer
+- [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+- ein persönlicher ScaDS/TUD:AI API-Key
+- grundlegende Python-Kenntnisse
+- grundlegendes Verständnis von LLM Tool Calling
+
+API-Keys können berechtigte TU-Dresden-Beschäftigte über das
+[Self-Service-Portal](https://selfservice.tu-dresden.de/services/scads-llm-api/) beziehen. Weitere
+berechtigte Personen finden die Kontaktinformationen in der
+[TUD:AI API-Dokumentation](https://llm.scads.ai/docs/usage/api/). Ein persönlicher Key darf nicht
+geteilt oder committet werden.
+
+Der Modellstatus ist unter <https://llm.scads.ai/status/> sichtbar. Zum Zeitpunkt der Erstellung
+unterstützte `Qwen/Qwen3.8-27B` Reasoning, Vision und Tools bei einer maximalen Kontextlänge von
+262.144 Tokens.
+
+# B. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
+
+### 1. Gemeinsame Root-Konfiguration anlegen
+
+Wechsle in die Repository-Wurzel. Dort liegen `.env.example`, `advanced_track/` und die weiteren
+Tracks. Lege genau dort die gemeinsame `.env` an.
+
+Linux, macOS oder Git Bash:
+
+```bash
+cp .env.example .env
+```
+
+PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Trage den persönlichen Key mit den gemeinsamen `SCADS_*`-Variablen in die Root-`.env` ein:
+
+```dotenv
+SCADS_API_KEY=dein-persönlicher-key
+SCADS_BASE_URL=https://llm.scads.ai/v1
+SCADS_MODEL=Qwen/Qwen3.8-27B
+```
+
+Lege keine weitere `.env` im Track an. Das Skript bestimmt die Root-Datei relativ zu seinem eigenen
+Pfad und ist deshalb nicht vom aktuellen Terminal-Arbeitsverzeichnis abhängig.
+
+### 2. UV-Projekt vorbereiten
+
+```bash
+cd advanced_track/03_programmatic_tool_calling
+uv sync --link-mode copy
+```
+
+`--link-mode copy` funktioniert auch unter WSL in Windows-Verzeichnissen, in denen Hardlinks häufig
+abgelehnt werden.
+
+### 3. Lokale Selbsttests ausführen
+
+Diese Tests brauchen keinen API-Key:
+
+```bash
+uv run pytest
+uv run ruff check .
+```
+
+Die Tests prüfen das fachliche Ergebnis, das Tool-Routing und die Sicherheitsgrenzen. Unter anderem
+weisen sie Imports, Dateioperationen, Attributzugriffe und `while`-Schleifen im generierten Programm
+ab.
 
 ### Sicherheitskontext
 

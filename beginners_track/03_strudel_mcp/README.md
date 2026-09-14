@@ -1,22 +1,57 @@
 # Strudel über MCP mit Langflow steuern
 
 In dieser Übung startet ein lokaler MCP-Server über Playwright einen sichtbaren Chromium-Browser mit [Strudel](https://strudel.cc/). Der Agent erzeugt einen Beat, verändert ihn und stoppt die Wiedergabe.
+So kannst du mittels einer Musik-Skriptsprache Beats oder ganze Songs erzeugen, Inspiration gefällig: [DJ_Dave auf YouTube](https://www.youtube.com/watch?v=ZCcpWzhekEY)
 
-## Lernziele
+# A. Aufgabe
 
-- einen per `npx` gestarteten STDIO-MCP-Server registrieren,
-- Browser- und Audiozustand von der Langflow-Session unterscheiden,
-- Start, Änderung und Stopp als getrennte Toolaufrufe beobachten.
+0. Vorab: **Lautstärke** sicher einstellen
+
+1. Start: Sende jeden Prompt einzeln und beobachte Agent Steps sowie das sichtbare Strudel-Fenster.
+
+    ```text
+    Initialisiere Strudel. Erzeuge einen einfachen Techno-Beat mit 120 BPM aus Kick, Clap und leiser Hi-Hat und starte ihn. Verwende keine externen KI-Dienste.
+    ```
+
+2. Erwartet: Chromium öffnet Strudel, Pattern-Code erscheint und ein gleichmäßiger Beat ist leise hörbar.
+
+3. Änderung:
+
+    ```text
+    Lies zuerst das aktuelle Pattern. Ergänze dann jede vierte Runde um eine kleine Variation und reduziere die Hi-Hat-Lautstärke. Starte das geänderte Pattern erneut.
+    ```
+
+4. Erwartet: Der Grundpuls bleibt erkennbar, die Variation ist periodisch hörbar und der Code im Editor ändert sich.
+
+5. Stopp:
+
+    ```text
+    Stoppe jetzt die Wiedergabe und bestätige den Zustand mit dem passenden Playback-Tool. Verändere das Pattern nicht weiter.
+    ```
+
+6. Erwartet: Die Wiedergabe endet unmittelbar. Der Pattern-Code bleibt sichtbar.
+
+7. **Beobachtungsfragen:** Welcher Toolaufruf öffnet den Browser? Welche Änderung existiert außerhalb des Chatverlaufs? Warum beendet eine neue Playground-Session weder automatisch den Ton noch den Node-Prozess?
+
+## Prozess sauber beenden
+
+Stoppe zuerst per `playback` mit Aktion `stop`. Schließe anschließend das von Playwright geöffnete Browserfenster und beende beziehungsweise entferne den MCP-Server über Langflows MCP-Verwaltung. Prüfe, dass kein Ton mehr läuft.
+
+# B. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
 
 ## Voraussetzungen
 
-- Langflow 1.11.3 läuft außerhalb eines Containers oder Node.js und Chromium sind auch im Container verfügbar.
+- Langflow 1.11.3 (Desktop Variante) oder Node.js und Chromium sind auch im Container verfügbar.
 - Installiere eine aktuelle [Node.js-LTS-Version](https://nodejs.org/), laut Upstream Node.js 22 oder neuer. `npm` und `npx` sind enthalten.
 - Prüfe mit `node --version` und `npx --version`, dass Langflow dieselben Programme über seinen PATH finden kann.
 
-Eine globale Installation des MCP-Pakets ist nicht nötig. `npx -y` lädt und startet das Paket bei Bedarf. Das bedeutet zugleich, dass beim ersten Start Code aus dem npm-Registry ausgeführt und Netzwerkzugriff benötigt wird.
 
-## 1. Playwright Chromium vorbereiten
+## 1. Strudel MCP & Playwright Chromium vorbereiten
+
+Installiere den Strudel MCP:
+```bash
+npm install -g @williamzujkowski/live-coding-music-mcp
+```
 
 Installiere einmalig den von Playwright verwendeten Browser:
 
@@ -24,57 +59,31 @@ Installiere einmalig den von Playwright verwendeten Browser:
 npx -y playwright install chromium
 ```
 
-Auf verwalteten Workshop-Rechnern kann dieser Schritt bereits vorbereitet sein. Installiere keine zusätzlichen Systemabhängigkeiten ohne Freigabe.
-
 ## 2. MCP-Server in Langflow registrieren
 
-Öffne **Settings > MCP Servers > Add MCP Server**, wähle **STDIO** und trage ein:
+Öffne **Settings > MCP Servers > Add MCP Server**, wähle **JSON** und trage ein:
 
-- Name: `strudel-local`
-- Command: `npx`
-- Arguments: `-y` und `@williamzujkowski/live-coding-music-mcp`
-
-Wechsle danach zurück zum Projekt/Flow `MCP Spielwiese` (die Registrierung eben lief über die Settings-Seite, nicht im Flow-Editor), ziehe `strudel-local` aus der **MCP sidebar** auf die Arbeitsfläche, aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Gib für diese Übung nur die benötigten Tools frei: `init`, `compose`, `get_pattern`, `edit_pattern`, `playback` und optional `set_tempo`. Öffne anschließend rechts oben den **Playground**, um mit dem Agenten zu chatten.
-
-## 3. Lautstärke sicher einstellen
-
-1. Stelle die Systemlautstärke vor dem ersten Ton sehr niedrig ein.
-2. Nutze möglichst Kopfhörer nicht gemeinsam und setze sie erst nach einem leisen Funktionstest auf.
-3. Halte die Stummtaste bereit. Unerwartet laute oder verzerrte Wiedergabe sofort stoppen.
-
-## 4. Beat-Aufgabe
-
-Sende jeden Prompt einzeln und beobachte Agent Steps sowie das sichtbare Strudel-Fenster.
-
-1. Start:
-
-```text
-Initialisiere Strudel. Erzeuge einen einfachen Techno-Beat mit 120 BPM aus Kick, Clap und leiser Hi-Hat und starte ihn. Verwende keine externen KI-Dienste.
+```json
+{
+    "mcpServers": {
+        "strudel": {
+        "command": "npx",
+        "args": ["-y", "@williamzujkowski/strudel-mcp-server"]
+        }
+    }
+}
 ```
 
-Erwartet: Chromium öffnet Strudel, Pattern-Code erscheint und ein gleichmäßiger Beat ist leise hörbar.
+Wechsle danach zurück zum Projekt/Flow `03_Strudel_Code_Music_MCP.json` (die Registrierung eben lief über die Settings-Seite, nicht im Flow-Editor), ziehe `strudel-local` aus der **MCP sidebar** auf die Arbeitsfläche, aktiviere **Tool Mode** und verbinde **Toolset > Agent Tools**. Gib für diese Übung nur die benötigten Tools frei: `init`, `compose`, `get_pattern`, `edit_pattern`, `playback` und optional `set_tempo`. Öffne anschließend rechts oben den **Playground**, um mit dem Agenten zu chatten.
 
-2. Änderung:
+## Sicherheit
 
-```text
-Lies zuerst das aktuelle Pattern. Ergänze dann jede vierte Runde um eine kleine Variation und reduziere die Hi-Hat-Lautstärke. Starte das geänderte Pattern erneut.
-```
+Allgemeine Sicherheitsgrundsätze stehen im [Track-README](../README.md#sicherheit). Für diese Übung gilt zusätzlich:
 
-Erwartet: Der Grundpuls bleibt erkennbar, die Variation ist periodisch hörbar und der Code im Editor ändert sich.
-
-3. Stopp:
-
-```text
-Stoppe jetzt die Wiedergabe und bestätige den Zustand mit dem passenden Playback-Tool. Verändere das Pattern nicht weiter.
-```
-
-Erwartet: Die Wiedergabe endet unmittelbar. Der Pattern-Code bleibt sichtbar.
-
-**Beobachtungsfragen:** Welcher Toolaufruf öffnet den Browser? Welche Änderung existiert außerhalb des Chatverlaufs? Warum beendet eine neue Playground-Session weder automatisch den Ton noch den Node-Prozess?
-
-## Prozess sauber beenden
-
-Stoppe zuerst per `playback` mit Aktion `stop`. Schließe anschließend das von Playwright geöffnete Browserfenster und beende beziehungsweise entferne den MCP-Server über Langflows MCP-Verwaltung. Prüfe, dass kein Ton mehr läuft.
+- `npx -y` bestätigt die Paketausführung automatisch. Verwende nur das geprüfte Paket und in streng kontrollierten Umgebungen eine freigegebene, gepinnte Version.
+- Der Server automatisiert einen echten Browser und greift auf `strudel.cc` zu. Behandle Browserinhalte als nicht vertrauenswürdige Daten.
+- Aktiviere keine optionalen KI-Dienste und hinterlege dafür keine Schlüssel. Verwende keine MIDI- oder Exportpfade mit persönlichen Daten.
+- Beachte Lautstärke, andere Teilnehmende und mögliche Audio-Latenz. Stoppe die Wiedergabe immer vor dem Prozessende.
 
 ## Troubleshooting
 
@@ -86,21 +95,6 @@ Stoppe zuerst per `playback` mit Aktion `stop`. Schließe anschließend das von 
 - **Erster Start dauert:** `npx` lädt das Paket und Playwright startet Chromium. Warte kurz und vermeide parallele Startversuche.
 - **Toolnamen weichen ab:** Das Paket ist in aktiver Entwicklung. Öffne die aktuelle Toolliste in Langflow und gleiche sie mit der Upstream-Dokumentation ab.
 
-## Sicherheit
-
-Allgemeine Sicherheitsgrundsätze stehen im [Track-README](../README.md#sicherheit). Für diese Übung gilt zusätzlich:
-
-- `npx -y` bestätigt die Paketausführung automatisch. Verwende nur das geprüfte Paket und in streng kontrollierten Umgebungen eine freigegebene, gepinnte Version.
-- Der Server automatisiert einen echten Browser und greift auf `strudel.cc` zu. Behandle Browserinhalte als nicht vertrauenswürdige Daten.
-- Aktiviere keine optionalen KI-Dienste und hinterlege dafür keine Schlüssel. Verwende keine MIDI- oder Exportpfade mit persönlichen Daten.
-- Beachte Lautstärke, andere Teilnehmende und mögliche Audio-Latenz. Stoppe die Wiedergabe immer vor dem Prozessende.
-
-## Erfolgskriterien
-
-- Langflow listet die ausgewählten Strudel-Tools.
-- Ein sichtbares Pattern startet, ändert sich nachvollziehbar und stoppt zuverlässig.
-- Agent Steps zeigen getrennte Aufrufe für Initialisierung, Bearbeitung und Playback.
-- Browser und Node-Prozess sind nach der Übung beendet.
 
 ## Quellen
 

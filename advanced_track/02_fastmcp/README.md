@@ -20,47 +20,9 @@ Nach dem Workshop kannst du:
 - statische Resources von parametrisierten Resource Templates unterscheiden,
 - wiederverwendbare Prompts anbieten,
 - Tools, Resources, Templates und Prompts sinnvoll kombinieren,
-- einen MCP-Server in Langflow und optional im MCP Inspector untersuchen,
-- die Grenzen einer nicht persistenten Workshop-Demo benennen.
+- einen MCP-Server in Langflow und optional im MCP Inspector untersuchen.
 
-## Voraussetzungen
-
-- Python 3.12 oder 3.13
-- [`uv`](https://docs.astral.sh/uv/) installiert
-- ein Terminal im Verzeichnis `advanced_track/02_fastmcp`
-- für die Client-Übung: Langflow **1.11.3**
-- optional: Node.js und npm für den MCP Inspector
-
-Für diesen Track werden keine Zugangsdaten und keine `.env`-Datei benötigt.
-
-## Setup
-
-Installiere die exakt in `uv.lock` aufgelösten Abhängigkeiten:
-
-```bash
-uv sync --link-mode copy
-```
-
-Prüfe die Installation vollständig offline, nachdem die Pakete installiert sind:
-
-```bash
-uv run pytest
-uv run ruff check .
-```
-
-Alle Server binden nur an `127.0.0.1`. Die vollständige MCP-URL lautet immer `http://127.0.0.1:<PORT>/mcp`. Beende einen laufenden Server mit `Strg+C`, bevor du zum nächsten Schritt wechselst.
-
-## Lernpfad
-
-| Schritt | Datei | Port | Neue MCP-Komponente |
-|---|---|---:|---|
-| 00 | `00_minimaler_server.py` | 8000 | Server und Transport |
-| 01 | `01_erstes_tool.py` | 8001 | erstes read-only Tool |
-| 02 | `02_weitere_tools.py` | 8002 | mehrere Tools und Schemas |
-| 03 | `03_statische_resources.py` | 8003 | statische Resources |
-| 04 | `04_resource_templates.py` | 8004 | Resource Templates |
-| 05 | `05_prompts.py` | 8005 | Prompts |
-| 06 | `06_kombinierter_assistent.py` | 8006 | Kombination und Schreibgrenzen |
+# A. Aufgabe
 
 ## Schritt 00: Minimaler Server
 
@@ -205,6 +167,48 @@ Wähle **Streamable HTTP**, trage die jeweilige URL mit `/mcp` ein und untersuch
 4. Ergänze Schritt 05 um einen Prompt, der aus einer Beobachtung eine Hypothese und ein überprüfbares Experiment formuliert.
 5. Entwirf für Schritt 06 persistente Speicherung auf Papier: Datenmodell, konkurrierende Zugriffe, Authentifizierung, Autorisierung, Audit-Log und Löschkonzept. Implementiere sie im Workshop nicht ungeprüft.
 
+# B. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
+
+## Voraussetzungen
+
+- Python 3.12 oder 3.13
+- [`uv`](https://docs.astral.sh/uv/) installiert
+- ein Terminal im Verzeichnis `advanced_track/02_fastmcp`
+- für die Client-Übung: Langflow **1.11.3**
+- optional: Node.js und npm für den MCP Inspector
+
+Für diesen Track werden keine Zugangsdaten und keine `.env`-Datei benötigt.
+Die Abhängigkeitsgrenzen stehen in `pyproject.toml`; die konkret geprüften Versionen hält `uv.lock` fest. Sollte etwas bei der Installation Probleme machen, lösche `uv.lock` und installiere alles frisch nach Vorgabe der `pyproject.toml`.
+
+## Setup
+
+Installiere die exakt in `uv.lock` aufgelösten Abhängigkeiten:
+
+```bash
+uv sync --link-mode copy
+```
+
+Prüfe die Installation vollständig offline, nachdem die Pakete installiert sind:
+
+```bash
+uv run pytest
+uv run ruff check .
+```
+
+Alle Server binden nur an `127.0.0.1`. Die vollständige MCP-URL lautet immer `http://127.0.0.1:<PORT>/mcp`. Beende einen laufenden Server mit `Strg+C`, bevor du zum nächsten Schritt wechselst.
+
+## Lernpfad
+
+| Schritt | Datei | Port | Neue MCP-Komponente |
+|---|---|---:|---|
+| 00 | `00_minimaler_server.py` | 8000 | Server und Transport |
+| 01 | `01_erstes_tool.py` | 8001 | erstes read-only Tool |
+| 02 | `02_weitere_tools.py` | 8002 | mehrere Tools und Schemas |
+| 03 | `03_statische_resources.py` | 8003 | statische Resources |
+| 04 | `04_resource_templates.py` | 8004 | Resource Templates |
+| 05 | `05_prompts.py` | 8005 | Prompts |
+| 06 | `06_kombinierter_assistent.py` | 8006 | Kombination und Schreibgrenzen |
+
 ## Sicherheit und Grenzen
 
 - Die Server lauschen absichtlich nur auf `127.0.0.1` und besitzen keine Authentifizierung.
@@ -256,4 +260,3 @@ Clients können nicht-ASCII-Zeichen prozentkodieren. Wähle das Template über d
 - [Langflow-Dokumentation: MCP](https://docs.langflow.org/mcp-server)
 - [uv-Dokumentation](https://docs.astral.sh/uv/)
 
-Die Abhängigkeitsgrenzen stehen in `pyproject.toml`; die konkret geprüften Versionen hält `uv.lock` fest.
