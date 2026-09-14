@@ -52,5 +52,3 @@ Im Anschluss ist Zeit zum Weiterexperimentieren, Diskutieren und Vernetzen mit a
 - **19:15 – OpenLab & Networking**
 
 **Wir freuen uns auf einen spannenden Workshop mit euch rund um das Model Context Protokoll!**
-
-→ **Indico / Anmeldung**
