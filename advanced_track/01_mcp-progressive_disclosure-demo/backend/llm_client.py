@@ -32,7 +32,7 @@ async def chat_completion(
         if tool_choice:
             payload["tool_choice"] = tool_choice
 
-    timeout = httpx.Timeout(connect=10, read=20, write=10, pool=10)
+    timeout = httpx.Timeout(connect=10, read=settings.scadsai_request_timeout, write=10, pool=10)
     async with httpx.AsyncClient(timeout=timeout) as client:
         response = await client.post(
             f"{settings.scads_base_url.rstrip('/')}/chat/completions",
