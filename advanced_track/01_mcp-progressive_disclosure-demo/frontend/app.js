@@ -102,6 +102,24 @@ function renderChart(normal, progressiv) {
     byId("comparison-info").textContent = `Differenz dieses einzelnen Laufs: ${difference.toLocaleString("de-DE", { maximumFractionDigits: 1 })} %. Kein Benchmark.`;
 }
 
+// Zeitbudget für einen kompletten Vergleichslauf. Der echte Wert kommt beim
+// Laden aus FRONTEND_REQUEST_TIMEOUT der Root-.env; dieser Startwert greift
+// nur, solange /api/config noch nicht geantwortet hat oder nicht erreichbar ist.
+let requestTimeoutMs = 300000;
+
+async function loadConfig() {
+    try {
+        const response = await fetch("/api/config");
+        if (!response.ok) return;
+        const payload = await response.json();
+        if (Number.isFinite(payload.request_timeout_ms) && payload.request_timeout_ms > 0) {
+            requestTimeoutMs = payload.request_timeout_ms;
+        }
+    } catch (error) {
+        // Startwert oben bleibt bestehen.
+    }
+}
+
 async function runDemo() {
     const message = byId("prompt-input").value.trim();
     if (!message) return;
@@ -112,7 +130,7 @@ async function runDemo() {
     replaceWithText(byId("progressiv-flow"), "placeholder", "Progressiver Modus wartet …");
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    const timeoutId = setTimeout(() => controller.abort(), requestTimeoutMs);
 
     try {
         const response = await fetch("/api/demo", {
@@ -129,7 +147,9 @@ async function runDemo() {
         renderChart(payload.normal, payload.progressiv);
     } catch (error) {
         clearTimeout(timeoutId);
-        const message = error.name === "AbortError" ? "Zeitüberschreitung nach 30 s." : error.message;
+        const message = error.name === "AbortError"
+            ? `Zeitüberschreitung nach ${requestTimeoutMs / 1000} s.`
+            : error.message;
         replaceWithText(byId("normal-flow"), "placeholder error", `Fehler: ${message}`);
         replaceWithText(byId("progressiv-flow"), "placeholder error", `Fehler: ${message}`);
     } finally {
@@ -139,6 +159,7 @@ async function runDemo() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    loadConfig();
     byId("run-btn").addEventListener("click", runDemo);
     byId("prompt-input").addEventListener("keydown", (event) => {
         if (event.key === "Enter") runDemo();
