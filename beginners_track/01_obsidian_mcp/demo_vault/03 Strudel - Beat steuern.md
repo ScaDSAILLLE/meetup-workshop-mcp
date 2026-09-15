@@ -16,4 +16,3 @@ Ein sichtbarer Chromium-Browser zeigt den Pattern-Code. Der Beat startet hörbar
 - Welche Aufrufe änderten Code und welche nur den Wiedergabezustand?
 - Warum beendet ein neuer Chat den externen Prozess nicht automatisch?
 
-Zur vollständigen Anleitung und Prozessbereinigung: [Strudel-Track](../../03_strudel_mcp/README.md)

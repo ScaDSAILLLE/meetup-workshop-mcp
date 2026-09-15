@@ -22,4 +22,4 @@ Der Agent findet June, July und August, liest die passenden Notizen und antworte
 - Waren die Dateiinhalte bereits eine fertige Antwort?
 - Welche deaktivierten Tools hätten den Vault verändern können?
 
-Zur vollständigen Anleitung: [Obsidian-Track](../README.md)
+

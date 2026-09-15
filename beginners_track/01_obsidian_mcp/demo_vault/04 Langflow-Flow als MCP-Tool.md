@@ -5,9 +5,9 @@ Ein Langflow-Projekt kann seine Flows wiederum als MCP-Tools anbieten. Verwende 
 ## Aufgabe
 
 1. Importiere den Flow über **Projects > Upload a flow**.
-2. Wähle Model Provider, Modell und Credential in der Langflow-UI neu.
-3. Verbinde den zuvor registrierten Server `obsidian-local` und aktiviere ausschließlich Lese-Tools.
-4. Teste den Flow im Playground mit einer Frage zu `MeetingNotes`.
+2. Wähle Model Provider: vLLM > Modell z.B. Qwen3.8:27B
+3. Verbinde den zuvor registrierten MCP-Server `obsidian` (optional aktiviere ausschließlich Lese-Tools).
+4. Teste den Flow im Playground (Spielplatz) mit einer Frage zu `MeetingNotes`.
 5. Öffne in der Projektansicht die MCP-Server-Informationen des Projekts und registriere dessen Streamable-HTTP-Endpunkt als neuen Server in einem zweiten Test-Flow.
 6. Rufe den Summary-Flow aus dem zweiten Agenten auf.
 
@@ -21,6 +21,3 @@ In den Agent Steps sind zwei Ebenen sichtbar: Der äußere Agent ruft den Langfl
 - In welcher Ebene liegt das Obsidian-Credential?
 - Welche zusätzliche Fehler- und Vertrauensgrenze entsteht durch die Verschachtelung?
 
-## Abnahmehinweis
-
-Der bereitgestellte Export stammt ursprünglich aus Langflow 1.5.0. Ein erfolgreicher Import und Neu-Export in Langflow 1.11.3 ist vor einer Workshop-Freigabe manuell erforderlich.

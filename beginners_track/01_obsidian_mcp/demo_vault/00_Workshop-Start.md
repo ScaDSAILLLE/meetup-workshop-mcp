@@ -7,13 +7,6 @@ Dieser Vault enthält Übungsdaten für den Beginner Track. Die verbindliche Rei
 3. [[03 Strudel - Beat steuern]]
 4. Optional: [[04 Langflow-Flow als MCP-Tool]]
 
-Die ausführlichen Installations- und Sicherheitsanleitungen liegen außerhalb des Vaults:
-
-- [Obsidian-Track](../README.md)
-- [Beginner-Einstieg](../../README.md)
-- [Blender-Track](../../02_blender_mcp/README.md)
-- [Strudel-Track](../../03_strudel_mcp/README.md)
-
 ## Gemeinsamer Beobachtungsauftrag
 
 Öffne bei jeder Aufgabe in Langflow den Playground und die **Agent Steps**.
@@ -24,6 +17,3 @@ Die ausführlichen Installations- und Sicherheitsanleitungen liegen außerhalb d
 - Was ist Rohdaten-Ergebnis des Tools und was ist formulierte Agentenantwort?
 - Welcher Zustand bleibt außerhalb der Langflow-Session erhalten?
 
-## Abschluss
-
-Der Track ist erfolgreich, wenn Obsidian unverändert gelesen wurde, der Blender-Quader dem Sollbild entspricht und der Strudel-Beat nach einer hörbaren Änderung sicher gestoppt wurde.

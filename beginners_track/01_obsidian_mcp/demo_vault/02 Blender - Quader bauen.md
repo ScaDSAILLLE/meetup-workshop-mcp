@@ -12,7 +12,7 @@ Bitte den Agenten in getrennten Schritten:
 
 ## Erwartetes Ergebnis
 
-Eine vollständig sichtbare, gestufte Würfelinstallation liegt auf dem Boden. Goldene Oberseiten sowie dunkle und silberne Seitenflächen sind erkennbar mit [dem Sollbild](../../02_blender_mcp/generated-image.png) vergleichbar.
+Eine vollständig sichtbare, gestufte Würfelinstallation liegt auf dem Boden. Goldene Oberseiten sowie dunkle und silberne Seitenflächen sind erkennbar mit [dem Sollbild](./Screenshots/generated-image.png) vergleichbar.
 
 ## Beobachtungsfragen
 
@@ -20,4 +20,3 @@ Eine vollständig sichtbare, gestufte Würfelinstallation liegt auf dem Boden. G
 - Wann wurde Code in Blender ausgeführt?
 - Warum setzt eine neue Langflow-Session die Blender-Szene nicht zurück?
 
-Zur vollständigen Anleitung und zum sicheren Reset: [Blender-Track](../../02_blender_mcp/README.md)
