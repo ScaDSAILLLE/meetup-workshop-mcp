@@ -22,7 +22,140 @@ Nach dem Workshop kannst du:
 - Tools, Resources, Templates und Prompts sinnvoll kombinieren,
 - einen MCP-Server in Langflow und optional im MCP Inspector untersuchen.
 
-# A. Aufgabe
+# A. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
+
+## Voraussetzungen
+
+- Python 3.12 oder 3.13
+- [`uv`](https://docs.astral.sh/uv/) installiert
+- ein Terminal im Verzeichnis `advanced_track/02_fastmcp`
+- für die Client-Übung: Langflow **1.11.3**
+- optional: Node.js und npm für den MCP Inspector (Installation siehe unten)
+
+Für diesen Track werden keine Zugangsdaten und keine `.env`-Datei benötigt.
+Die Abhängigkeitsgrenzen stehen in `pyproject.toml`; die konkret geprüften Versionen hält `uv.lock` fest. Sollte etwas bei der Installation Probleme machen, lösche `uv.lock` und installiere alles frisch nach Vorgabe der `pyproject.toml`.
+
+## Setup
+
+Installiere die exakt in `uv.lock` aufgelösten Abhängigkeiten:
+
+```bash
+uv sync --link-mode copy
+```
+
+Prüfe die Installation vollständig offline, nachdem die Pakete installiert sind:
+
+```bash
+uv run pytest
+uv run ruff check .
+```
+
+Alle Server binden nur an `127.0.0.1`. Die vollständige MCP-URL lautet immer `http://127.0.0.1:<PORT>/mcp`. Beende einen laufenden Server mit `Strg+C`, bevor du zum nächsten Schritt wechselst.
+
+## Node.js und npm installieren (nur für den optionalen MCP Inspector)
+
+Der MCP Inspector ist ein Node.js-Werkzeug und wird über `npx` gestartet. Ohne Node.js/npm entfällt nur dieser optionale Teil; der eigentliche Workshop läuft vollständig mit `uv` und Python.
+
+- **Windows:** Installer von [nodejs.org](https://nodejs.org/) (LTS-Version) herunterladen und ausführen, oder per `winget install OpenJS.NodeJS.LTS`.
+- **macOS:** `brew install node` oder Installer von [nodejs.org](https://nodejs.org/).
+- **Linux:** über den Paketmanager der Distribution oder [nvm](https://github.com/nvm-sh/nvm) installieren.
+
+Prüfe die Installation danach in einem neuen Terminal:
+
+```bash
+node -v
+npm -v
+```
+
+Beide Befehle sollten eine Versionsnummer ausgeben. Node.js 18 oder neuer wird empfohlen.
+
+## MCP Inspector: Start und Bedienung (optional)
+
+Starte zuerst einen der Workshop-Server, zum Beispiel:
+
+```bash
+uv run python 00_minimaler_server.py
+```
+
+Starte den Inspector danach in einem zweiten Terminal:
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+`npx` lädt das Paket beim ersten Aufruf aus dem Internet; in eingeschränkten Umgebungen muss das vorab freigegeben werden. Der Befehl öffnet automatisch eine Weboberfläche im Browser; öffnet sich kein Fenster, steht die Adresse im Terminal-Output.
+
+So arbeitest du im Inspector:
+
+1. Wähle im Verbindungsbereich links als Transport **Streamable HTTP**.
+2. Trage die vollständige URL des laufenden Servers ein, z. B. `http://127.0.0.1:8000/mcp`.
+3. Klicke auf **Connect**. Der Verbindungsstatus wechselt auf verbunden, sobald die MCP-Initialisierung erfolgreich war.
+4. Wechsle oben zwischen den Reitern **Tools**, **Resources**, **Resource Templates** und **Prompts**, um die vom jeweiligen Server angebotenen Fähigkeiten zu sehen (nicht jeder Schritt füllt alle Reiter).
+5. Wähle im Reiter **Tools** ein Tool aus, fülle die Parameter im generierten Formular aus und klicke auf **Run Tool**. Das Ergebnis erscheint als JSON im Ausgabebereich.
+6. Wähle im Reiter **Resources** bzw. **Resource Templates** einen Eintrag aus, ergänze bei Templates die Platzhalter in der URI und klicke auf **Read Resource**, um den Inhalt zu laden.
+7. Wähle im Reiter **Prompts** einen Prompt aus, fülle die Argumente aus und lade ihn, um die erzeugten Nachrichten zu sehen (es wird dabei kein Sprachmodell aufgerufen).
+8. Wechselst du zu einem anderen Workshop-Schritt: alten Server mit `Strg+C` beenden, neuen Server starten und im Inspector über **Disconnect**/**Connect** neu mit der aktuellen URL verbinden.
+
+Für Langflow ist kein Node.js nötig; der Inspector ist ein rein optionales Zusatzwerkzeug.
+
+## Lernpfad
+
+| Schritt | Datei | Port | Neue MCP-Komponente |
+|---|---|---:|---|
+| 00 | `00_minimaler_server.py` | 8000 | Server und Transport |
+| 01 | `01_erstes_tool.py` | 8001 | erstes read-only Tool |
+| 02 | `02_weitere_tools.py` | 8002 | mehrere Tools und Schemas |
+| 03 | `03_statische_resources.py` | 8003 | statische Resources |
+| 04 | `04_resource_templates.py` | 8004 | Resource Templates |
+| 05 | `05_prompts.py` | 8005 | Prompts |
+| 06 | `06_kombinierter_assistent.py` | 8006 | Kombination und Schreibgrenzen |
+
+## Sicherheit und Grenzen
+
+- Die Server lauschen absichtlich nur auf `127.0.0.1` und besitzen keine Authentifizierung.
+- Veröffentliche sie nicht im Netzwerk oder Internet. Für Produktion sind TLS, Authentifizierung, Autorisierung, Rate Limits, Logging und eine restriktive Netzwerkkonfiguration erforderlich.
+- Tool-Annotationen sind Hinweise für Clients. Ein bösartiger oder fehlerhafter Client kann sie ignorieren.
+- Behandle alle Tool-Argumente als nicht vertrauenswürdig. Die Beispiele validieren relevante Werte, sind aber kein vollständiges Policy-System.
+- Schreibtools in Schritt 06 sind **nicht persistent**. Sie verändern nur eine In-Memory-Liste und verlieren alle Änderungen beim Neustart.
+- `aufgabe_erledigen` verlangt eine explizite Bestätigung. Bei realen irreversiblen Aktionen wären zusätzlich Benutzeridentität, Berechtigungsprüfung, Vorschau und Audit-Trail nötig.
+- Resources können sensible Daten preisgeben. Verwende hier ausschließlich die enthaltenen fiktiven Demo-Daten.
+- Keines der Beispiele startet ein Sprachmodell oder sendet Daten an externe Dienste.
+
+## Troubleshooting
+
+**`uv sync` meldet eine unpassende Python-Version**
+
+Installiere Python 3.12 oder 3.13 und wähle die Version beispielsweise mit `uv python pin 3.12`. Python 3.14 ist für diesen Track bewusst noch nicht freigegeben.
+
+**Adresse oder Port ist bereits belegt**
+
+Beende den alten Prozess mit `Strg+C`. Alternativ ändere den Port im betreffenden Skript und übernimm ihn auch in der Client-URL.
+
+**404 oder keine MCP-Verbindung**
+
+Prüfe Transport und vollständigen Pfad. Korrekt ist beispielsweise `http://127.0.0.1:8003/mcp`, nicht nur die Host-Adresse und nicht der frühere SSE-Pfad `/sse`.
+
+**Langflow erreicht den lokalen Server nicht**
+
+Prüfe, ob Langflow nativ oder in einem Container läuft. `127.0.0.1` bezeichnet immer das System beziehungsweise den Container des aufrufenden Prozesses. Beachte die Docker-Hinweise im Langflow-Abschnitt.
+
+**Ein Schritt zeigt die falschen Komponenten**
+
+Kontrolliere Port und laufenden Prozess, entferne veraltete Client-Konfigurationen und aktualisiere die Komponentenliste. Jeder Schritt ist ein eigener Server.
+
+**Eine Änderung aus Schritt 06 ist verschwunden**
+
+Das ist beabsichtigt: Die Schreibtools arbeiten ausschließlich im flüchtigen Speicher. Beim Neustart wird der fiktive Ausgangszustand geladen.
+
+**Umlaute in einer Resource-URI funktionieren nicht**
+
+Clients können nicht-ASCII-Zeichen prozentkodieren. Wähle das Template über die Client-Oberfläche oder verwende die vom Client korrekt kodierte URI.
+
+**`npx @modelcontextprotocol/inspector` startet nicht**
+
+Prüfe mit `node -v` und `npm -v`, ob Node.js/npm installiert sind (siehe oben). Prüfe außerdem, ob dein Netzwerk den Download von npm-Paketen erlaubt.
+
+# B. Aufgabe
 
 ## Schritt 00: Minimaler Server
 
@@ -147,17 +280,7 @@ uv run python 06_kombinierter_assistent.py
 
 Läuft Langflow selbst in Docker, zeigt `127.0.0.1` in der Containerperspektive auf den Container. Verwende auf Docker Desktop stattdessen häufig `http://host.docker.internal:<PORT>/mcp`. In nativen oder abweichenden Docker-Setups muss die Host-Adresse passend konfiguriert werden; dafür müsste der Workshop-Server bewusst an eine erreichbare Schnittstelle gebunden und durch Firewall-Regeln geschützt werden.
 
-Langflow stellt primär Tools für Agenten bereit. Resources und Prompts lassen sich je nach Komponente und Client-Unterstützung nicht in derselben Oberfläche untersuchen. Nutze dafür optional den MCP Inspector.
-
-## Optional: MCP Inspector
-
-Starte zuerst einen Workshop-Server. Rufe dann den Inspector über eine von dir geprüfte Node.js/npm-Installation auf:
-
-```bash
-npx @modelcontextprotocol/inspector
-```
-
-Wähle **Streamable HTTP**, trage die jeweilige URL mit `/mcp` ein und untersuche nacheinander Tools, Resources, Resource Templates und Prompts. `npx` kann beim ersten Aufruf Pakete aus dem Internet laden; in eingeschränkten Umgebungen muss die Installation vorab freigegeben werden.
+Langflow stellt primär Tools für Agenten bereit. Resources und Prompts lassen sich je nach Komponente und Client-Unterstützung nicht in derselben Oberfläche untersuchen. Nutze dafür optional den MCP Inspector (Installation und Bedienung im Setup-Abschnitt weiter oben).
 
 ## Übungen
 
@@ -166,89 +289,6 @@ Wähle **Streamable HTTP**, trage die jeweilige URL mit `/mcp` ein und untersuch
 3. Erweitere Schritt 04 um `material://{kapitel}` und definiere das Verhalten für unbekannte Kapitel.
 4. Ergänze Schritt 05 um einen Prompt, der aus einer Beobachtung eine Hypothese und ein überprüfbares Experiment formuliert.
 5. Entwirf für Schritt 06 persistente Speicherung auf Papier: Datenmodell, konkurrierende Zugriffe, Authentifizierung, Autorisierung, Audit-Log und Löschkonzept. Implementiere sie im Workshop nicht ungeprüft.
-
-# B. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
-
-## Voraussetzungen
-
-- Python 3.12 oder 3.13
-- [`uv`](https://docs.astral.sh/uv/) installiert
-- ein Terminal im Verzeichnis `advanced_track/02_fastmcp`
-- für die Client-Übung: Langflow **1.11.3**
-- optional: Node.js und npm für den MCP Inspector
-
-Für diesen Track werden keine Zugangsdaten und keine `.env`-Datei benötigt.
-Die Abhängigkeitsgrenzen stehen in `pyproject.toml`; die konkret geprüften Versionen hält `uv.lock` fest. Sollte etwas bei der Installation Probleme machen, lösche `uv.lock` und installiere alles frisch nach Vorgabe der `pyproject.toml`.
-
-## Setup
-
-Installiere die exakt in `uv.lock` aufgelösten Abhängigkeiten:
-
-```bash
-uv sync --link-mode copy
-```
-
-Prüfe die Installation vollständig offline, nachdem die Pakete installiert sind:
-
-```bash
-uv run pytest
-uv run ruff check .
-```
-
-Alle Server binden nur an `127.0.0.1`. Die vollständige MCP-URL lautet immer `http://127.0.0.1:<PORT>/mcp`. Beende einen laufenden Server mit `Strg+C`, bevor du zum nächsten Schritt wechselst.
-
-## Lernpfad
-
-| Schritt | Datei | Port | Neue MCP-Komponente |
-|---|---|---:|---|
-| 00 | `00_minimaler_server.py` | 8000 | Server und Transport |
-| 01 | `01_erstes_tool.py` | 8001 | erstes read-only Tool |
-| 02 | `02_weitere_tools.py` | 8002 | mehrere Tools und Schemas |
-| 03 | `03_statische_resources.py` | 8003 | statische Resources |
-| 04 | `04_resource_templates.py` | 8004 | Resource Templates |
-| 05 | `05_prompts.py` | 8005 | Prompts |
-| 06 | `06_kombinierter_assistent.py` | 8006 | Kombination und Schreibgrenzen |
-
-## Sicherheit und Grenzen
-
-- Die Server lauschen absichtlich nur auf `127.0.0.1` und besitzen keine Authentifizierung.
-- Veröffentliche sie nicht im Netzwerk oder Internet. Für Produktion sind TLS, Authentifizierung, Autorisierung, Rate Limits, Logging und eine restriktive Netzwerkkonfiguration erforderlich.
-- Tool-Annotationen sind Hinweise für Clients. Ein bösartiger oder fehlerhafter Client kann sie ignorieren.
-- Behandle alle Tool-Argumente als nicht vertrauenswürdig. Die Beispiele validieren relevante Werte, sind aber kein vollständiges Policy-System.
-- Schreibtools in Schritt 06 sind **nicht persistent**. Sie verändern nur eine In-Memory-Liste und verlieren alle Änderungen beim Neustart.
-- `aufgabe_erledigen` verlangt eine explizite Bestätigung. Bei realen irreversiblen Aktionen wären zusätzlich Benutzeridentität, Berechtigungsprüfung, Vorschau und Audit-Trail nötig.
-- Resources können sensible Daten preisgeben. Verwende hier ausschließlich die enthaltenen fiktiven Demo-Daten.
-- Keines der Beispiele startet ein Sprachmodell oder sendet Daten an externe Dienste.
-
-## Troubleshooting
-
-**`uv sync` meldet eine unpassende Python-Version**
-
-Installiere Python 3.12 oder 3.13 und wähle die Version beispielsweise mit `uv python pin 3.12`. Python 3.14 ist für diesen Track bewusst noch nicht freigegeben.
-
-**Adresse oder Port ist bereits belegt**
-
-Beende den alten Prozess mit `Strg+C`. Alternativ ändere den Port im betreffenden Skript und übernimm ihn auch in der Client-URL.
-
-**404 oder keine MCP-Verbindung**
-
-Prüfe Transport und vollständigen Pfad. Korrekt ist beispielsweise `http://127.0.0.1:8003/mcp`, nicht nur die Host-Adresse und nicht der frühere SSE-Pfad `/sse`.
-
-**Langflow erreicht den lokalen Server nicht**
-
-Prüfe, ob Langflow nativ oder in einem Container läuft. `127.0.0.1` bezeichnet immer das System beziehungsweise den Container des aufrufenden Prozesses. Beachte die Docker-Hinweise im Langflow-Abschnitt.
-
-**Ein Schritt zeigt die falschen Komponenten**
-
-Kontrolliere Port und laufenden Prozess, entferne veraltete Client-Konfigurationen und aktualisiere die Komponentenliste. Jeder Schritt ist ein eigener Server.
-
-**Eine Änderung aus Schritt 06 ist verschwunden**
-
-Das ist beabsichtigt: Die Schreibtools arbeiten ausschließlich im flüchtigen Speicher. Beim Neustart wird der fiktive Ausgangszustand geladen.
-
-**Umlaute in einer Resource-URI funktionieren nicht**
-
-Clients können nicht-ASCII-Zeichen prozentkodieren. Wähle das Template über die Client-Oberfläche oder verwende die vom Client korrekt kodierte URI.
 
 ## Quellen
 
@@ -259,4 +299,3 @@ Clients können nicht-ASCII-Zeichen prozentkodieren. Wähle das Template über d
 - [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
 - [Langflow-Dokumentation: MCP](https://docs.langflow.org/mcp-server)
 - [uv-Dokumentation](https://docs.astral.sh/uv/)
-
