@@ -22,9 +22,22 @@ Wie geht man um mit großen "Tool-Landschaften", wie skaliert MCP, welche Method
 - [FastMCP](advanced_track/02_fastmcp/README.md): Entwickle einen Server schrittweise von Transport und Tools bis zu Resources, Templates und Prompts.
 - [Programmatic Tool Calling](advanced_track/03_programmatic_tool_calling/README.md): Untersuche, wie ein Modell viele Tools programmatisch orchestrieren kann und wo die Sicherheitsgrenzen liegen.
 
+## Contributors
+
+Dieser Workshop wurde vom Team des ScaDS.AI Dresden/Leipzig Living Lab entwickelt. 
+Beigetragen haben:
+
+[Oliver Welz](@autmoate) - Workshop-Leitung, Konzeption, Inhalte \
+[Philipp Schott](https://github.com/ricardofauch) \
+[Gregor Wolf](https://github.com/greglit) \
+[Fritz Götze](https://github.com/goetzert) \
+[Anna Fastus](https://github.com/annfas) \
+[Chrstin Pfütze](https://github.com/christinmarion23)
+
+
 🏛️ Über ScadsAI
 
-Dieser Workshop wurde vom ScaDS.AI Dresden/Leipzig entwickelt - einem Forschungsinstitut für skalierbare Datenanalyse und künstliche Intelligenz.
+Dieser Workshop wurde vom ScaDS.AI Dresden/Leipzig entwickelt - einem Forschungsinstitut für skalierbare Datenanalyse und künstliche Intelligenz, gefördert vom Bundesministerium für Forschung, Technologie und Raumfahrt (BMFTR) sowie vom Freistaat Sachsen.
 
 📄 Lizenz
 
