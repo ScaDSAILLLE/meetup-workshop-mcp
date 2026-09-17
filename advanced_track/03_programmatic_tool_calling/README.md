@@ -33,8 +33,6 @@ Nach diesem Track kannst du:
 
 # A. Aufgabe
 
-Dauer: 30 bis 45 Minuten
-
 Die Schritte 1 bis 4 bilden den Hauptteil des PTC Workshop-Tracks. Führe die Demo einmal im Modus `both`
 aus; die Transferaufgaben und der Wissenstrack danach sind optionale Vertiefung.
 
@@ -69,7 +67,11 @@ muss das Programm deren Budgets prüfen, darf sie aber nicht als finale Übersch
 
 ### Schritt 2: Beide Varianten ausführen und die Baseline beobachten
 
-```bash
+> Neuen Terminal in diesem Ordner öffnen und WSL Instanz starten.
+
+``` bash
+wsl
+
 uv run python ptc_demo.py --mode both
 ```
 
@@ -191,7 +193,7 @@ Mit `--quiet` lassen sich die erklärenden Fortschrittsmeldungen ausblenden:
 uv run python ptc_demo.py --mode both --quiet
 ```
 
-## Optionale Vertiefung und Open Lab
+## Optionale Vertiefung
 
 ### Transfer auf einen eigenen Use Case
 
@@ -228,7 +230,7 @@ V8-Runtime. Die Links stehen unter [Weitere Quellen](#weitere-quellen).
 
 ## Optionaler Wissenstrack
 
-### Wie die portable Codeausführung funktioniert
+### Wie die Codeausführung funktioniert
 
 `PTC_SYSTEM_PROMPT` beschreibt die erlaubten APIs und die Aufgabe. Das Modell schreibt ein Programm,
 das in etwa diese Form annimmt:
@@ -397,14 +399,6 @@ Code-Interpreter-Container kann Dateien und Zustand halten und verfällt derzeit
 Inaktivität; dann werden seine Daten verworfen. PTC selbst benötigt laut OpenAI keinen persistenten
 Code-Execution-Container.
 
-#### Ist das „serverless“?
-
-Aus Sicht der Anwendung sind beide Angebote vollständig verwaltet: Kunden provisionieren keine
-eigenen Server für die PTC-Runtime. Die Anbieter dokumentieren jedoch nicht hinreichend, ob die
-interne Infrastruktur technisch nach einer bestimmten Serverless-Architektur betrieben wird. Daher
-ist **„gehostete, verwaltete und isolierte Runtime“** die präzisere Bezeichnung. Aus dem Begriff
-„serverless“ ließen sich ohnehin keine Aussagen über Löschung, Region oder Datenschutz ableiten.
-
 #### Entscheidung für Unternehmensdaten
 
 Vor produktivem Einsatz sollten mindestens Datenklassifikation, Zweckbindung, Datenminimierung,
@@ -463,7 +457,7 @@ erfordern und nicht jede Kombination vorprogrammiert werden soll.
 
 ### Nachteile und Grenzen
 
-- Modellgenerierter Code vergrößert die Angriffs- und Fehleroberfläche.
+- Modellgenerierter Code vergrößert die Angriffs- und Fehleroberfläche (auch Prompt Injection kann ein Problem sein!).
 - Sandbox, Ressourcenlimits, Autorisierung und Auditierung verursachen Infrastrukturaufwand.
 - Falscher Code kann Daten auslassen, Tools zu oft aufrufen oder fachliche Regeln verletzen.
 - Mutierende Tools können in Schleifen unbeabsichtigt mehrfach ausgeführt werden.
@@ -542,7 +536,7 @@ PTC = Wie orchestriert und verarbeitet erzeugter Code mehrere Tools effizient?
 
 - Python 3.12 oder neuer
 - [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
-- ein persönlicher ScaDS/TUD:AI API-Key
+- ein persönlicher ScaDS/TUD:AI API-Key **oder** für den privaten Gebrauch einen **OpenAI-compatible Endpoint** sowie einen **API-Key** (lokale Lösungen, wie LMStudio geht natürlich auch!)
 - grundlegende Python-Kenntnisse
 - grundlegendes Verständnis von LLM Tool Calling
 
@@ -582,6 +576,8 @@ SCADS_API_KEY=dein-persönlicher-key
 SCADS_BASE_URL=https://llm.scads.ai/v1
 SCADS_MODEL=Qwen/Qwen3.8-27B
 ```
+
+Alternativ kannst du deine Einträge auch ändern und umbenennen oder diese mit deinen URLs, Modelnames & Keys verwenden.
 
 Lege keine weitere `.env` im Track an. Das Skript bestimmt die Root-Datei relativ zu seinem eigenen
 Pfad und ist deshalb nicht vom aktuellen Terminal-Arbeitsverzeichnis abhängig.
@@ -644,7 +640,7 @@ derselbe Executor für Produktionsdaten sicher wäre.
 
 ## Troubleshooting
 
-**`SCADS_API_KEY` fehlt**
+**`(SCADS_)API_KEY` fehlt**
 
 Prüfe, ob `.env` in der Repository-Wurzel liegt und die Zeile kein zusätzliches
 Anführungszeichen enthält. Alternativ kann die Variable in der aktuellen Shell exportiert werden.
@@ -660,7 +656,7 @@ TUD:AI-Dokumentation beschreibt die Rate-Limit-Regeln.
 
 **Das Modell ist nicht verfügbar**
 
-Prüfe <https://llm.scads.ai/status/>. Die Demo setzt `disable_fallbacks`, damit die Messung nicht
+Prüfe <https://llm.scads.ai/status/> oder deinen entsprechenden Endpoint. Die Demo setzt `disable_fallbacks`, damit die Messung nicht
 unbemerkt auf einem anderen Modell erfolgt. Für einen bewussten Modellwechsel nutze beispielsweise:
 
 ```bash
@@ -679,4 +675,3 @@ die ausgegebenen Programme. Nicht die Allowlist vorschnell für Imports oder Att
 uv sync --link-mode copy
 ```
 
-Alternativ liegt das Projekt performanter im nativen Linux-Dateisystem statt unter `/mnt/c`.

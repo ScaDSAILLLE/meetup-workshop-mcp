@@ -26,9 +26,15 @@ Browser  -- POST /api/demo -->  Starlette-Backend  -->  ScaDS Chat Completions
                                           +-- MCP-Toolkatalog
 ```
 
-Der echte Einstieg ist ausschließlich:
 
-```bash
+Die App ist unter Windows-Subsystem for Linux (WSL) getestet. Beachtet das bitte entsprechend. Wie man WSL einrichtet findest du [hier](https://learn.microsoft.com/de-de/windows/wsl/). \
+Der Einstieg ist wie folgt:
+
+> Neuen Terminal in diesem Ordner öffnen und WSL Instanz starten.
+
+``` bash
+wsl
+
 uv run python -m backend.main
 ```
 
