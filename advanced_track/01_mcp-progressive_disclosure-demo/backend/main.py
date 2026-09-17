@@ -9,6 +9,7 @@ from starlette.responses import FileResponse, JSONResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
+from backend.config import DEFAULT_FRONTEND_REQUEST_TIMEOUT, get_settings
 from backend.naive_mode import run_naive_mode
 from backend.progressive_mode import run_progressive_mode
 
@@ -18,6 +19,15 @@ FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
 async def index(request: Request):
     """Liefert die Workshop-Oberfläche aus."""
     return FileResponse(FRONTEND_DIR / "index.html")
+
+
+async def frontend_config(request: Request):
+    """Reicht das Zeitbudget aus der Root-``.env`` an das Frontend durch."""
+    try:
+        timeout = get_settings().frontend_request_timeout
+    except Exception:
+        timeout = DEFAULT_FRONTEND_REQUEST_TIMEOUT
+    return JSONResponse({"request_timeout_ms": timeout * 1000})
 
 
 async def run_demo(request: Request):
@@ -48,6 +58,7 @@ async def run_demo(request: Request):
 
 routes = [
     Route("/", index),
+    Route("/api/config", frontend_config),
     Route("/api/demo", run_demo, methods=["POST"]),
     Mount("/", app=StaticFiles(directory=str(FRONTEND_DIR))),
 ]
