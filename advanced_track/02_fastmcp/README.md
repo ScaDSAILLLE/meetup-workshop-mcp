@@ -6,7 +6,6 @@ Dieser Workshop entwickelt in sieben kleinen Schritten einen MCP-Server mit Fast
 
 ## Rahmen
 
-- **Dauer:** 120 Minuten plus optionale Übungen
 - **Zielgruppe:** Python-Entwicklerinnen und -Entwickler mit ersten MCP-Grundkenntnissen
 - **Format:** geführtes Coding mit Beobachtungsaufträgen
 - **Referenz:** Python 3.12 oder 3.13, FastMCP 2.x, Langflow 1.11.3
@@ -20,16 +19,204 @@ Nach dem Workshop kannst du:
 - statische Resources von parametrisierten Resource Templates unterscheiden,
 - wiederverwendbare Prompts anbieten,
 - Tools, Resources, Templates und Prompts sinnvoll kombinieren,
-- einen MCP-Server in Langflow und optional im MCP Inspector untersuchen.
+- MCP-Server im MCP Inspector untersuchen und optional in Langflow.
 
-# A. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
+## Lernpfad
+
+| Schritt | Datei | Port | Neue MCP-Komponente |
+|---|---|---:|---|
+| 00 | `00_minimaler_server.py` | 8000 | Server und Transport |
+| 01 | `01_erstes_tool.py` | 8001 | erstes read-only Tool |
+| 02 | `02_weitere_tools.py` | 8002 | mehrere Tools und Schemas |
+| 03 | `03_statische_resources.py` | 8003 | statische Resources |
+| 04 | `04_resource_templates.py` | 8004 | Resource Templates |
+| 05 | `05_prompts.py` | 8005 | Prompts |
+| 06 | `06_kombinierter_assistent.py` | 8006 | Kombination und Schreibgrenzen |
+
+# A. Aufgabe
+
+## Schritt 00: Minimaler Server
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 00_minimaler_server.py
+```
+
+## MCP Inspector: Start und Bedienung (optional)
+
+MCP Inspector ist ein Diagnose- und Entwicklerwerkzeug für das Model Context Protocol (MCP). Es dient als interaktive Testumgebung (Playground), mit der Entwickler die Kommunikation zwischen MCP-Clients (wie KI-Modellen oder IDEs) und MCP-Servern (die Werkzeuge und Daten bereitstellen) in Echtzeit überwachen, testen und debuggen können. Durch die Visualisierung von Protokollnachrichten, Ressourcen und Tool-Aufrufen vereinfacht das Tool die Fehleranalyse bei der Integration von externen Datenquellen in KI-Anwendungen. \
+Weitere Infos zum [MCP Inspector](https://github.com/modelcontextprotocol/inspector). \
+Starte den Inspector in einem zweiten Terminal (muss nicht wsl sein!):
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+`npx` lädt das Paket beim ersten Aufruf aus dem Internet; in eingeschränkten Umgebungen muss das vorab freigegeben werden. Der Befehl öffnet automatisch eine Weboberfläche im Browser; öffnet sich kein Fenster, steht die Adresse im Terminal-Output.
+
+So arbeitest du im Inspector:
+
+1. Wähle im Verbindungsbereich links als Transport **Streamable HTTP**.
+2. Trage die vollständige URL des laufenden Servers ein, z. B. `http://127.0.0.1:8000/mcp`.
+3. Klicke auf **Connect**. Der Verbindungsstatus wechselt auf verbunden, sobald die MCP-Initialisierung erfolgreich war. Es erscheinen nun Reiter zu "Servers, Tools, Prompts & Resources".
+4. Wechsle oben zwischen den Reitern **Tools**, **Resources**, **Resource Templates** und **Prompts**, um die vom jeweiligen Server angebotenen Fähigkeiten zu sehen (nicht jeder Schritt füllt alle Reiter).
+5. Wähle im Reiter **Tools** ein Tool aus, fülle die Parameter im generierten Formular aus und klicke auf **Run Tool**. Das Ergebnis erscheint als JSON im Ausgabebereich.
+6. Wähle im Reiter **Resources** bzw. **Resource Templates** einen Eintrag aus, ergänze bei Templates die Platzhalter in der URI und klicke auf **Read Resource**, um den Inhalt zu laden.
+7. Wähle im Reiter **Prompts** einen Prompt aus, fülle die Argumente aus und lade ihn, um die erzeugten Nachrichten zu sehen (es wird dabei kein Sprachmodell aufgerufen).
+8. Wechselst du zu einem anderen Workshop-Schritt: alten Server mit `Strg+C` beenden, neuen Server starten und im Inspector über **Disconnect**/**Connect** neu mit der aktuellen URL verbinden.
+
+Für Langflow ist kein Node.js nötig; der Inspector ist ein rein optionales Zusatzwerkzeug.
+
+**Aufgabe:** Verbinde einen MCP-Client mit `http://127.0.0.1:8000/mcp` und frage die Fähigkeiten des Servers ab.
+
+**Erwartetes Ergebnis:** Die Verbindung und MCP-Initialisierung funktionieren. Es werden noch keine Tools, Resources oder Prompts angeboten.
+
+**Beobachtungsfrage:** Welche Informationen handeln Client und Server aus, obwohl noch keine fachliche Funktion registriert ist?
+
+**MCP-Konzept:** FastMCP übernimmt Protokollserver, Capability Negotiation und Streamable-HTTP-Transport. `mcp.run()` blockiert absichtlich bis zum Abbruch; ausführbarer Code gehört deshalb nicht dahinter.
+
+## Schritt 01: Erstes read-only Tool
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 01_erstes_tool.py
+```
+
+**Aufgabe:** Lass den Client das technische Tool `begruesse` zuerst mit deinem Vornamen und danach mit einer leeren Zeichenkette aufrufen. Der ASCII-Name hält den Toolbezeichner mit dem MCP-Namensschema kompatibel; die sichtbaren Texte verwenden weiterhin korrekte Umlaute. Nutze hierfür natürlich den MCP Inspector (oder optional Langflow); Füge wieder `http://127.0.0.1:<PORT>/mcp` per *Streamable-HTTP* hinzu. Sieh die dann den Reiter *Tools* an, wähle *begruesse" und trage etwas ein.  
+
+**Erwartetes Ergebnis:** Der erste Aufruf liefert eine Begrüßung. Der zweite wird mit einer verständlichen Validierungsfehlermeldung abgewiesen. Der Client erkennt `name` als erforderlichen String-Parameter.
+
+**Beobachtungsfrage:** Welche Teile von Name, Docstring, Type Hint und Annotation werden dem Modell als Tool-Metadaten sichtbar?
+
+**MCP-Konzept:** Ein Tool ist eine vom Modell aufrufbare Aktion. `readOnlyHint` und `openWorldHint` beschreiben seine Wirkung; sie ersetzen keine serverseitige Zugriffskontrolle.
+
+## Schritt 02: Weitere Tools
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 02_weitere_tools.py
+```
+
+**Aufgabe:** Auch hier wieder im MCP-Inspector unter Tools: Berechne `21 + 21`, konvertiere `20 °C` und fordere eine Empfehlung für `Fortgeschritten` an. Probiere anschließend einen unbekannten Erfahrungswert.
+
+**Erwartetes Ergebnis:** Der Client sieht drei getrennte Tools mit unterschiedlichen Eingabeschemas. Ergebnisse sind deterministisch; ungültige Kategorien werden abgewiesen.
+
+**Beobachtungsfrage:** Wann sind mehrere kleine, klar benannte Tools besser als ein universelles Tool mit vielen optionalen Parametern?
+
+**MCP-Konzept:** JSON-Schemas entstehen aus Python-Typen. Kleine Tool-Schnittstellen erleichtern Auswahl, Validierung und Least Privilege.
+
+## Schritt 03: Statische Resources
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 03_statische_resources.py
+```
+
+**Aufgabe:** Füge den MCP Server dem MCP Inspector hinzu und aktiviere den Server. Liste die Resources im MCP Inspector Reiter *Resources* auf und lies `workshop://info` sowie `workshop://agenda`.
+
+**Erwartetes Ergebnis:** Beide festen URIs sind auffindbar. Die erste Resource liefert JSON, die zweite Markdown; kein Tool-Aufruf ist nötig.
+
+**Beobachtungsfrage:** Warum ist eine Resource für referenzierbaren Kontext geeigneter als ein Tool ohne Parameter?
+
+**MCP-Konzept:** Resources stellen adressierbaren, lesbaren Kontext bereit. URI und MIME-Typ helfen dem Client bei Identifikation und Darstellung.
+
+## Schritt 04: Resource Templates
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 04_resource_templates.py
+```
+
+**Aufgabe:** Füge den MCP Server dem MCP Inspector hinzu und aktiviere den Server. Liste die Resource Templates auf. Lies danach `notizen://mira/übung` und `termine://2026-09/3`. Teste auch einen ungültigen Tag.
+
+**Erwartetes Ergebnis:** Der Client erkennt URI-Platzhalter. Konkrete URIs liefern fiktive JSON-Daten; Tage außerhalb des Septembers werden abgewiesen.
+
+**Beobachtungsfrage:** Welche Validierung muss der Server trotz eines syntaktisch passenden URI-Templates selbst durchführen?
+
+**MCP-Konzept:** Resource Templates verbinden adressierbare Resources mit URI-Parametern. Die Parameter stammen aus der URI und werden von FastMCP an die Funktion übergeben.
+
+## Schritt 05: Prompts
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 05_prompts.py
+```
+
+**Aufgabe:** Füge den MCP Server dem MCP Inspector hinzu und aktiviere den Server. Liste die Prompts auf und rufe `tool_review` mit einem erfundenen Tool-Namen und Ziel ab. Vergleiche das Ergebnis mit `lernreflexion`.
+
+**Erwartetes Ergebnis:** Der Client erhält wiederverwendbare, parametrisierte Nachrichtenentwürfe. Es wird weder ein Tool ausgeführt noch automatisch ein Sprachmodell aufgerufen.
+
+**Beobachtungsfrage:** Wer entscheidet bei einem MCP-Prompt, ob und mit welchem Modell der erzeugte Text weiterverarbeitet wird?
+
+**MCP-Konzept:** Prompts sind vom Client auswählbare Vorlagen. Der Server liefert Nachrichteninhalt, nicht die Modellantwort.
+
+## Schritt 06: Kombinierter Assistent
+
+**Start**
+
+In *Windows-Subsystem für Linux*:
+
+```bash
+uv run python 06_kombinierter_assistent.py
+```
+
+**Aufgabe:** Lies zuerst `assistent://hinweise`, dann `aufgaben://offen`. In Tools legst du eine neue Aufgabe an (Muster: Test | 20260915). Suche mit `suche_aufgaben`, lege eine Demo-Aufgabe an und markiere sie erst nach expliziter Bestätigung als erledigt- erledigen geht mittels Eingabe der Task-ID. Erzeuge abschließend den Prompt `tagesplanung` z.B. mit "20260915".
+
+**Erwartetes Ergebnis:** Lesende und schreibende Fähigkeiten sind getrennt. Ohne `bestätigen=true` scheitert das Erledigen. Änderungen sind im laufenden Prozess sichtbar, verschwinden aber nach einem Neustart.
+
+**Beobachtungsfrage:** Welche Information ist technisch erzwungen und welche ist lediglich ein Hinweis an Client oder Modell?
+
+**MCP-Konzept:** Ein Server kann alle MCP-Primitiven kombinieren. Sicherheitsannotation, Bestätigungsparameter und Validierung reduzieren Risiken, ersetzen aber weder Authentifizierung noch Autorisierung und Persistenzkonzepte.
+
+## Übungen
+
+1. Ergänze in Schritt 02 ein read-only Tool `minuten_in_stunden(minuten: int)` mit Validierung gegen negative Werte und einem passenden Test.
+2. Ergänze in Schritt 03 die statische Resource `workshop://lernziele` mit dem MIME-Typ `application/json`.
+3. Erweitere Schritt 04 um `material://{kapitel}` und definiere das Verhalten für unbekannte Kapitel.
+4. Ergänze Schritt 05 um einen Prompt, der aus einer Beobachtung eine Hypothese und ein überprüfbares Experiment formuliert.
+5. Entwirf für Schritt 06 persistente Speicherung auf Papier: Datenmodell, konkurrierende Zugriffe, Authentifizierung, Autorisierung, Audit-Log und Löschkonzept. Implementiere sie im Workshop nicht ungeprüft.
+
+## Alternativ/Optional: MCP(s) in Langflow 1.11.3 anbinden
+
+Wie du Langflow aufsetzt, findest du in der [offiziellen Installationsanleitung](https://docs.langflow.org/get-started-installation). Ebenso ist das umfassend im `/beginners_track` dokumentiert.
+
+1. Starte genau einen Workshop-Server und notiere seine vollständige URL, beispielsweise `http://127.0.0.1:8002/mcp`.
+2. Öffne in Langflow 1.11.3 einen Flow und füge die Komponente **MCP Tools** hinzu.
+3. Füge in der Komponente einen MCP-Server hinzu und wähle **Streamable HTTP** als Transport.
+4. Trage einen frei gewählten Namen und die vollständige URL einschließlich `/mcp` ein.
+5. Aktualisiere die Komponentenliste. Wähle ein angebotenes Tool aus und verbinde den Tool-Ausgang mit einem Agenten.
+6. Starte einen Lauf und kontrolliere im Trace, welches Tool mit welchen Argumenten aufgerufen wurde.
+
+Läuft Langflow selbst in Docker, zeigt `127.0.0.1` in der Containerperspektive auf den Container. Verwende auf Docker Desktop stattdessen häufig `http://host.docker.internal:<PORT>/mcp`. In nativen oder abweichenden Docker-Setups muss die Host-Adresse passend konfiguriert werden; dafür müsste der Workshop-Server bewusst an eine erreichbare Schnittstelle gebunden und durch Firewall-Regeln geschützt werden.
+
+Langflow stellt primär Tools für Agenten bereit. Resources und Prompts lassen sich je nach Komponente und Client-Unterstützung nicht in derselben Oberfläche untersuchen. Nutze dafür optional den MCP Inspector (Installation und Bedienung im Setup-Abschnitt weiter oben).
+
+# B. Setup (für alle, die es auf ihrem System aufsetzen und testen wollen)
 
 ## Voraussetzungen
 
 - Python 3.12 oder 3.13
 - [`uv`](https://docs.astral.sh/uv/) installiert
 - ein Terminal im Verzeichnis `advanced_track/02_fastmcp`
-- für die Client-Übung: Langflow **1.11.3**
+- für die Client-Übung: Langflow **1.11.3** | Man muss aber nicht UI-basiert arbeiten!
 - optional: Node.js und npm für den MCP Inspector (Installation siehe unten)
 
 Für diesen Track werden keine Zugangsdaten und keine `.env`-Datei benötigt.
@@ -37,6 +224,7 @@ Die Abhängigkeitsgrenzen stehen in `pyproject.toml`; die konkret geprüften Ver
 
 ## Setup
 
+*Achtung: getestet unter [Windows-Subsystem für Linux](https://learn.microsoft.com/de-de/windows/wsl/)* \
 Installiere die exakt in `uv.lock` aufgelösten Abhängigkeiten:
 
 ```bash
@@ -68,58 +256,6 @@ npm -v
 ```
 
 Beide Befehle sollten eine Versionsnummer ausgeben. Node.js 18 oder neuer wird empfohlen.
-
-## MCP Inspector: Start und Bedienung (optional)
-
-Starte zuerst einen der Workshop-Server, zum Beispiel:
-
-```bash
-uv run python 00_minimaler_server.py
-```
-
-Starte den Inspector danach in einem zweiten Terminal:
-
-```bash
-npx @modelcontextprotocol/inspector
-```
-
-`npx` lädt das Paket beim ersten Aufruf aus dem Internet; in eingeschränkten Umgebungen muss das vorab freigegeben werden. Der Befehl öffnet automatisch eine Weboberfläche im Browser; öffnet sich kein Fenster, steht die Adresse im Terminal-Output.
-
-So arbeitest du im Inspector:
-
-1. Wähle im Verbindungsbereich links als Transport **Streamable HTTP**.
-2. Trage die vollständige URL des laufenden Servers ein, z. B. `http://127.0.0.1:8000/mcp`.
-3. Klicke auf **Connect**. Der Verbindungsstatus wechselt auf verbunden, sobald die MCP-Initialisierung erfolgreich war.
-4. Wechsle oben zwischen den Reitern **Tools**, **Resources**, **Resource Templates** und **Prompts**, um die vom jeweiligen Server angebotenen Fähigkeiten zu sehen (nicht jeder Schritt füllt alle Reiter).
-5. Wähle im Reiter **Tools** ein Tool aus, fülle die Parameter im generierten Formular aus und klicke auf **Run Tool**. Das Ergebnis erscheint als JSON im Ausgabebereich.
-6. Wähle im Reiter **Resources** bzw. **Resource Templates** einen Eintrag aus, ergänze bei Templates die Platzhalter in der URI und klicke auf **Read Resource**, um den Inhalt zu laden.
-7. Wähle im Reiter **Prompts** einen Prompt aus, fülle die Argumente aus und lade ihn, um die erzeugten Nachrichten zu sehen (es wird dabei kein Sprachmodell aufgerufen).
-8. Wechselst du zu einem anderen Workshop-Schritt: alten Server mit `Strg+C` beenden, neuen Server starten und im Inspector über **Disconnect**/**Connect** neu mit der aktuellen URL verbinden.
-
-Für Langflow ist kein Node.js nötig; der Inspector ist ein rein optionales Zusatzwerkzeug.
-
-## Lernpfad
-
-| Schritt | Datei | Port | Neue MCP-Komponente |
-|---|---|---:|---|
-| 00 | `00_minimaler_server.py` | 8000 | Server und Transport |
-| 01 | `01_erstes_tool.py` | 8001 | erstes read-only Tool |
-| 02 | `02_weitere_tools.py` | 8002 | mehrere Tools und Schemas |
-| 03 | `03_statische_resources.py` | 8003 | statische Resources |
-| 04 | `04_resource_templates.py` | 8004 | Resource Templates |
-| 05 | `05_prompts.py` | 8005 | Prompts |
-| 06 | `06_kombinierter_assistent.py` | 8006 | Kombination und Schreibgrenzen |
-
-## Sicherheit und Grenzen
-
-- Die Server lauschen absichtlich nur auf `127.0.0.1` und besitzen keine Authentifizierung.
-- Veröffentliche sie nicht im Netzwerk oder Internet. Für Produktion sind TLS, Authentifizierung, Autorisierung, Rate Limits, Logging und eine restriktive Netzwerkkonfiguration erforderlich.
-- Tool-Annotationen sind Hinweise für Clients. Ein bösartiger oder fehlerhafter Client kann sie ignorieren.
-- Behandle alle Tool-Argumente als nicht vertrauenswürdig. Die Beispiele validieren relevante Werte, sind aber kein vollständiges Policy-System.
-- Schreibtools in Schritt 06 sind **nicht persistent**. Sie verändern nur eine In-Memory-Liste und verlieren alle Änderungen beim Neustart.
-- `aufgabe_erledigen` verlangt eine explizite Bestätigung. Bei realen irreversiblen Aktionen wären zusätzlich Benutzeridentität, Berechtigungsprüfung, Vorschau und Audit-Trail nötig.
-- Resources können sensible Daten preisgeben. Verwende hier ausschließlich die enthaltenen fiktiven Demo-Daten.
-- Keines der Beispiele startet ein Sprachmodell oder sendet Daten an externe Dienste.
 
 ## Troubleshooting
 
@@ -155,140 +291,16 @@ Clients können nicht-ASCII-Zeichen prozentkodieren. Wähle das Template über d
 
 Prüfe mit `node -v` und `npm -v`, ob Node.js/npm installiert sind (siehe oben). Prüfe außerdem, ob dein Netzwerk den Download von npm-Paketen erlaubt.
 
-# B. Aufgabe
+## Sicherheit und Grenzen
 
-## Schritt 00: Minimaler Server
-
-**Start**
-
-```bash
-uv run python 00_minimaler_server.py
-```
-
-**Aufgabe:** Verbinde einen MCP-Client mit `http://127.0.0.1:8000/mcp` und frage die Fähigkeiten des Servers ab.
-
-**Erwartetes Ergebnis:** Die Verbindung und MCP-Initialisierung funktionieren. Es werden noch keine Tools, Resources oder Prompts angeboten.
-
-**Beobachtungsfrage:** Welche Informationen handeln Client und Server aus, obwohl noch keine fachliche Funktion registriert ist?
-
-**MCP-Konzept:** FastMCP übernimmt Protokollserver, Capability Negotiation und Streamable-HTTP-Transport. `mcp.run()` blockiert absichtlich bis zum Abbruch; ausführbarer Code gehört deshalb nicht dahinter.
-
-## Schritt 01: Erstes read-only Tool
-
-**Start**
-
-```bash
-uv run python 01_erstes_tool.py
-```
-
-**Aufgabe:** Lass den Client das technische Tool `begruesse` zuerst mit deinem Vornamen und danach mit einer leeren Zeichenkette aufrufen. Der ASCII-Name hält den Toolbezeichner mit dem MCP-Namensschema kompatibel; die sichtbaren Texte verwenden weiterhin korrekte Umlaute.
-
-**Erwartetes Ergebnis:** Der erste Aufruf liefert eine Begrüßung. Der zweite wird mit einer verständlichen Validierungsfehlermeldung abgewiesen. Der Client erkennt `name` als erforderlichen String-Parameter.
-
-**Beobachtungsfrage:** Welche Teile von Name, Docstring, Type Hint und Annotation werden dem Modell als Tool-Metadaten sichtbar?
-
-**MCP-Konzept:** Ein Tool ist eine vom Modell aufrufbare Aktion. `readOnlyHint` und `openWorldHint` beschreiben seine Wirkung; sie ersetzen keine serverseitige Zugriffskontrolle.
-
-## Schritt 02: Weitere Tools
-
-**Start**
-
-```bash
-uv run python 02_weitere_tools.py
-```
-
-**Aufgabe:** Berechne `21 + 21`, konvertiere `20 °C` und fordere eine Empfehlung für `Fortgeschritten` an. Probiere anschließend einen unbekannten Erfahrungswert.
-
-**Erwartetes Ergebnis:** Der Client sieht drei getrennte Tools mit unterschiedlichen Eingabeschemas. Ergebnisse sind deterministisch; ungültige Kategorien werden abgewiesen.
-
-**Beobachtungsfrage:** Wann sind mehrere kleine, klar benannte Tools besser als ein universelles Tool mit vielen optionalen Parametern?
-
-**MCP-Konzept:** JSON-Schemas entstehen aus Python-Typen. Kleine Tool-Schnittstellen erleichtern Auswahl, Validierung und Least Privilege.
-
-## Schritt 03: Statische Resources
-
-**Start**
-
-```bash
-uv run python 03_statische_resources.py
-```
-
-**Aufgabe:** Liste die Resources auf und lies `workshop://info` sowie `workshop://agenda`.
-
-**Erwartetes Ergebnis:** Beide festen URIs sind auffindbar. Die erste Resource liefert JSON, die zweite Markdown; kein Tool-Aufruf ist nötig.
-
-**Beobachtungsfrage:** Warum ist eine Resource für referenzierbaren Kontext geeigneter als ein Tool ohne Parameter?
-
-**MCP-Konzept:** Resources stellen adressierbaren, lesbaren Kontext bereit. URI und MIME-Typ helfen dem Client bei Identifikation und Darstellung.
-
-## Schritt 04: Resource Templates
-
-**Start**
-
-```bash
-uv run python 04_resource_templates.py
-```
-
-**Aufgabe:** Liste die Resource Templates auf. Lies danach `notizen://mira/übung` und `termine://2026-09/3`. Teste auch einen ungültigen Tag.
-
-**Erwartetes Ergebnis:** Der Client erkennt URI-Platzhalter. Konkrete URIs liefern fiktive JSON-Daten; Tage außerhalb des Septembers werden abgewiesen.
-
-**Beobachtungsfrage:** Welche Validierung muss der Server trotz eines syntaktisch passenden URI-Templates selbst durchführen?
-
-**MCP-Konzept:** Resource Templates verbinden adressierbare Resources mit URI-Parametern. Die Parameter stammen aus der URI und werden von FastMCP an die Funktion übergeben.
-
-## Schritt 05: Prompts
-
-**Start**
-
-```bash
-uv run python 05_prompts.py
-```
-
-**Aufgabe:** Liste die Prompts auf und rufe `tool_review` mit einem erfundenen Tool-Namen und Ziel ab. Vergleiche das Ergebnis mit `lernreflexion`.
-
-**Erwartetes Ergebnis:** Der Client erhält wiederverwendbare, parametrisierte Nachrichtenentwürfe. Es wird weder ein Tool ausgeführt noch automatisch ein Sprachmodell aufgerufen.
-
-**Beobachtungsfrage:** Wer entscheidet bei einem MCP-Prompt, ob und mit welchem Modell der erzeugte Text weiterverarbeitet wird?
-
-**MCP-Konzept:** Prompts sind vom Client auswählbare Vorlagen. Der Server liefert Nachrichteninhalt, nicht die Modellantwort.
-
-## Schritt 06: Kombinierter Assistent
-
-**Start**
-
-```bash
-uv run python 06_kombinierter_assistent.py
-```
-
-**Aufgabe:** Lies zuerst `assistent://hinweise`, dann `aufgaben://offen`. Suche mit `suche_aufgaben`, lege eine Demo-Aufgabe an und markiere sie erst nach expliziter Bestätigung als erledigt. Erzeuge abschließend den Prompt `tagesplanung`.
-
-**Erwartetes Ergebnis:** Lesende und schreibende Fähigkeiten sind getrennt. Ohne `bestätigen=true` scheitert das Erledigen. Änderungen sind im laufenden Prozess sichtbar, verschwinden aber nach einem Neustart.
-
-**Beobachtungsfrage:** Welche Information ist technisch erzwungen und welche ist lediglich ein Hinweis an Client oder Modell?
-
-**MCP-Konzept:** Ein Server kann alle MCP-Primitiven kombinieren. Sicherheitsannotation, Bestätigungsparameter und Validierung reduzieren Risiken, ersetzen aber weder Authentifizierung noch Autorisierung und Persistenzkonzepte.
-
-## Langflow 1.11.3 anbinden
-
-1. Starte genau einen Workshop-Server und notiere seine vollständige URL, beispielsweise `http://127.0.0.1:8002/mcp`.
-2. Öffne in Langflow 1.11.3 einen Flow und füge die Komponente **MCP Tools** hinzu.
-3. Füge in der Komponente einen MCP-Server hinzu und wähle **Streamable HTTP** als Transport.
-4. Trage einen frei gewählten Namen und die vollständige URL einschließlich `/mcp` ein.
-5. Aktualisiere die Komponentenliste. Wähle ein angebotenes Tool aus und verbinde den Tool-Ausgang mit einem Agenten.
-6. Starte einen Lauf und kontrolliere im Trace, welches Tool mit welchen Argumenten aufgerufen wurde.
-
-Läuft Langflow selbst in Docker, zeigt `127.0.0.1` in der Containerperspektive auf den Container. Verwende auf Docker Desktop stattdessen häufig `http://host.docker.internal:<PORT>/mcp`. In nativen oder abweichenden Docker-Setups muss die Host-Adresse passend konfiguriert werden; dafür müsste der Workshop-Server bewusst an eine erreichbare Schnittstelle gebunden und durch Firewall-Regeln geschützt werden.
-
-Langflow stellt primär Tools für Agenten bereit. Resources und Prompts lassen sich je nach Komponente und Client-Unterstützung nicht in derselben Oberfläche untersuchen. Nutze dafür optional den MCP Inspector (Installation und Bedienung im Setup-Abschnitt weiter oben).
-
-## Übungen
-
-1. Ergänze in Schritt 02 ein read-only Tool `minuten_in_stunden(minuten: int)` mit Validierung gegen negative Werte und einem passenden Test.
-2. Ergänze in Schritt 03 die statische Resource `workshop://lernziele` mit dem MIME-Typ `application/json`.
-3. Erweitere Schritt 04 um `material://{kapitel}` und definiere das Verhalten für unbekannte Kapitel.
-4. Ergänze Schritt 05 um einen Prompt, der aus einer Beobachtung eine Hypothese und ein überprüfbares Experiment formuliert.
-5. Entwirf für Schritt 06 persistente Speicherung auf Papier: Datenmodell, konkurrierende Zugriffe, Authentifizierung, Autorisierung, Audit-Log und Löschkonzept. Implementiere sie im Workshop nicht ungeprüft.
+- Die Server lauschen absichtlich nur auf `127.0.0.1` und besitzen keine Authentifizierung.
+- Veröffentliche sie nicht im Netzwerk oder Internet. Für Produktion sind TLS, Authentifizierung, Autorisierung, Rate Limits, Logging und eine restriktive Netzwerkkonfiguration erforderlich.
+- Tool-Annotationen sind Hinweise für Clients. Ein bösartiger oder fehlerhafter Client kann sie ignorieren.
+- Behandle alle Tool-Argumente als nicht vertrauenswürdig. Die Beispiele validieren relevante Werte, sind aber kein vollständiges Policy-System.
+- Schreibtools in Schritt 06 sind **nicht persistent**. Sie verändern nur eine In-Memory-Liste und verlieren alle Änderungen beim Neustart.
+- `aufgabe_erledigen` verlangt eine explizite Bestätigung. Bei realen irreversiblen Aktionen wären zusätzlich Benutzeridentität, Berechtigungsprüfung, Vorschau und Audit-Trail nötig.
+- Resources können sensible Daten preisgeben. Verwende hier ausschließlich die enthaltenen fiktiven Demo-Daten.
+- Keines der Beispiele startet ein Sprachmodell oder sendet Daten an externe Dienste.
 
 ## Quellen
 
