@@ -35,7 +35,7 @@ Beigetragen haben:
 [Chrstin Pfütze](https://github.com/christinmarion23)
 
 
-🏛️ Über ScadsAI
+🏛️ Über ScaDS.AI
 
 Dieser Workshop wurde vom ScaDS.AI Dresden/Leipzig entwickelt - einem Forschungsinstitut für skalierbare Datenanalyse und künstliche Intelligenz, gefördert vom Bundesministerium für Forschung, Technologie und Raumfahrt (BMFTR) sowie vom Freistaat Sachsen.
 
